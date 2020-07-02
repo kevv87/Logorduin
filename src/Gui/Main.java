@@ -43,7 +43,6 @@ public class Main extends Application {
         //Sección de mensajes de compilación
         setMessagesSection();
 
-
         Scene scene = new Scene(mainPane);
         stage.setTitle("Logorduin");
         stage.setMaximized(true);
@@ -73,6 +72,8 @@ public class Main extends Application {
     private void addMessage(String text, MessageType type) {
         Label lbl = new Label(text);
         lbl.setAlignment(Pos.CENTER_RIGHT);
+
+        //TODO: crear archivo css para agregar estilos.
 
         switch (type) {
             case INFO -> lbl.setTextFill(Color.GRAY);
