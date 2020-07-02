@@ -6,9 +6,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -18,6 +22,7 @@ public class Main extends Application {
 
     private BorderPane mainPane;
     private VBox messagesContainer;
+    private TextArea code;
 
     /**
      * Método para iniciar la aplicación.
@@ -43,11 +48,49 @@ public class Main extends Application {
         //Sección de mensajes de compilación
         setMessagesSection();
 
+        setCodeSection();
+
         Scene scene = new Scene(mainPane);
         stage.setTitle("Logorduin");
         stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * Metodo para establecer la seccion de edicion de codigo.
+     */
+    private void setCodeSection(){
+
+
+        code = new TextArea();
+        code.setEditable(true);
+
+        code.setMaxHeight(Double.MAX_VALUE);
+        code.setMaxWidth(Double.MAX_VALUE);
+        code.setFont(Font.font("dialog", 15));
+
+        GridPane.setVgrow(code, Priority.ALWAYS);
+        GridPane.setHgrow(code, Priority.ALWAYS);
+
+
+        mainPane.setCenter(code);
+    }
+
+    /**
+     * Metodo que limpia el codigo
+     */
+    public void clearCode(){
+        code.clear();
+    }
+
+    /**
+     * Pone un nuevo codigo en el TextArea.
+     * @param newCode Codigo a agregar
+     */
+    public void setCode(String newCode){
+        clearCode();
+        code.setText(newCode);
     }
 
     /**
