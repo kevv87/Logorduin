@@ -2,6 +2,7 @@ package Gui;
 
 import Logic.MessageType;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -56,7 +57,7 @@ public class Main extends Application {
         setMenuButtonSection();
 
         Scene scene = new Scene(mainPane);
-        scene.getStylesheets().add("file:///" + cwd.replaceAll("\\\\", "/") + "/res/style.css");
+        scene.getStylesheets().add(cwd.replaceAll("\\\\", "/") + "/res/style.css");
         stage.setTitle("Logorduin");
         stage.setMaximized(true);
         stage.setScene(scene);
@@ -74,6 +75,7 @@ public class Main extends Application {
 
         HBox buttonSection = new HBox();
         buttonSection.setSpacing(20);
+        HBox.setMargin(buttonSection, new Insets(10));
 
         ImageView compileButton = loadImageView("/res/compileButton.png", 30, 30);
         ImageView runButton = loadImageView("/res/runButton.png", 30, 30);
@@ -123,6 +125,7 @@ public class Main extends Application {
 
         //TODO: crear archivo css para agregar estilos.
 //        lbl.getStyleClass().add("info-text"); // Ejemplo para agregar css a objeto
+        // objeto.getStyleClass().add("nombre-selector");
 
         switch (type) {
             case INFO -> lbl.setTextFill(Color.GRAY);
@@ -158,6 +161,7 @@ public class Main extends Application {
      */
     private ImageView loadImageView(String path, Integer height, Integer width){
         Image tokenImage = imageLoader(cwd.replaceAll("\\\\", "/") + path);
+        System.out.println("Image path " + cwd.replaceAll("\\\\", "/") + path);
         ImageView addTokenImage = new ImageView(tokenImage);
         addTokenImage.setFitHeight(height);
         addTokenImage.setFitWidth(width);
