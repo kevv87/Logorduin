@@ -57,7 +57,7 @@ public class Main extends Application {
         setMenuButtonSection();
 
         Scene scene = new Scene(mainPane);
-        scene.getStylesheets().add(cwd.replaceAll("\\\\", "/") + "/res/style.css");
+        scene.getStylesheets().add("file:///" + cwd.replaceAll("\\\\", "/") + "/res/style.css");
         stage.setTitle("Logorduin");
         stage.setMaximized(true);
         stage.setScene(scene);
