@@ -161,7 +161,6 @@ public class Main extends Application {
      */
     private ImageView loadImageView(String path, Integer height, Integer width){
         Image tokenImage = imageLoader(cwd.replaceAll("\\\\", "/") + path);
-        System.out.println("Image path " + cwd.replaceAll("\\\\", "/") + path);
         ImageView addTokenImage = new ImageView(tokenImage);
         addTokenImage.setFitHeight(height);
         addTokenImage.setFitWidth(width);
