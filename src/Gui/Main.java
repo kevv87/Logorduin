@@ -16,6 +16,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 
+    private final String cwd = System.getProperty("user.dir");
     private BorderPane mainPane;
     private VBox messagesContainer;
 
@@ -44,6 +45,7 @@ public class Main extends Application {
         setMessagesSection();
 
         Scene scene = new Scene(mainPane);
+        scene.getStylesheets().add("file:///" + cwd.replaceAll("\\\\", "/") + "/res/style.css");
         stage.setTitle("Logorduin");
         stage.setMaximized(true);
         stage.setScene(scene);
@@ -74,6 +76,7 @@ public class Main extends Application {
         lbl.setAlignment(Pos.CENTER_RIGHT);
 
         //TODO: crear archivo css para agregar estilos.
+//        lbl.getStyleClass().add("info-text"); // Ejemplo para agregar css a objeto
 
         switch (type) {
             case INFO -> lbl.setTextFill(Color.GRAY);
