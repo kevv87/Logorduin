@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 /**
  * Clase del cursor, para almacenar la posición, rotación y color seleccionado.
  */
-public class Cursor {
+public class  Cursor {
 
     private Integer posX;
     private Integer posY;
@@ -77,6 +77,14 @@ public class Cursor {
     }
 
     /**
+     * Método para rotar el cursor
+     * @param rotation Grados a rotar el cursor
+     */
+    public void rotateCursor(Integer rotation) {
+        this.rotation += rotation;
+    }
+
+    /**
      * Método para obtener el color de dibujo actual.
      * @return Color de dibujo actual.
      */
@@ -107,4 +115,5 @@ public class Cursor {
     public void setIcon(ImageView icon) {
         this.icon = icon;
     }
+
 }

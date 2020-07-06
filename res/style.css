@@ -1,0 +1,11 @@
+.info-text {
+    -fx-fill: gray;
+}
+
+.error-text {
+    -fx-fill: darkred;
+}
+
+.warning-text {
+    -fx-fill: orange;
+}
