@@ -4,41 +4,26 @@ import Logic.MessageType;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 /**
  * Clase de interfaz principal.
  */
 public class Main extends Application {
 
-    private final String cwd = System.getProperty("user.dir");
     private BorderPane mainPane;
     private VBox messagesContainer;
     private TextArea code;
     private HBox menuButtonContainer;
-    private Color colorLapiz = Color.BLACK;
 
     /**
      * Método para iniciar la aplicación.
@@ -70,7 +55,7 @@ public class Main extends Application {
         setCodeSection();
 
         Scene scene = new Scene(mainPane);
-        scene.getStylesheets().add("file:///" + cwd.replaceAll("\\\\", "/") + "/res/style.css");
+        scene.getStylesheets().add("file:///" + CommonMethods.getCwd().replaceAll("\\\\", "/") + "/res/style.css");
         stage.setTitle("Logorduin");
         stage.setMaximized(true);
         stage.setScene(scene);
@@ -81,8 +66,6 @@ public class Main extends Application {
      * Metodo para establecer la seccion de edicion de codigo.
      */
     private void setCodeSection(){
-
-
         code = new TextArea();
         code.setEditable(true);
 
@@ -92,7 +75,6 @@ public class Main extends Application {
 
         GridPane.setVgrow(code, Priority.ALWAYS);
         GridPane.setHgrow(code, Priority.ALWAYS);
-
 
         mainPane.setCenter(code);
     }
@@ -120,13 +102,16 @@ public class Main extends Application {
     private void setMenuButtonSection(Stage stage) {
         menuButtonContainer = new HBox();
         menuButtonContainer.setSpacing(20);
+        menuButtonContainer.getStyleClass().add("background");
 
         HBox buttonSection = new HBox();
-        buttonSection.setSpacing(20);
-        HBox.setMargin(buttonSection, new Insets(10));
+        buttonSection.setAlignment(Pos.TOP_RIGHT);
+        HBox.setHgrow(buttonSection, Priority.ALWAYS);
+        buttonSection.setSpacing(25);
+        HBox.setMargin(buttonSection, new Insets(10, 30, 10, 10));
 
-        ImageView compileButton = loadImageView("/res/compileButton.png", 30, 30);
-        ImageView runButton = loadImageView("/res/runButton.png", 30, 30);
+        ImageView compileButton = CommonMethods.loadImageView("/res/compileButton.png", 20, 20);
+        ImageView runButton = CommonMethods.loadImageView("/res/runButton.png", 20, 20);
         compileButton.setOnMouseClicked(mouseEvent -> {
             // TODO compilar el programa
             System.out.println("Compilando...");
@@ -134,7 +119,7 @@ public class Main extends Application {
         runButton.setOnMouseClicked(mouseEvent -> {
             //TODO compilar y ejecutar el programa
             System.out.println("Compilando y ejecutando...");
-            runCanvas(800, 600);
+            CanvasGui.show();
         });
 
         DropShadow shadow = new DropShadow();
@@ -187,38 +172,6 @@ public class Main extends Application {
     }
 
     /**
-     * Método para cargar una imagen
-     * @param path Ruta de la imagen
-     * @return El objeto de la imagen creada
-     */
-    private Image imageLoader(String path){
-        try{
-            FileInputStream i = new FileInputStream(path);
-            return new Image(i);
-        }catch (FileNotFoundException e){
-            System.out.println("Couldn't load images!");
-        }
-        System.out.println("Could not find " + path);
-        return null;
-    }
-
-    /**
-     * Métod para cargar un ImageView
-     * @param path Ruta del archivo
-     * @param height Altura de la imagen
-     * @param width Ancho de la imagen
-     * @return Un objeto ImageView de la imagen agregada
-     */
-    private ImageView loadImageView(String path, Integer height, Integer width){
-        Image tokenImage = imageLoader(cwd.replaceAll("\\\\", "/") + path);
-        ImageView addTokenImage = new ImageView(tokenImage);
-        addTokenImage.setFitHeight(height);
-        addTokenImage.setFitWidth(width);
-
-        return addTokenImage;
-    }
-
-    /**
      * Metodo para establecer el toolbar de la aplicacion
      * @param stage Instancia de la ventana principal.
      */
@@ -261,110 +214,6 @@ public class Main extends Application {
         // TODO funcionalidades de cada item del menu
 
         menuBar.getMenus().addAll(menuArchivo, menuEditar, menuVista, menuHerramientas, menuAyuda);
-
         return menuBar;
-    }
-
-    /**
-     * Metodo para abrir un canvas
-     * @param width ancho de la ventana del canvas
-     * @param height altura de la ventana del canvas
-     */
-    void runCanvas(int width, int height){
-        Stage canvasStage = new Stage();
-        canvasStage.initModality(Modality.APPLICATION_MODAL);
-        canvasStage.setTitle("Logorduin Canvas");
-
-        Group canvasGroup = new Group();
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-        PixelWriter pixelWriter = graphicsContext.getPixelWriter();
-        graphicsContext.fillRect(400, 300, 1, 1);
-        drawLineCanvas(graphicsContext, width, height, 400, 300, 70, 0);
-        canvasGroup.getChildren().add(canvas);
-        canvasStage.setScene(new Scene(canvasGroup));
-        canvasStage.show();
-    }
-
-    /**
-     * Metodo para dibujar una linea
-     * @param graphicsContext GraphicsContext correspondiente al canvas
-     * @param width ancho de la ventana del canvas
-     * @param height altura de la ventana del canvas
-     * @param posX posicion horizontal desde la cual inicia el dibujo
-     * @param posY posicion vertical desde la cual inicia el dibujo
-     * @param length largo de la linea a dibujar
-     * @param direction direccion hacia la cual se va a dibujar (0-arriba, 1-derecha, 2-abajo y 3-izquierda)
-     */
-    void drawLineCanvas(GraphicsContext graphicsContext, int width, int height, int posX, int posY, int length, int direction){
-        graphicsContext.setFill(colorLapiz);
-        for(int i = length; i>0; i--){
-            switch (direction) {
-                //Direccion-arriba
-                case 0:
-                    if(posY>=0){
-                        graphicsContext.fillRect(posX, posY, 1, 1);         // TODO hallar alternativa a fillRect() por pixeles individuales
-                        posY-=1;
-                    }
-                    break;
-                //Direccion-derecha
-                case 1:
-                    if(posX<=width){
-                        graphicsContext.fillRect(posX, posY, 1, 1);
-                        posX+=1;
-                    }
-                    break;
-                //Direccion-abajo
-                case 2:
-                    if(posY<=height){
-                        graphicsContext.fillRect(posX, posY, 1, 1);
-                        posY+=1;
-                    }
-                    break;
-                //Direccion-izquierda
-                case 3:
-                    if(posX>=width){
-                        graphicsContext.fillRect(posX, posY, 1, 1);
-                        posX-=1;
-                    }
-                    break;
-            }
-        }
-    }
-
-    /**
-     * Metodo para cambiar el color del lapiz
-     * @param color color del lapiz
-     */
-    void cambiarColor(int color){
-        switch (color){
-            case 0:
-                colorLapiz = Color.WHITE;
-                break;
-            case 1:
-                colorLapiz = Color.BLUE;
-                break;
-            case 2:
-                colorLapiz = Color.BROWN;
-                break;
-            case 3:
-                colorLapiz = Color.CYAN;
-                break;
-            case 4:
-                colorLapiz = Color.GRAY;
-                break;
-            case 5:
-                colorLapiz = Color.YELLOW;
-                break;
-            case 6:
-                colorLapiz = Color.BLACK;
-                break;
-            case 7:
-                colorLapiz = Color.RED;
-                break;
-            case 8:
-                colorLapiz = Color.GREEN;
-                break;
-        }
     }
 }
