@@ -41,7 +41,7 @@ public class  Cursor {
         Integer oldY = this.posY;
         posY = (int)(Math.cos(rotation)/cantidad);
         posX = (int)(Math.sin(rotation)/cantidad);
-        if(lapiz){
+        if(lapiz){  // De tener el lapiz pintando, pintar
             gc.strokeLine(oldX,oldY,posX,posY);
         }
     }

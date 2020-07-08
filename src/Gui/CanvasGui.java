@@ -57,15 +57,26 @@ public class CanvasGui extends Application {
             @Override
             public void handle(long l) {
 
-                rotateCursor(5); //TODO obtener los grados a girar
-
+                rotateCursor(1); //TODO obtener los grados a girar
+/*
                 try {
                     Thread.sleep(1000); //TODO cambiar según necesidades
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
+                // Despues de aplicar los cambios, update the image
+                updateCursor();
             }
         };
+    }
+
+    /**
+     * Pinta de nuevo el cursor aplicando sus atributos (posicion y rotacion) al ImageView.
+     */
+    private void updateCursor(){
+        imageCursor.setRotate(cursor.getRotation());
+        imageCursor.setLayoutX(cursor.getPosX());
+        imageCursor.setLayoutY(cursor.getPosY());
     }
 
     /**
@@ -74,7 +85,6 @@ public class CanvasGui extends Application {
      */
     private void rotateCursor(int rotation) {
         cursor.updateRotation(rotation);
-        imageCursor.setRotate(cursor.getRotation());
     }
 
     /**
