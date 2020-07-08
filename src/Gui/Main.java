@@ -9,7 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,7 +23,6 @@ public class Main extends Application {
     private BorderPane mainPane;
     private VBox messagesContainer;
     private TextArea code;
-    private HBox menuButtonContainer;
 
     /**
      * Método para iniciar la aplicación.
@@ -100,9 +99,12 @@ public class Main extends Application {
      * @param stage Instancia de la ventana principal.
      */
     private void setMenuButtonSection(Stage stage) {
-        menuButtonContainer = new HBox();
+        VBox container  = new VBox();
+        HBox menuButtonContainer = new HBox();
         menuButtonContainer.setSpacing(20);
-        menuButtonContainer.getStyleClass().add("background");
+        menuButtonContainer.getStyleClass().add("menu-container");
+
+        Line line = new Line(0, 0, 0, 0);
 
         HBox buttonSection = new HBox();
         buttonSection.setAlignment(Pos.TOP_RIGHT);
@@ -132,37 +134,10 @@ public class Main extends Application {
 
         menuButtonContainer.getChildren().add(setMenuBarSection(stage));
         menuButtonContainer.getChildren().addAll(buttonSection);
-        mainPane.setTop(menuButtonContainer);
-    }
 
-    /**
-     * Método para establecer la sección de mensajes de compilación.
-     */
-    private void setMessagesSection() {
-        messagesContainer = new VBox();
-        messagesContainer.getStyleClass().add("msg-container");
-        ScrollPane messages = new ScrollPane(messagesContainer);
-        messages.getStyleClass().add("msg-parent-container");
+        container.getChildren().addAll(menuButtonContainer, line);
 
-        mainPane.setBottom(messages);
-    }
-
-    /**
-     * Método para mostrar un nuevo mensaje en la sección de mensajes de compilación.
-     * @param text Texto del mensaje.
-     * @param type Tipo del mensaje, puede ser Info, Warning o Error.
-     */
-    private void addMessage(String text, MessageType type) {
-        Label lbl = new Label(text);
-        lbl.getStyleClass().add("msg-text");
-
-        switch (type) {
-            case INFO -> lbl.getStyleClass().add("info-text");
-            case WARNING -> lbl.getStyleClass().add("warning-text");
-            case ERROR -> lbl.getStyleClass().add("error-text");
-        }
-
-        messagesContainer.getChildren().add(lbl);
+        mainPane.setTop(container);
     }
 
     /**
@@ -176,8 +151,8 @@ public class Main extends Application {
         MenuItem nuevoItem = new MenuItem("Nuevo");
         MenuItem cargarItem = new MenuItem("Cargar");
         cargarItem.setOnAction(e -> {
-                File selectedFile = fileChooser.showOpenDialog(stage);
-            });
+            File selectedFile = fileChooser.showOpenDialog(stage);
+        });
         MenuItem guardarItem = new MenuItem("Guardar");
         guardarItem.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(stage);
@@ -210,4 +185,36 @@ public class Main extends Application {
         menuBar.getMenus().addAll(menuArchivo, menuEditar, menuVista, menuHerramientas, menuAyuda);
         return menuBar;
     }
+
+    /**
+     * Método para establecer la sección de mensajes de compilación.
+     */
+    private void setMessagesSection() {
+        messagesContainer = new VBox();
+        messagesContainer.getStyleClass().add("msg-container");
+        ScrollPane messages = new ScrollPane(messagesContainer);
+        messages.getStyleClass().add("msg-parent-container");
+
+        mainPane.setBottom(messages);
+    }
+
+    /**
+     * Método para mostrar un nuevo mensaje en la sección de mensajes de compilación.
+     * @param text Texto del mensaje.
+     * @param type Tipo del mensaje, puede ser Info, Warning o Error.
+     */
+    private void addMessage(String text, MessageType type) {
+        Label lbl = new Label(text);
+        lbl.getStyleClass().add("msg-text");
+
+        switch (type) {
+            case INFO -> lbl.getStyleClass().add("info-text");
+            case WARNING -> lbl.getStyleClass().add("warning-text");
+            case ERROR -> lbl.getStyleClass().add("error-text");
+        }
+
+        messagesContainer.getChildren().add(lbl);
+    }
+
+
 }

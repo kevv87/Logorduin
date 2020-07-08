@@ -31,7 +31,6 @@
 }
 
 .msg-text {
-    -fx-font-size: 15px;
     -fx-font-family: monospace;
     -fx-font-size: 14px;
     -fx-wrap-text: true;
@@ -62,7 +61,7 @@
     -fx-text-fill: orange;
 }
 
-.background {
+.menu-container {
     -fx-background-color: white;
 }
 
