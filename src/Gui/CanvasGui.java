@@ -23,21 +23,21 @@ public class CanvasGui extends Application {
 
     @Override
     public void start(Stage stage) {
+        int width = 600;
+        int height = 600;
         Group canvasGroup = new Group();
         Scene scene = new Scene(canvasGroup);
         stage.setScene(scene);
-
-        //Creacion del cursor
-        int width = 600;
-        int height = 600;
-        imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
-        cursor = new Cursor(imageCursor, width, height);
-        imageCursor.setLayoutX(cursor.getPosX());
-        imageCursor.setLayoutY(cursor.getPosY());
-
-
         Canvas canvas = new Canvas(width, height);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+
+        //Creacion del cursor
+        imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
+        cursor = new Cursor(imageCursor, width, height, graphicsContext);
+        imageCursor.setLayoutX(cursor.getPosX()-15);
+        imageCursor.setLayoutY(cursor.getPosY()-15);
+
+
         PixelWriter pixelWriter = graphicsContext.getPixelWriter();
         graphicsContext.fillRect(400, 300, 1, 1);
 //        drawLineCanvas(graphicsContext,400, 300, 70, 0);
@@ -53,19 +53,32 @@ public class CanvasGui extends Application {
      * Método para actualizar el dibujo
      */
     private void configureUpdateLoop() {
+        rotateCursor(45);
         update = new AnimationTimer() {
             @Override
             public void handle(long l) {
 
-                rotateCursor(5); //TODO obtener los grados a girar
-
+                //rotateCursor(1); //TODO obtener los grados a girar
+                cursor.move(1);
+/*
                 try {
                     Thread.sleep(1000); //TODO cambiar según necesidades
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
+                // Despues de aplicar los cambios, update the image
+                updateCursor();
             }
         };
+    }
+
+    /**
+     * Pinta de nuevo el cursor aplicando sus atributos (posicion y rotacion) al ImageView.
+     */
+    private void updateCursor(){
+        imageCursor.setRotate(cursor.getRotation());
+        imageCursor.setLayoutX(cursor.getPosX()-15);
+        imageCursor.setLayoutY(cursor.getPosY()-15);
     }
 
     /**
@@ -74,7 +87,6 @@ public class CanvasGui extends Application {
      */
     private void rotateCursor(int rotation) {
         cursor.updateRotation(rotation);
-        imageCursor.setRotate(cursor.getRotation());
     }
 
     /**

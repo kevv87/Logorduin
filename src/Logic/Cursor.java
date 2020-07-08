@@ -1,5 +1,6 @@
 package Logic;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
@@ -8,11 +9,13 @@ import javafx.scene.paint.Color;
  */
 public class  Cursor {
 
-    private Integer posX;
-    private Integer posY;
+    private Double posX;
+    private Double posY;
     private Integer rotation;
     private Color currentColor;
     private ImageView icon;
+    private GraphicsContext gc;
+    private boolean lapiz; // True: Dibuja por donde pasa la tortuga. False: No dibujo por donde pasa la tortuga.
 
     /**
      * Constructor para crear una instancia del cursor.
@@ -20,20 +23,35 @@ public class  Cursor {
      * @param canvasWidth Ancho del canvas.
      * @param canvasHeight Alto del canvas.
      */
-    public Cursor(ImageView icon, Integer canvasWidth, Integer canvasHeight) {
+    public Cursor(ImageView icon, Integer canvasWidth, Integer canvasHeight, GraphicsContext gc) {
         this.icon = icon;
-
+        this.gc = gc;
         // Poner el cursor en el centro del canvas.
-        this.posX = canvasWidth / 2;
-        this.posY = canvasHeight /2;
+        this.posX = (double)canvasWidth / 2;
+        this.posY = (double)canvasHeight /2;
         this.rotation = 0;
+        lapiz =true;
+    }
+
+    /**
+     * Mueve el cursor hacia adelante la cantidad especificada. Dibuja si el lapiz esta abajo
+     * @param cantidad Cantidad de pixeles a mover el cursor.
+     */
+    public void move(int cantidad){
+        Double oldX = this.posX;
+        Double oldY = this.posY;
+        posY = (oldY - (Math.cos(2*Math.PI*rotation/360)*cantidad));
+        posX = (oldX + (Math.sin(2*Math.PI*rotation/360)*cantidad));
+        if(lapiz){  // De tener el lapiz pintando, pintar
+            gc.strokeLine(oldX,oldY,posX,posY);
+        }
     }
 
     /**
      * Método para obtener la posición X del cursor.
      * @return Posición X del cursor.
      */
-    public Integer getPosX() {
+    public Double getPosX() {
         return posX;
     }
 
@@ -41,7 +59,7 @@ public class  Cursor {
      * Método para establecer la posición X del cursor.
      * @param posX Nueva posición X.
      */
-    public void setPosX(Integer posX) {
+    public void setPosX(Double posX) {
         this.posX = posX;
     }
 
@@ -49,7 +67,7 @@ public class  Cursor {
      * Método para obtener la posición Y del cursor.
      * @return Posición Y del cursor.
      */
-    public Integer getPosY() {
+    public Double getPosY() {
         return posY;
     }
 
@@ -57,7 +75,7 @@ public class  Cursor {
      * Método para establecer la posición Y del cursor.
      * @param posY Nueva posición Y.
      */
-    public void setPosY(Integer posY) {
+    public void setPosY(Double posY) {
         this.posY = posY;
     }
 
