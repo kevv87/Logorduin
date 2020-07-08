@@ -34,8 +34,8 @@ public class CanvasGui extends Application {
         //Creacion del cursor
         imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
         cursor = new Cursor(imageCursor, width, height, graphicsContext);
-        imageCursor.setLayoutX(cursor.getPosX());
-        imageCursor.setLayoutY(cursor.getPosY());
+        imageCursor.setLayoutX(cursor.getPosX()-15);
+        imageCursor.setLayoutY(cursor.getPosY()-15);
 
 
         PixelWriter pixelWriter = graphicsContext.getPixelWriter();
@@ -53,11 +53,13 @@ public class CanvasGui extends Application {
      * Método para actualizar el dibujo
      */
     private void configureUpdateLoop() {
+        rotateCursor(45);
         update = new AnimationTimer() {
             @Override
             public void handle(long l) {
 
-                rotateCursor(1); //TODO obtener los grados a girar
+                //rotateCursor(1); //TODO obtener los grados a girar
+                cursor.move(1);
 /*
                 try {
                     Thread.sleep(1000); //TODO cambiar según necesidades
@@ -75,8 +77,8 @@ public class CanvasGui extends Application {
      */
     private void updateCursor(){
         imageCursor.setRotate(cursor.getRotation());
-        imageCursor.setLayoutX(cursor.getPosX());
-        imageCursor.setLayoutY(cursor.getPosY());
+        imageCursor.setLayoutX(cursor.getPosX()-15);
+        imageCursor.setLayoutY(cursor.getPosY()-15);
     }
 
     /**
