@@ -148,11 +148,9 @@ public class Main extends Application {
      */
     private void setMessagesSection() {
         messagesContainer = new VBox();
-        messagesContainer.setFillWidth(true);
-        messagesContainer.setAlignment(Pos.CENTER_LEFT);
+        messagesContainer.getStyleClass().add("msg-container");
         ScrollPane messages = new ScrollPane(messagesContainer);
-        messages.setFitToWidth(true);
-        messages.setPrefHeight(200);
+        messages.getStyleClass().add("msg-parent-container");
 
         mainPane.setBottom(messages);
     }
@@ -164,16 +162,12 @@ public class Main extends Application {
      */
     private void addMessage(String text, MessageType type) {
         Label lbl = new Label(text);
-        lbl.setAlignment(Pos.CENTER_RIGHT);
-
-        //TODO: crear archivo css para agregar estilos.
-//        lbl.getStyleClass().add("info-text"); // Ejemplo para agregar css a objeto
-        // objeto.getStyleClass().add("nombre-selector");
+        lbl.getStyleClass().add("msg-text");
 
         switch (type) {
-            case INFO -> lbl.setTextFill(Color.GRAY);
-            case WARNING -> lbl.setTextFill(Color.ORANGE);
-            case ERROR -> lbl.setTextFill(Color.FIREBRICK);
+            case INFO -> lbl.getStyleClass().add("info-text");
+            case WARNING -> lbl.getStyleClass().add("warning-text");
+            case ERROR -> lbl.getStyleClass().add("error-text");
         }
 
         messagesContainer.getChildren().add(lbl);
