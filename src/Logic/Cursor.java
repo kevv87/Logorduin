@@ -26,6 +26,7 @@ public class  Cursor {
         // Poner el cursor en el centro del canvas.
         this.posX = canvasWidth / 2;
         this.posY = canvasHeight /2;
+        this.rotation = 0;
     }
 
     /**
@@ -80,7 +81,7 @@ public class  Cursor {
      * Método para rotar el cursor
      * @param rotation Grados a rotar el cursor
      */
-    public void rotateCursor(Integer rotation) {
+    public void updateRotation(Integer rotation) {
         this.rotation += rotation;
     }
 
