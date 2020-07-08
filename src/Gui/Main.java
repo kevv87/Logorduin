@@ -4,13 +4,15 @@ import Logic.MessageType;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.TextArea;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
@@ -18,8 +20,11 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -33,6 +38,7 @@ public class Main extends Application {
     private VBox messagesContainer;
     private TextArea code;
     private HBox menuButtonContainer;
+    private Color colorLapiz = Color.BLACK;
 
     /**
      * Método para iniciar la aplicación.
@@ -59,7 +65,7 @@ public class Main extends Application {
         setMessagesSection();
 
         //Sección de menu y botones
-        setMenuButtonSection();
+        setMenuButtonSection(stage);
 
         setCodeSection();
 
@@ -109,12 +115,11 @@ public class Main extends Application {
 
     /**
      * Método para establecer la sección de menu y de botones de compilacion y ejecución
+     * @param stage Instancia de la ventana principal.
      */
-    private void setMenuButtonSection() {
+    private void setMenuButtonSection(Stage stage) {
         menuButtonContainer = new HBox();
         menuButtonContainer.setSpacing(20);
-
-        // TODO crear menu
 
         HBox buttonSection = new HBox();
         buttonSection.setSpacing(20);
@@ -129,6 +134,7 @@ public class Main extends Application {
         runButton.setOnMouseClicked(mouseEvent -> {
             //TODO compilar y ejecutar el programa
             System.out.println("Compilando y ejecutando...");
+            runCanvas(800, 600);
         });
 
         DropShadow shadow = new DropShadow();
@@ -139,7 +145,8 @@ public class Main extends Application {
 
         buttonSection.getChildren().addAll(compileButton, runButton);
 
-        menuButtonContainer.getChildren().addAll(buttonSection); // TODO agregar seccion de menu antes de buttonSection
+        menuButtonContainer.getChildren().add(setMenuBarSection(stage));
+        menuButtonContainer.getChildren().addAll(buttonSection);
         mainPane.setTop(menuButtonContainer);
     }
 
@@ -209,5 +216,155 @@ public class Main extends Application {
         addTokenImage.setFitWidth(width);
 
         return addTokenImage;
+    }
+
+    /**
+     * Metodo para establecer el toolbar de la aplicacion
+     * @param stage Instancia de la ventana principal.
+     */
+    private MenuBar setMenuBarSection(Stage stage){
+        // Menu de Archivo
+        Menu menuArchivo = new Menu("Archivo");
+        FileChooser fileChooser = new FileChooser();
+        MenuItem nuevoItem = new MenuItem("Nuevo");
+        MenuItem cargarItem = new MenuItem("Cargar");
+        cargarItem.setOnAction(e -> {
+                File selectedFile = fileChooser.showOpenDialog(stage);
+            });
+        MenuItem guardarItem = new MenuItem("Guardar");
+        guardarItem.setOnAction(e -> {
+            File selectedFile = fileChooser.showOpenDialog(stage);
+        });
+        menuArchivo.getItems().addAll(nuevoItem, cargarItem, guardarItem);
+        // TODO anadir filtros para extension de archivos a usar
+
+        // Menu de Editar
+        Menu menuEditar = new Menu("Editar");
+        MenuItem deshacerItem = new MenuItem("Deshacer");
+        MenuItem rehacerItem = new MenuItem("Rehacer");
+        MenuItem cortarItem = new MenuItem("Cortar");
+        MenuItem copiarItem = new MenuItem("Copiar");
+        MenuItem pegarItem = new MenuItem("Pegar");
+        menuEditar.getItems().addAll(deshacerItem, rehacerItem, cortarItem, copiarItem, pegarItem);
+
+        // Menu de vista
+        Menu menuVista = new Menu("Vista");
+        // Menu de Herramientas
+        Menu menuHerramientas = new Menu("Herramientas");
+        // Menu de Ayuda
+        Menu menuAyuda = new Menu("Ayuda");
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.setMinHeight(30);
+        // TODO anadir iconos a items
+        // TODO agregar items necesarios
+        // TODO funcionalidades de cada item del menu
+
+        menuBar.getMenus().addAll(menuArchivo, menuEditar, menuVista, menuHerramientas, menuAyuda);
+
+        return menuBar;
+    }
+
+    /**
+     * Metodo para abrir un canvas
+     * @param width ancho de la ventana del canvas
+     * @param height altura de la ventana del canvas
+     */
+    void runCanvas(int width, int height){
+        Stage canvasStage = new Stage();
+        canvasStage.initModality(Modality.APPLICATION_MODAL);
+        canvasStage.setTitle("Logorduin Canvas");
+
+        Group canvasGroup = new Group();
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+        PixelWriter pixelWriter = graphicsContext.getPixelWriter();
+        graphicsContext.fillRect(400, 300, 1, 1);
+        drawLineCanvas(graphicsContext, width, height, 400, 300, 70, 0);
+        canvasGroup.getChildren().add(canvas);
+        canvasStage.setScene(new Scene(canvasGroup));
+        canvasStage.show();
+    }
+
+    /**
+     * Metodo para dibujar una linea
+     * @param graphicsContext GraphicsContext correspondiente al canvas
+     * @param width ancho de la ventana del canvas
+     * @param height altura de la ventana del canvas
+     * @param posX posicion horizontal desde la cual inicia el dibujo
+     * @param posY posicion vertical desde la cual inicia el dibujo
+     * @param length largo de la linea a dibujar
+     * @param direction direccion hacia la cual se va a dibujar (0-arriba, 1-derecha, 2-abajo y 3-izquierda)
+     */
+    void drawLineCanvas(GraphicsContext graphicsContext, int width, int height, int posX, int posY, int length, int direction){
+        graphicsContext.setFill(colorLapiz);
+        for(int i = length; i>0; i--){
+            switch (direction) {
+                //Direccion-arriba
+                case 0:
+                    if(posY>=0){
+                        graphicsContext.fillRect(posX, posY, 1, 1);         // TODO hallar alternativa a fillRect() por pixeles individuales
+                        posY-=1;
+                    }
+                    break;
+                //Direccion-derecha
+                case 1:
+                    if(posX<=width){
+                        graphicsContext.fillRect(posX, posY, 1, 1);
+                        posX+=1;
+                    }
+                    break;
+                //Direccion-abajo
+                case 2:
+                    if(posY<=height){
+                        graphicsContext.fillRect(posX, posY, 1, 1);
+                        posY+=1;
+                    }
+                    break;
+                //Direccion-izquierda
+                case 3:
+                    if(posX>=width){
+                        graphicsContext.fillRect(posX, posY, 1, 1);
+                        posX-=1;
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Metodo para cambiar el color del lapiz
+     * @param color color del lapiz
+     */
+    void cambiarColor(int color){
+        switch (color){
+            case 0:
+                colorLapiz = Color.WHITE;
+                break;
+            case 1:
+                colorLapiz = Color.BLUE;
+                break;
+            case 2:
+                colorLapiz = Color.BROWN;
+                break;
+            case 3:
+                colorLapiz = Color.CYAN;
+                break;
+            case 4:
+                colorLapiz = Color.GRAY;
+                break;
+            case 5:
+                colorLapiz = Color.YELLOW;
+                break;
+            case 6:
+                colorLapiz = Color.BLACK;
+                break;
+            case 7:
+                colorLapiz = Color.RED;
+                break;
+            case 8:
+                colorLapiz = Color.GREEN;
+                break;
+        }
     }
 }
