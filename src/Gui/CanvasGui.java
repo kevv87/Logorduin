@@ -23,21 +23,21 @@ public class CanvasGui extends Application {
 
     @Override
     public void start(Stage stage) {
+        int width = 600;
+        int height = 600;
         Group canvasGroup = new Group();
         Scene scene = new Scene(canvasGroup);
         stage.setScene(scene);
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
         //Creacion del cursor
-        int width = 600;
-        int height = 600;
         imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
-        cursor = new Cursor(imageCursor, width, height);
+        cursor = new Cursor(imageCursor, width, height, graphicsContext);
         imageCursor.setLayoutX(cursor.getPosX());
         imageCursor.setLayoutY(cursor.getPosY());
 
 
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
         PixelWriter pixelWriter = graphicsContext.getPixelWriter();
         graphicsContext.fillRect(400, 300, 1, 1);
 //        drawLineCanvas(graphicsContext,400, 300, 70, 0);

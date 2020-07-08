@@ -1,5 +1,6 @@
 package Logic;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
@@ -13,6 +14,8 @@ public class  Cursor {
     private Integer rotation;
     private Color currentColor;
     private ImageView icon;
+    private GraphicsContext gc;
+    private boolean lapiz; // True: Dibuja por donde pasa la tortuga. False: No dibujo por donde pasa la tortuga.
 
     /**
      * Constructor para crear una instancia del cursor.
@@ -20,13 +23,27 @@ public class  Cursor {
      * @param canvasWidth Ancho del canvas.
      * @param canvasHeight Alto del canvas.
      */
-    public Cursor(ImageView icon, Integer canvasWidth, Integer canvasHeight) {
+    public Cursor(ImageView icon, Integer canvasWidth, Integer canvasHeight, GraphicsContext gc) {
         this.icon = icon;
-
+        this.gc = gc;
         // Poner el cursor en el centro del canvas.
         this.posX = canvasWidth / 2;
         this.posY = canvasHeight /2;
         this.rotation = 0;
+    }
+
+    /**
+     * Mueve el cursor hacia adelante la cantidad especificada. Dibuja si el lapiz esta abajo
+     * @param cantidad Cantidad de pixeles a mover el cursor.
+     */
+    public void move(int cantidad){
+        Integer oldX = this.posX;
+        Integer oldY = this.posY;
+        posY = (int)(Math.cos(rotation)/cantidad);
+        posX = (int)(Math.sin(rotation)/cantidad);
+        if(lapiz){
+            gc.strokeLine(oldX,oldY,posX,posY);
+        }
     }
 
     /**
