@@ -1,0 +1,6507 @@
+<html>
+<title>Generated machine for Parser</title>
+<body>
+<h1>Generated machine for Parser</h1>
+<pre>
+// Output created by jacc on Sun Jul 12 15:03:22 CST 2020
+
+<hr><a name="st0"><b>state 0 (entry on prog)</b></a>
+    $accept : _prog $end
+
+    APARECETORTUGA <a href="#st16">shift 16</a>
+    AT <a href="#st17">shift 17</a>
+    AV <a href="#st18">shift 18</a>
+    AVANZA <a href="#st19">shift 19</a>
+    AZAR <a href="#st20">shift 20</a>
+    BAJALAPIZ <a href="#st21">shift 21</a>
+    BL <a href="#st22">shift 22</a>
+    BORRAPANTALLA <a href="#st23">shift 23</a>
+    CENTRO <a href="#st24">shift 24</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    EJECUTA <a href="#st29">shift 29</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    ESPERA <a href="#st32">shift 32</a>
+    GD <a href="#st33">shift 33</a>
+    GI <a href="#st34">shift 34</a>
+    GIRADERECHA <a href="#st35">shift 35</a>
+    GIRAIZQUIERZA <a href="#st36">shift 36</a>
+    INC <a href="#st37">shift 37</a>
+    INIC <a href="#st38">shift 38</a>
+    MENOS <a href="#st39">shift 39</a>
+    OCULTARTORTUGA <a href="#st40">shift 40</a>
+    OT <a href="#st41">shift 41</a>
+    PONCL <a href="#st42">shift 42</a>
+    PONCOLORLAPIZ <a href="#st43">shift 43</a>
+    PONPOS <a href="#st44">shift 44</a>
+    PONRUMBO <a href="#st45">shift 45</a>
+    PONX <a href="#st46">shift 46</a>
+    PONXY <a href="#st47">shift 47</a>
+    PONY <a href="#st48">shift 48</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    RE <a href="#st54">shift 54</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    REPITE <a href="#st56">shift 56</a>
+    RESTO <a href="#st57">shift 57</a>
+    RETROCEDE <a href="#st58">shift 58</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SB <a href="#st60">shift 60</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SI <a href="#st63">shift 63</a>
+    SUBELAPIZ <a href="#st64">shift 64</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    VAR <a href="#st68">shift 68</a>
+    . error
+
+    prog <a href="#st1">goto 1</a>
+    declaration_expr <a href="#st2">goto 2</a>
+    expression <a href="#st3">goto 3</a>
+    procedure1P_noval <a href="#st4">goto 4</a>
+    procedure1P_val <a href="#st5">goto 5</a>
+    procedure1_noval <a href="#st6">goto 6</a>
+    procedure1_val <a href="#st7">goto 7</a>
+    procedure2_noval <a href="#st8">goto 8</a>
+    procedure2_val <a href="#st9">goto 9</a>
+    procedureN_val <a href="#st10">goto 10</a>
+    procedureP_noval <a href="#st11">goto 11</a>
+    procedureP_val <a href="#st12">goto 12</a>
+    procedure_noval <a href="#st13">goto 13</a>
+    procedure_val <a href="#st14">goto 14</a>
+    redeclaration_expr <a href="#st15">goto 15</a>
+
+<hr><a name="st1"><b>state 1 (entry on prog)</b></a>
+    $accept : prog_$end
+    prog : prog_';' expression ';'    (1)
+
+    $end accept
+    ';' <a href="#st69">shift 69</a>
+    . error
+
+<hr><a name="st2"><b>state 2 (entry on declaration_expr)</b></a>
+    expression : declaration_expr_    (3)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 3
+
+<hr><a name="st3"><b>state 3 (entry on expression)</b></a>
+    prog : expression_';'    (2)
+
+    ';' <a href="#st70">shift 70</a>
+    . error
+
+<hr><a name="st4"><b>state 4 (entry on procedure1P_noval)</b></a>
+    expression : procedure1P_noval_    (15)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 15
+
+<hr><a name="st5"><b>state 5 (entry on procedure1P_val)</b></a>
+    expression : procedure1P_val_    (10)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 10
+
+<hr><a name="st6"><b>state 6 (entry on procedure1_noval)</b></a>
+    expression : procedure1_noval_    (12)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 12
+
+<hr><a name="st7"><b>state 7 (entry on procedure1_val)</b></a>
+    expression : procedure1_val_    (6)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 6
+
+<hr><a name="st8"><b>state 8 (entry on procedure2_noval)</b></a>
+    expression : procedure2_noval_    (13)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 13
+
+<hr><a name="st9"><b>state 9 (entry on procedure2_val)</b></a>
+    expression : procedure2_val_    (7)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 7
+
+<hr><a name="st10"><b>state 10 (entry on procedureN_val)</b></a>
+    expression : procedureN_val_    (8)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 8
+
+<hr><a name="st11"><b>state 11 (entry on procedureP_noval)</b></a>
+    expression : procedureP_noval_    (14)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 14
+
+<hr><a name="st12"><b>state 12 (entry on procedureP_val)</b></a>
+    expression : procedureP_val_    (9)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 9
+
+<hr><a name="st13"><b>state 13 (entry on procedure_noval)</b></a>
+    expression : procedure_noval_    (11)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 11
+
+<hr><a name="st14"><b>state 14 (entry on procedure_val)</b></a>
+    expression : procedure_val_    (5)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 5
+
+<hr><a name="st15"><b>state 15 (entry on redeclaration_expr)</b></a>
+    expression : redeclaration_expr_    (4)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 4
+
+<hr><a name="st16"><b>state 16 (entry on APARECETORTUGA)</b></a>
+    procedure_noval : APARECETORTUGA_    (48)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 48
+
+<hr><a name="st17"><b>state 17 (entry on AT)</b></a>
+    procedure_noval : AT_    (49)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 49
+
+<hr><a name="st18"><b>state 18 (entry on AV)</b></a>
+    procedure1_noval : AV_number    (65)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st72">goto 72</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st19"><b>state 19 (entry on AVANZA)</b></a>
+    procedure1_noval : AVANZA_number    (64)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st82">goto 82</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st20"><b>state 20 (entry on AZAR)</b></a>
+    procedure1_val : AZAR_number    (58)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st83">goto 83</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st21"><b>state 21 (entry on BAJALAPIZ)</b></a>
+    procedure_noval : BAJALAPIZ_    (50)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 50
+
+<hr><a name="st22"><b>state 22 (entry on BL)</b></a>
+    procedure_noval : BL_    (51)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 51
+
+<hr><a name="st23"><b>state 23 (entry on BORRAPANTALLA)</b></a>
+    procedure_noval : BORRAPANTALLA_    (55)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 55
+
+<hr><a name="st24"><b>state 24 (entry on CENTRO)</b></a>
+    procedure_noval : CENTRO_    (54)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 54
+
+<hr><a name="st25"><b>state 25 (entry on COS)</b></a>
+    procedure1_val : COS_number    (57)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st84">goto 84</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st26"><b>state 26 (entry on CUENTA)</b></a>
+    procedureP_val : CUENTA_'[' N_intvals ']'    (100)
+    procedureP_val : CUENTA_'[' N_floatvals ']'    (101)
+
+    '[' <a href="#st85">shift 85</a>
+    . error
+
+<hr><a name="st27"><b>state 27 (entry on DIFERENCIA)</b></a>
+    procedureN_val : DIFERENCIA_N_params    (89)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    N_params <a href="#st86">goto 86</a>
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st87">goto 87</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st28"><b>state 28 (entry on DIVISION)</b></a>
+    procedure2_val : DIVISION_number number    (79)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st88">goto 88</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st29"><b>state 29 (entry on EJECUTA)</b></a>
+    procedureP_noval : EJECUTA_'[' N_ordenes ']'    (111)
+
+    '[' <a href="#st89">shift 89</a>
+    . error
+
+<hr><a name="st30"><b>state 30 (entry on ELEGIR)</b></a>
+    procedureP_val : ELEGIR_'[' N_intvals ']'    (98)
+    procedureP_val : ELEGIR_'[' N_floatvals ']'    (99)
+
+    '[' <a href="#st90">shift 90</a>
+    . error
+
+<hr><a name="st31"><b>state 31 (entry on ELEMENTO)</b></a>
+    procedure1P_val : ELEMENTO_INTEGER '[' N_intvals ']'    (112)
+    procedure1P_val : ELEMENTO_INTEGER '[' N_floatvals ']'    (113)
+    procedure1P_val : ELEMENTO_IDENTIFIER '[' N_intvals ']'    (114)
+    procedure1P_val : ELEMENTO_IDENTIFIER '[' N_floatvals ']'    (115)
+
+    IDENTIFIER <a href="#st91">shift 91</a>
+    INTEGER <a href="#st92">shift 92</a>
+    . error
+
+<hr><a name="st32"><b>state 32 (entry on ESPERA)</b></a>
+    procedure1_noval : ESPERA_number    (77)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st93">goto 93</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st33"><b>state 33 (entry on GD)</b></a>
+    procedure1_noval : GD_number    (69)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st94">goto 94</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st34"><b>state 34 (entry on GI)</b></a>
+    procedure1_noval : GI_number    (71)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st95">goto 95</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st35"><b>state 35 (entry on GIRADERECHA)</b></a>
+    procedure1_noval : GIRADERECHA_number    (68)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st96">goto 96</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st36"><b>state 36 (entry on GIRAIZQUIERZA)</b></a>
+    procedure1_noval : GIRAIZQUIERZA_number    (70)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st97">goto 97</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st37"><b>state 37 (entry on INC)</b></a>
+    procedureP_noval : INC_'[' IDENTIFIER ']'    (108)
+    procedureP_noval : INC_'[' IDENTIFIER number ']'    (109)
+
+    '[' <a href="#st98">shift 98</a>
+    . error
+
+<hr><a name="st38"><b>state 38 (entry on INIC)</b></a>
+    redeclaration_expr : INIC_IDENTIFIER '=' number    (26)
+
+    IDENTIFIER <a href="#st99">shift 99</a>
+    . error
+
+<hr><a name="st39"><b>state 39 (entry on MENOS)</b></a>
+    procedure1_val : MENOS_number    (59)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st100">goto 100</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st40"><b>state 40 (entry on OCULTARTORTUGA)</b></a>
+    procedure_noval : OCULTARTORTUGA_    (46)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 46
+
+<hr><a name="st41"><b>state 41 (entry on OT)</b></a>
+    procedure_noval : OT_    (47)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 47
+
+<hr><a name="st42"><b>state 42 (entry on PONCL)</b></a>
+    procedure1_noval : PONCL_color    (76)
+
+    AMARILLO <a href="#st102">shift 102</a>
+    AZUL <a href="#st103">shift 103</a>
+    BLANCO <a href="#st104">shift 104</a>
+    CIAN <a href="#st105">shift 105</a>
+    GRIS <a href="#st106">shift 106</a>
+    MARRON <a href="#st107">shift 107</a>
+    NEGRO <a href="#st108">shift 108</a>
+    ROJO <a href="#st109">shift 109</a>
+    VERDE <a href="#st110">shift 110</a>
+    . error
+
+    color <a href="#st101">goto 101</a>
+
+<hr><a name="st43"><b>state 43 (entry on PONCOLORLAPIZ)</b></a>
+    procedure1_noval : PONCOLORLAPIZ_color    (75)
+
+    AMARILLO <a href="#st102">shift 102</a>
+    AZUL <a href="#st103">shift 103</a>
+    BLANCO <a href="#st104">shift 104</a>
+    CIAN <a href="#st105">shift 105</a>
+    GRIS <a href="#st106">shift 106</a>
+    MARRON <a href="#st107">shift 107</a>
+    NEGRO <a href="#st108">shift 108</a>
+    ROJO <a href="#st109">shift 109</a>
+    VERDE <a href="#st110">shift 110</a>
+    . error
+
+    color <a href="#st111">goto 111</a>
+
+<hr><a name="st44"><b>state 44 (entry on PONPOS)</b></a>
+    procedureP_noval : PONPOS_'[' number number ']'    (110)
+
+    '[' <a href="#st112">shift 112</a>
+    . error
+
+<hr><a name="st45"><b>state 45 (entry on PONRUMBO)</b></a>
+    procedure1_noval : PONRUMBO_number    (72)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st113">goto 113</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st46"><b>state 46 (entry on PONX)</b></a>
+    procedure1_noval : PONX_number    (73)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st114">goto 114</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st47"><b>state 47 (entry on PONXY)</b></a>
+    procedure2_noval : PONXY_number number    (86)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st115">goto 115</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st48"><b>state 48 (entry on PONY)</b></a>
+    procedure1_noval : PONY_number    (74)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st116">goto 116</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st49"><b>state 49 (entry on POTENCIA)</b></a>
+    procedure2_val : POTENCIA_number number    (78)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st117">goto 117</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st50"><b>state 50 (entry on PRIMERO)</b></a>
+    procedureP_val : PRIMERO_'[' N_intvals ']'    (106)
+    procedureP_val : PRIMERO_'[' N_floatvals ']'    (107)
+
+    '[' <a href="#st118">shift 118</a>
+    . error
+
+<hr><a name="st51"><b>state 51 (entry on PRODUCTO)</b></a>
+    procedureN_val : PRODUCTO_N_params    (90)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    N_params <a href="#st119">goto 119</a>
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st87">goto 87</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st52"><b>state 52 (entry on RAIZCUADRADA)</b></a>
+    procedure1_val : RAIZCUADRADA_number    (60)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st120">goto 120</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st53"><b>state 53 (entry on RC)</b></a>
+    procedure1_val : RC_number    (61)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st121">goto 121</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st54"><b>state 54 (entry on RE)</b></a>
+    procedure1_noval : RE_number    (67)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st122">goto 122</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st55"><b>state 55 (entry on REDONDEA)</b></a>
+    procedure1_val : REDONDEA_number    (56)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st123">goto 123</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st56"><b>state 56 (entry on REPITE)</b></a>
+    procedure1P_noval : REPITE_INTEGER '[' N_ordenes ']'    (116)
+    procedure1P_noval : REPITE_IDENTIFIER '[' N_ordenes ']'    (117)
+
+    IDENTIFIER <a href="#st124">shift 124</a>
+    INTEGER <a href="#st125">shift 125</a>
+    . error
+
+<hr><a name="st57"><b>state 57 (entry on RESTO)</b></a>
+    procedure2_val : RESTO_number number    (80)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st126">goto 126</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st58"><b>state 58 (entry on RETROCEDE)</b></a>
+    procedure1_noval : RETROCEDE_number    (66)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st127">goto 127</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st59"><b>state 59 (entry on RUMBO)</b></a>
+    procedure_val : RUMBO_    (45)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 45
+
+<hr><a name="st60"><b>state 60 (entry on SB)</b></a>
+    procedure_noval : SB_    (53)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 53
+
+<hr><a name="st61"><b>state 61 (entry on SEN)</b></a>
+    procedure1_val : SEN_number    (63)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st128">goto 128</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st62"><b>state 62 (entry on SENO)</b></a>
+    procedure1_val : SENO_number    (62)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st129">goto 129</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st63"><b>state 63 (entry on SI)</b></a>
+    procedure1P_noval : SI_logic_expr '[' N_ordenes ']'    (118)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    IGUALES <a href="#st133">shift 133</a>
+    MAYORQUE <a href="#st134">shift 134</a>
+    MENORQUE <a href="#st135">shift 135</a>
+    O <a href="#st136">shift 136</a>
+    Y <a href="#st137">shift 137</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    logic_expr <a href="#st130">goto 130</a>
+    number <a href="#st131">goto 131</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_bool <a href="#st132">goto 132</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st64"><b>state 64 (entry on SUBELAPIZ)</b></a>
+    procedure_noval : SUBELAPIZ_    (52)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 52
+
+<hr><a name="st65"><b>state 65 (entry on SUMA)</b></a>
+    procedureN_val : SUMA_N_params    (91)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    N_params <a href="#st138">goto 138</a>
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st87">goto 87</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st66"><b>state 66 (entry on UL)</b></a>
+    procedureP_val : UL_'[' N_intvals ']'    (103)
+    procedureP_val : UL_'[' N_floatvals ']'    (105)
+
+    '[' <a href="#st139">shift 139</a>
+    . error
+
+<hr><a name="st67"><b>state 67 (entry on ULTIMO)</b></a>
+    procedureP_val : ULTIMO_'[' N_intvals ']'    (102)
+    procedureP_val : ULTIMO_'[' N_floatvals ']'    (104)
+
+    '[' <a href="#st140">shift 140</a>
+    . error
+
+<hr><a name="st68"><b>state 68 (entry on VAR)</b></a>
+    declaration_expr : VAR_IDENTIFIER    (27)
+    declaration_expr : VAR_IDENTIFIER '=' number    (28)
+
+    IDENTIFIER <a href="#st141">shift 141</a>
+    . error
+
+<hr><a name="st69"><b>state 69 (entry on ';')</b></a>
+    prog : prog ';'_expression ';'    (1)
+
+    APARECETORTUGA <a href="#st16">shift 16</a>
+    AT <a href="#st17">shift 17</a>
+    AV <a href="#st18">shift 18</a>
+    AVANZA <a href="#st19">shift 19</a>
+    AZAR <a href="#st20">shift 20</a>
+    BAJALAPIZ <a href="#st21">shift 21</a>
+    BL <a href="#st22">shift 22</a>
+    BORRAPANTALLA <a href="#st23">shift 23</a>
+    CENTRO <a href="#st24">shift 24</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    EJECUTA <a href="#st29">shift 29</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    ESPERA <a href="#st32">shift 32</a>
+    GD <a href="#st33">shift 33</a>
+    GI <a href="#st34">shift 34</a>
+    GIRADERECHA <a href="#st35">shift 35</a>
+    GIRAIZQUIERZA <a href="#st36">shift 36</a>
+    INC <a href="#st37">shift 37</a>
+    INIC <a href="#st38">shift 38</a>
+    MENOS <a href="#st39">shift 39</a>
+    OCULTARTORTUGA <a href="#st40">shift 40</a>
+    OT <a href="#st41">shift 41</a>
+    PONCL <a href="#st42">shift 42</a>
+    PONCOLORLAPIZ <a href="#st43">shift 43</a>
+    PONPOS <a href="#st44">shift 44</a>
+    PONRUMBO <a href="#st45">shift 45</a>
+    PONX <a href="#st46">shift 46</a>
+    PONXY <a href="#st47">shift 47</a>
+    PONY <a href="#st48">shift 48</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    RE <a href="#st54">shift 54</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    REPITE <a href="#st56">shift 56</a>
+    RESTO <a href="#st57">shift 57</a>
+    RETROCEDE <a href="#st58">shift 58</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SB <a href="#st60">shift 60</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SI <a href="#st63">shift 63</a>
+    SUBELAPIZ <a href="#st64">shift 64</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    VAR <a href="#st68">shift 68</a>
+    . error
+
+    declaration_expr <a href="#st2">goto 2</a>
+    expression <a href="#st142">goto 142</a>
+    procedure1P_noval <a href="#st4">goto 4</a>
+    procedure1P_val <a href="#st5">goto 5</a>
+    procedure1_noval <a href="#st6">goto 6</a>
+    procedure1_val <a href="#st7">goto 7</a>
+    procedure2_noval <a href="#st8">goto 8</a>
+    procedure2_val <a href="#st9">goto 9</a>
+    procedureN_val <a href="#st10">goto 10</a>
+    procedureP_noval <a href="#st11">goto 11</a>
+    procedureP_val <a href="#st12">goto 12</a>
+    procedure_noval <a href="#st13">goto 13</a>
+    procedure_val <a href="#st14">goto 14</a>
+    redeclaration_expr <a href="#st15">goto 15</a>
+
+<hr><a name="st70"><b>state 70 (entry on ';')</b></a>
+    prog : expression ';'_    (2)
+
+    $end reduce 2
+    ';' reduce 2
+    . error
+
+<hr><a name="st71"><b>state 71 (entry on arithmetic_expr)</b></a>
+    number : arithmetic_expr_    (19)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 19
+
+<hr><a name="st72"><b>state 72 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : AV number_    (65)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 65
+
+<hr><a name="st73"><b>state 73 (entry on procedure1P_val)</b></a>
+    number : procedure1P_val_    (25)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 25
+
+<hr><a name="st74"><b>state 74 (entry on procedure1_val)</b></a>
+    number : procedure1_val_    (21)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 21
+
+<hr><a name="st75"><b>state 75 (entry on procedure2_val)</b></a>
+    number : procedure2_val_    (22)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 22
+
+<hr><a name="st76"><b>state 76 (entry on procedureN_val)</b></a>
+    number : procedureN_val_    (23)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 23
+
+<hr><a name="st77"><b>state 77 (entry on procedureP_val)</b></a>
+    number : procedureP_val_    (24)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 24
+
+<hr><a name="st78"><b>state 78 (entry on procedure_val)</b></a>
+    number : procedure_val_    (20)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 20
+
+<hr><a name="st79"><b>state 79 (entry on FLOAT)</b></a>
+    number : FLOAT_    (17)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 17
+
+<hr><a name="st80"><b>state 80 (entry on IDENTIFIER)</b></a>
+    number : IDENTIFIER_    (18)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 18
+
+<hr><a name="st81"><b>state 81 (entry on INTEGER)</b></a>
+    number : INTEGER_    (16)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 16
+
+<hr><a name="st82"><b>state 82 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : AVANZA number_    (64)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 64
+
+83: shift/reduce conflict (shift 143 and red'n 58) on '*'
+83: shift/reduce conflict (shift 144 and red'n 58) on '+'
+83: shift/reduce conflict (shift 145 and red'n 58) on '-'
+83: shift/reduce conflict (shift 146 and red'n 58) on '/'
+<hr><a name="st83"><b>state 83 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : AZAR number_    (58)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 58
+
+84: shift/reduce conflict (shift 143 and red'n 57) on '*'
+84: shift/reduce conflict (shift 144 and red'n 57) on '+'
+84: shift/reduce conflict (shift 145 and red'n 57) on '-'
+84: shift/reduce conflict (shift 146 and red'n 57) on '/'
+<hr><a name="st84"><b>state 84 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : COS number_    (57)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 57
+
+<hr><a name="st85"><b>state 85 (entry on '[')</b></a>
+    procedureP_val : CUENTA '['_N_intvals ']'    (100)
+    procedureP_val : CUENTA '['_N_floatvals ']'    (101)
+
+    FLOAT <a href="#st149">shift 149</a>
+    INTEGER <a href="#st150">shift 150</a>
+    . error
+
+    N_intvals <a href="#st147">goto 147</a>
+    N_floatvals <a href="#st148">goto 148</a>
+
+<hr><a name="st86"><b>state 86 (entry on N_params)</b></a>
+    procedureN_val : DIFERENCIA N_params_    (89)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 89
+
+87: shift/reduce conflict (shift 20 and red'n 88) on AZAR
+87: shift/reduce conflict (shift 25 and red'n 88) on COS
+87: shift/reduce conflict (shift 26 and red'n 88) on CUENTA
+87: shift/reduce conflict (shift 27 and red'n 88) on DIFERENCIA
+87: shift/reduce conflict (shift 28 and red'n 88) on DIVISION
+87: shift/reduce conflict (shift 30 and red'n 88) on ELEGIR
+87: shift/reduce conflict (shift 31 and red'n 88) on ELEMENTO
+87: shift/reduce conflict (shift 79 and red'n 88) on FLOAT
+87: shift/reduce conflict (shift 80 and red'n 88) on IDENTIFIER
+87: shift/reduce conflict (shift 81 and red'n 88) on INTEGER
+87: shift/reduce conflict (shift 39 and red'n 88) on MENOS
+87: shift/reduce conflict (shift 49 and red'n 88) on POTENCIA
+87: shift/reduce conflict (shift 50 and red'n 88) on PRIMERO
+87: shift/reduce conflict (shift 51 and red'n 88) on PRODUCTO
+87: shift/reduce conflict (shift 52 and red'n 88) on RAIZCUADRADA
+87: shift/reduce conflict (shift 53 and red'n 88) on RC
+87: shift/reduce conflict (shift 55 and red'n 88) on REDONDEA
+87: shift/reduce conflict (shift 57 and red'n 88) on RESTO
+87: shift/reduce conflict (shift 59 and red'n 88) on RUMBO
+87: shift/reduce conflict (shift 61 and red'n 88) on SEN
+87: shift/reduce conflict (shift 62 and red'n 88) on SENO
+87: shift/reduce conflict (shift 65 and red'n 88) on SUMA
+87: shift/reduce conflict (shift 66 and red'n 88) on UL
+87: shift/reduce conflict (shift 67 and red'n 88) on ULTIMO
+87: shift/reduce conflict (shift 143 and red'n 88) on '*'
+87: shift/reduce conflict (shift 144 and red'n 88) on '+'
+87: shift/reduce conflict (shift 145 and red'n 88) on '-'
+87: shift/reduce conflict (shift 146 and red'n 88) on '/'
+<hr><a name="st87"><b>state 87 (entry on number)</b></a>
+    N_params : number_N_params    (87)
+    N_params : number_    (88)
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+
+    NEGRO error
+    Y error
+    BLANCO error
+    $end error
+    CIAN error
+    MARRON error
+    GRIS error
+    MENORQUE error
+    O error
+    error error
+    MAYORQUE error
+    AZUL error
+    AMARILLO error
+    IGUALES error
+    '(' error
+    '=' error
+    ROJO error
+    ')' error
+    VERDE error
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 88
+
+    N_params <a href="#st151">goto 151</a>
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st87">goto 87</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st88"><b>state 88 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_val : DIVISION number_number    (79)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st152">goto 152</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st89"><b>state 89 (entry on '[')</b></a>
+    procedureP_noval : EJECUTA '['_N_ordenes ']'    (111)
+
+    APARECETORTUGA <a href="#st16">shift 16</a>
+    AT <a href="#st17">shift 17</a>
+    AV <a href="#st18">shift 18</a>
+    AVANZA <a href="#st19">shift 19</a>
+    AZAR <a href="#st20">shift 20</a>
+    BAJALAPIZ <a href="#st21">shift 21</a>
+    BL <a href="#st22">shift 22</a>
+    BORRAPANTALLA <a href="#st23">shift 23</a>
+    CENTRO <a href="#st24">shift 24</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    EJECUTA <a href="#st29">shift 29</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    ESPERA <a href="#st32">shift 32</a>
+    GD <a href="#st33">shift 33</a>
+    GI <a href="#st34">shift 34</a>
+    GIRADERECHA <a href="#st35">shift 35</a>
+    GIRAIZQUIERZA <a href="#st36">shift 36</a>
+    INC <a href="#st37">shift 37</a>
+    INIC <a href="#st38">shift 38</a>
+    MENOS <a href="#st39">shift 39</a>
+    OCULTARTORTUGA <a href="#st40">shift 40</a>
+    OT <a href="#st41">shift 41</a>
+    PONCL <a href="#st42">shift 42</a>
+    PONCOLORLAPIZ <a href="#st43">shift 43</a>
+    PONPOS <a href="#st44">shift 44</a>
+    PONRUMBO <a href="#st45">shift 45</a>
+    PONX <a href="#st46">shift 46</a>
+    PONXY <a href="#st47">shift 47</a>
+    PONY <a href="#st48">shift 48</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    RE <a href="#st54">shift 54</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    REPITE <a href="#st56">shift 56</a>
+    RESTO <a href="#st57">shift 57</a>
+    RETROCEDE <a href="#st58">shift 58</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SB <a href="#st60">shift 60</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SI <a href="#st63">shift 63</a>
+    SUBELAPIZ <a href="#st64">shift 64</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    VAR <a href="#st68">shift 68</a>
+    . error
+
+    N_ordenes <a href="#st153">goto 153</a>
+    declaration_expr <a href="#st2">goto 2</a>
+    expression <a href="#st154">goto 154</a>
+    procedure1P_noval <a href="#st4">goto 4</a>
+    procedure1P_val <a href="#st5">goto 5</a>
+    procedure1_noval <a href="#st6">goto 6</a>
+    procedure1_val <a href="#st7">goto 7</a>
+    procedure2_noval <a href="#st8">goto 8</a>
+    procedure2_val <a href="#st9">goto 9</a>
+    procedureN_val <a href="#st10">goto 10</a>
+    procedureP_noval <a href="#st11">goto 11</a>
+    procedureP_val <a href="#st12">goto 12</a>
+    procedure_noval <a href="#st13">goto 13</a>
+    procedure_val <a href="#st14">goto 14</a>
+    redeclaration_expr <a href="#st15">goto 15</a>
+
+<hr><a name="st90"><b>state 90 (entry on '[')</b></a>
+    procedureP_val : ELEGIR '['_N_intvals ']'    (98)
+    procedureP_val : ELEGIR '['_N_floatvals ']'    (99)
+
+    FLOAT <a href="#st149">shift 149</a>
+    INTEGER <a href="#st150">shift 150</a>
+    . error
+
+    N_intvals <a href="#st155">goto 155</a>
+    N_floatvals <a href="#st156">goto 156</a>
+
+<hr><a name="st91"><b>state 91 (entry on IDENTIFIER)</b></a>
+    procedure1P_val : ELEMENTO IDENTIFIER_'[' N_intvals ']'    (114)
+    procedure1P_val : ELEMENTO IDENTIFIER_'[' N_floatvals ']'    (115)
+
+    '[' <a href="#st157">shift 157</a>
+    . error
+
+<hr><a name="st92"><b>state 92 (entry on INTEGER)</b></a>
+    procedure1P_val : ELEMENTO INTEGER_'[' N_intvals ']'    (112)
+    procedure1P_val : ELEMENTO INTEGER_'[' N_floatvals ']'    (113)
+
+    '[' <a href="#st158">shift 158</a>
+    . error
+
+<hr><a name="st93"><b>state 93 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : ESPERA number_    (77)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 77
+
+<hr><a name="st94"><b>state 94 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : GD number_    (69)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 69
+
+<hr><a name="st95"><b>state 95 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : GI number_    (71)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 71
+
+<hr><a name="st96"><b>state 96 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : GIRADERECHA number_    (68)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 68
+
+<hr><a name="st97"><b>state 97 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : GIRAIZQUIERZA number_    (70)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 70
+
+<hr><a name="st98"><b>state 98 (entry on '[')</b></a>
+    procedureP_noval : INC '['_IDENTIFIER ']'    (108)
+    procedureP_noval : INC '['_IDENTIFIER number ']'    (109)
+
+    IDENTIFIER <a href="#st159">shift 159</a>
+    . error
+
+<hr><a name="st99"><b>state 99 (entry on IDENTIFIER)</b></a>
+    redeclaration_expr : INIC IDENTIFIER_'=' number    (26)
+
+    '=' <a href="#st160">shift 160</a>
+    . error
+
+100: shift/reduce conflict (shift 143 and red'n 59) on '*'
+100: shift/reduce conflict (shift 144 and red'n 59) on '+'
+100: shift/reduce conflict (shift 145 and red'n 59) on '-'
+100: shift/reduce conflict (shift 146 and red'n 59) on '/'
+<hr><a name="st100"><b>state 100 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : MENOS number_    (59)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 59
+
+<hr><a name="st101"><b>state 101 (entry on color)</b></a>
+    procedure1_noval : PONCL color_    (76)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 76
+
+<hr><a name="st102"><b>state 102 (entry on AMARILLO)</b></a>
+    color : AMARILLO_    (41)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 41
+
+<hr><a name="st103"><b>state 103 (entry on AZUL)</b></a>
+    color : AZUL_    (37)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 37
+
+<hr><a name="st104"><b>state 104 (entry on BLANCO)</b></a>
+    color : BLANCO_    (36)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 36
+
+<hr><a name="st105"><b>state 105 (entry on CIAN)</b></a>
+    color : CIAN_    (39)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 39
+
+<hr><a name="st106"><b>state 106 (entry on GRIS)</b></a>
+    color : GRIS_    (40)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 40
+
+<hr><a name="st107"><b>state 107 (entry on MARRON)</b></a>
+    color : MARRON_    (38)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 38
+
+<hr><a name="st108"><b>state 108 (entry on NEGRO)</b></a>
+    color : NEGRO_    (42)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 42
+
+<hr><a name="st109"><b>state 109 (entry on ROJO)</b></a>
+    color : ROJO_    (43)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 43
+
+<hr><a name="st110"><b>state 110 (entry on VERDE)</b></a>
+    color : VERDE_    (44)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 44
+
+<hr><a name="st111"><b>state 111 (entry on color)</b></a>
+    procedure1_noval : PONCOLORLAPIZ color_    (75)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 75
+
+<hr><a name="st112"><b>state 112 (entry on '[')</b></a>
+    procedureP_noval : PONPOS '['_number number ']'    (110)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st161">goto 161</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st113"><b>state 113 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : PONRUMBO number_    (72)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 72
+
+<hr><a name="st114"><b>state 114 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : PONX number_    (73)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 73
+
+<hr><a name="st115"><b>state 115 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_noval : PONXY number_number    (86)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st162">goto 162</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st116"><b>state 116 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : PONY number_    (74)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 74
+
+<hr><a name="st117"><b>state 117 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_val : POTENCIA number_number    (78)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st163">goto 163</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st118"><b>state 118 (entry on '[')</b></a>
+    procedureP_val : PRIMERO '['_N_intvals ']'    (106)
+    procedureP_val : PRIMERO '['_N_floatvals ']'    (107)
+
+    FLOAT <a href="#st149">shift 149</a>
+    INTEGER <a href="#st150">shift 150</a>
+    . error
+
+    N_intvals <a href="#st164">goto 164</a>
+    N_floatvals <a href="#st165">goto 165</a>
+
+<hr><a name="st119"><b>state 119 (entry on N_params)</b></a>
+    procedureN_val : PRODUCTO N_params_    (90)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 90
+
+120: shift/reduce conflict (shift 143 and red'n 60) on '*'
+120: shift/reduce conflict (shift 144 and red'n 60) on '+'
+120: shift/reduce conflict (shift 145 and red'n 60) on '-'
+120: shift/reduce conflict (shift 146 and red'n 60) on '/'
+<hr><a name="st120"><b>state 120 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : RAIZCUADRADA number_    (60)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 60
+
+121: shift/reduce conflict (shift 143 and red'n 61) on '*'
+121: shift/reduce conflict (shift 144 and red'n 61) on '+'
+121: shift/reduce conflict (shift 145 and red'n 61) on '-'
+121: shift/reduce conflict (shift 146 and red'n 61) on '/'
+<hr><a name="st121"><b>state 121 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : RC number_    (61)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 61
+
+<hr><a name="st122"><b>state 122 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : RE number_    (67)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 67
+
+123: shift/reduce conflict (shift 143 and red'n 56) on '*'
+123: shift/reduce conflict (shift 144 and red'n 56) on '+'
+123: shift/reduce conflict (shift 145 and red'n 56) on '-'
+123: shift/reduce conflict (shift 146 and red'n 56) on '/'
+<hr><a name="st123"><b>state 123 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : REDONDEA number_    (56)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 56
+
+<hr><a name="st124"><b>state 124 (entry on IDENTIFIER)</b></a>
+    procedure1P_noval : REPITE IDENTIFIER_'[' N_ordenes ']'    (117)
+
+    '[' <a href="#st166">shift 166</a>
+    . error
+
+<hr><a name="st125"><b>state 125 (entry on INTEGER)</b></a>
+    procedure1P_noval : REPITE INTEGER_'[' N_ordenes ']'    (116)
+
+    '[' <a href="#st167">shift 167</a>
+    . error
+
+<hr><a name="st126"><b>state 126 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_val : RESTO number_number    (80)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st168">goto 168</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st127"><b>state 127 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_noval : RETROCEDE number_    (66)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 66
+
+128: shift/reduce conflict (shift 143 and red'n 63) on '*'
+128: shift/reduce conflict (shift 144 and red'n 63) on '+'
+128: shift/reduce conflict (shift 145 and red'n 63) on '-'
+128: shift/reduce conflict (shift 146 and red'n 63) on '/'
+<hr><a name="st128"><b>state 128 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : SEN number_    (63)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 63
+
+129: shift/reduce conflict (shift 143 and red'n 62) on '*'
+129: shift/reduce conflict (shift 144 and red'n 62) on '+'
+129: shift/reduce conflict (shift 145 and red'n 62) on '-'
+129: shift/reduce conflict (shift 146 and red'n 62) on '/'
+<hr><a name="st129"><b>state 129 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure1_val : SENO number_    (62)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 62
+
+<hr><a name="st130"><b>state 130 (entry on logic_expr)</b></a>
+    procedure1P_noval : SI logic_expr_'[' N_ordenes ']'    (118)
+
+    '[' <a href="#st169">shift 169</a>
+    . error
+
+<hr><a name="st131"><b>state 131 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    logic_expr : number_'<' number    (29)
+    logic_expr : number_'>' number    (30)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '<' <a href="#st170">shift 170</a>
+    '>' <a href="#st171">shift 171</a>
+    . error
+
+<hr><a name="st132"><b>state 132 (entry on procedure2_bool)</b></a>
+    logic_expr : procedure2_bool_    (31)
+
+    '[' reduce 31
+    . error
+
+<hr><a name="st133"><b>state 133 (entry on IGUALES)</b></a>
+    procedure2_bool : IGUALES_number number    (81)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st172">goto 172</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st134"><b>state 134 (entry on MAYORQUE)</b></a>
+    procedure2_bool : MAYORQUE_number number    (84)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st173">goto 173</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st135"><b>state 135 (entry on MENORQUE)</b></a>
+    procedure2_bool : MENORQUE_number number    (85)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st174">goto 174</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st136"><b>state 136 (entry on O)</b></a>
+    procedure2_bool : O_number number    (83)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st175">goto 175</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st137"><b>state 137 (entry on Y)</b></a>
+    procedure2_bool : Y_number number    (82)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st176">goto 176</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st138"><b>state 138 (entry on N_params)</b></a>
+    procedureN_val : SUMA N_params_    (91)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 91
+
+<hr><a name="st139"><b>state 139 (entry on '[')</b></a>
+    procedureP_val : UL '['_N_intvals ']'    (103)
+    procedureP_val : UL '['_N_floatvals ']'    (105)
+
+    FLOAT <a href="#st149">shift 149</a>
+    INTEGER <a href="#st150">shift 150</a>
+    . error
+
+    N_intvals <a href="#st177">goto 177</a>
+    N_floatvals <a href="#st178">goto 178</a>
+
+<hr><a name="st140"><b>state 140 (entry on '[')</b></a>
+    procedureP_val : ULTIMO '['_N_intvals ']'    (102)
+    procedureP_val : ULTIMO '['_N_floatvals ']'    (104)
+
+    FLOAT <a href="#st149">shift 149</a>
+    INTEGER <a href="#st150">shift 150</a>
+    . error
+
+    N_intvals <a href="#st179">goto 179</a>
+    N_floatvals <a href="#st180">goto 180</a>
+
+<hr><a name="st141"><b>state 141 (entry on IDENTIFIER)</b></a>
+    declaration_expr : VAR IDENTIFIER_    (27)
+    declaration_expr : VAR IDENTIFIER_'=' number    (28)
+
+    MENORQUE error
+    '<' error
+    Y error
+    AZUL error
+    ')' error
+    $end error
+    '-' error
+    error error
+    IDENTIFIER error
+    CIAN error
+    MARRON error
+    MAYORQUE error
+    '+' error
+    '>' error
+    BLANCO error
+    '/' error
+    '*' error
+    '(' error
+    INTEGER error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    '=' <a href="#st181">shift 181</a>
+    . reduce 27
+
+<hr><a name="st142"><b>state 142 (entry on expression)</b></a>
+    prog : prog ';' expression_';'    (1)
+
+    ';' <a href="#st182">shift 182</a>
+    . error
+
+<hr><a name="st143"><b>state 143 (entry on '*')</b></a>
+    arithmetic_expr : number '*'_number    (34)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st183">goto 183</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st144"><b>state 144 (entry on '+')</b></a>
+    arithmetic_expr : number '+'_number    (32)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st184">goto 184</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st145"><b>state 145 (entry on '-')</b></a>
+    arithmetic_expr : number '-'_number    (33)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st185">goto 185</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st146"><b>state 146 (entry on '/')</b></a>
+    arithmetic_expr : number '/'_number    (35)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st186">goto 186</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st147"><b>state 147 (entry on N_intvals)</b></a>
+    procedureP_val : CUENTA '[' N_intvals_']'    (100)
+
+    ']' <a href="#st187">shift 187</a>
+    . error
+
+<hr><a name="st148"><b>state 148 (entry on N_floatvals)</b></a>
+    procedureP_val : CUENTA '[' N_floatvals_']'    (101)
+
+    ']' <a href="#st188">shift 188</a>
+    . error
+
+<hr><a name="st149"><b>state 149 (entry on FLOAT)</b></a>
+    N_floatvals : FLOAT_N_floatvals    (96)
+    N_floatvals : FLOAT_    (97)
+
+    FLOAT <a href="#st149">shift 149</a>
+    ']' reduce 97
+    . error
+
+    N_floatvals <a href="#st189">goto 189</a>
+
+<hr><a name="st150"><b>state 150 (entry on INTEGER)</b></a>
+    N_intvals : INTEGER_N_intvals    (94)
+    N_intvals : INTEGER_    (95)
+
+    INTEGER <a href="#st150">shift 150</a>
+    ']' reduce 95
+    . error
+
+    N_intvals <a href="#st190">goto 190</a>
+
+<hr><a name="st151"><b>state 151 (entry on N_params)</b></a>
+    N_params : number N_params_    (87)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 87
+
+152: shift/reduce conflict (shift 143 and red'n 79) on '*'
+152: shift/reduce conflict (shift 144 and red'n 79) on '+'
+152: shift/reduce conflict (shift 145 and red'n 79) on '-'
+152: shift/reduce conflict (shift 146 and red'n 79) on '/'
+<hr><a name="st152"><b>state 152 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_val : DIVISION number number_    (79)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 79
+
+<hr><a name="st153"><b>state 153 (entry on N_ordenes)</b></a>
+    procedureP_noval : EJECUTA '[' N_ordenes_']'    (111)
+
+    ']' <a href="#st191">shift 191</a>
+    . error
+
+<hr><a name="st154"><b>state 154 (entry on expression)</b></a>
+    N_ordenes : expression_N_ordenes    (92)
+    N_ordenes : expression_    (93)
+
+    APARECETORTUGA <a href="#st16">shift 16</a>
+    AT <a href="#st17">shift 17</a>
+    AV <a href="#st18">shift 18</a>
+    AVANZA <a href="#st19">shift 19</a>
+    AZAR <a href="#st20">shift 20</a>
+    BAJALAPIZ <a href="#st21">shift 21</a>
+    BL <a href="#st22">shift 22</a>
+    BORRAPANTALLA <a href="#st23">shift 23</a>
+    CENTRO <a href="#st24">shift 24</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    EJECUTA <a href="#st29">shift 29</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    ESPERA <a href="#st32">shift 32</a>
+    GD <a href="#st33">shift 33</a>
+    GI <a href="#st34">shift 34</a>
+    GIRADERECHA <a href="#st35">shift 35</a>
+    GIRAIZQUIERZA <a href="#st36">shift 36</a>
+    INC <a href="#st37">shift 37</a>
+    INIC <a href="#st38">shift 38</a>
+    MENOS <a href="#st39">shift 39</a>
+    OCULTARTORTUGA <a href="#st40">shift 40</a>
+    OT <a href="#st41">shift 41</a>
+    PONCL <a href="#st42">shift 42</a>
+    PONCOLORLAPIZ <a href="#st43">shift 43</a>
+    PONPOS <a href="#st44">shift 44</a>
+    PONRUMBO <a href="#st45">shift 45</a>
+    PONX <a href="#st46">shift 46</a>
+    PONXY <a href="#st47">shift 47</a>
+    PONY <a href="#st48">shift 48</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    RE <a href="#st54">shift 54</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    REPITE <a href="#st56">shift 56</a>
+    RESTO <a href="#st57">shift 57</a>
+    RETROCEDE <a href="#st58">shift 58</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SB <a href="#st60">shift 60</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SI <a href="#st63">shift 63</a>
+    SUBELAPIZ <a href="#st64">shift 64</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    VAR <a href="#st68">shift 68</a>
+    ']' reduce 93
+    . error
+
+    N_ordenes <a href="#st192">goto 192</a>
+    declaration_expr <a href="#st2">goto 2</a>
+    expression <a href="#st154">goto 154</a>
+    procedure1P_noval <a href="#st4">goto 4</a>
+    procedure1P_val <a href="#st5">goto 5</a>
+    procedure1_noval <a href="#st6">goto 6</a>
+    procedure1_val <a href="#st7">goto 7</a>
+    procedure2_noval <a href="#st8">goto 8</a>
+    procedure2_val <a href="#st9">goto 9</a>
+    procedureN_val <a href="#st10">goto 10</a>
+    procedureP_noval <a href="#st11">goto 11</a>
+    procedureP_val <a href="#st12">goto 12</a>
+    procedure_noval <a href="#st13">goto 13</a>
+    procedure_val <a href="#st14">goto 14</a>
+    redeclaration_expr <a href="#st15">goto 15</a>
+
+<hr><a name="st155"><b>state 155 (entry on N_intvals)</b></a>
+    procedureP_val : ELEGIR '[' N_intvals_']'    (98)
+
+    ']' <a href="#st193">shift 193</a>
+    . error
+
+<hr><a name="st156"><b>state 156 (entry on N_floatvals)</b></a>
+    procedureP_val : ELEGIR '[' N_floatvals_']'    (99)
+
+    ']' <a href="#st194">shift 194</a>
+    . error
+
+<hr><a name="st157"><b>state 157 (entry on '[')</b></a>
+    procedure1P_val : ELEMENTO IDENTIFIER '['_N_intvals ']'    (114)
+    procedure1P_val : ELEMENTO IDENTIFIER '['_N_floatvals ']'    (115)
+
+    FLOAT <a href="#st149">shift 149</a>
+    INTEGER <a href="#st150">shift 150</a>
+    . error
+
+    N_intvals <a href="#st195">goto 195</a>
+    N_floatvals <a href="#st196">goto 196</a>
+
+<hr><a name="st158"><b>state 158 (entry on '[')</b></a>
+    procedure1P_val : ELEMENTO INTEGER '['_N_intvals ']'    (112)
+    procedure1P_val : ELEMENTO INTEGER '['_N_floatvals ']'    (113)
+
+    FLOAT <a href="#st149">shift 149</a>
+    INTEGER <a href="#st150">shift 150</a>
+    . error
+
+    N_intvals <a href="#st197">goto 197</a>
+    N_floatvals <a href="#st198">goto 198</a>
+
+<hr><a name="st159"><b>state 159 (entry on IDENTIFIER)</b></a>
+    procedureP_noval : INC '[' IDENTIFIER_']'    (108)
+    procedureP_noval : INC '[' IDENTIFIER_number ']'    (109)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    ']' <a href="#st200">shift 200</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st199">goto 199</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st160"><b>state 160 (entry on '=')</b></a>
+    redeclaration_expr : INIC IDENTIFIER '='_number    (26)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st201">goto 201</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st161"><b>state 161 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedureP_noval : PONPOS '[' number_number ']'    (110)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st202">goto 202</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st162"><b>state 162 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_noval : PONXY number number_    (86)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 86
+
+163: shift/reduce conflict (shift 143 and red'n 78) on '*'
+163: shift/reduce conflict (shift 144 and red'n 78) on '+'
+163: shift/reduce conflict (shift 145 and red'n 78) on '-'
+163: shift/reduce conflict (shift 146 and red'n 78) on '/'
+<hr><a name="st163"><b>state 163 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_val : POTENCIA number number_    (78)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 78
+
+<hr><a name="st164"><b>state 164 (entry on N_intvals)</b></a>
+    procedureP_val : PRIMERO '[' N_intvals_']'    (106)
+
+    ']' <a href="#st203">shift 203</a>
+    . error
+
+<hr><a name="st165"><b>state 165 (entry on N_floatvals)</b></a>
+    procedureP_val : PRIMERO '[' N_floatvals_']'    (107)
+
+    ']' <a href="#st204">shift 204</a>
+    . error
+
+<hr><a name="st166"><b>state 166 (entry on '[')</b></a>
+    procedure1P_noval : REPITE IDENTIFIER '['_N_ordenes ']'    (117)
+
+    APARECETORTUGA <a href="#st16">shift 16</a>
+    AT <a href="#st17">shift 17</a>
+    AV <a href="#st18">shift 18</a>
+    AVANZA <a href="#st19">shift 19</a>
+    AZAR <a href="#st20">shift 20</a>
+    BAJALAPIZ <a href="#st21">shift 21</a>
+    BL <a href="#st22">shift 22</a>
+    BORRAPANTALLA <a href="#st23">shift 23</a>
+    CENTRO <a href="#st24">shift 24</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    EJECUTA <a href="#st29">shift 29</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    ESPERA <a href="#st32">shift 32</a>
+    GD <a href="#st33">shift 33</a>
+    GI <a href="#st34">shift 34</a>
+    GIRADERECHA <a href="#st35">shift 35</a>
+    GIRAIZQUIERZA <a href="#st36">shift 36</a>
+    INC <a href="#st37">shift 37</a>
+    INIC <a href="#st38">shift 38</a>
+    MENOS <a href="#st39">shift 39</a>
+    OCULTARTORTUGA <a href="#st40">shift 40</a>
+    OT <a href="#st41">shift 41</a>
+    PONCL <a href="#st42">shift 42</a>
+    PONCOLORLAPIZ <a href="#st43">shift 43</a>
+    PONPOS <a href="#st44">shift 44</a>
+    PONRUMBO <a href="#st45">shift 45</a>
+    PONX <a href="#st46">shift 46</a>
+    PONXY <a href="#st47">shift 47</a>
+    PONY <a href="#st48">shift 48</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    RE <a href="#st54">shift 54</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    REPITE <a href="#st56">shift 56</a>
+    RESTO <a href="#st57">shift 57</a>
+    RETROCEDE <a href="#st58">shift 58</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SB <a href="#st60">shift 60</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SI <a href="#st63">shift 63</a>
+    SUBELAPIZ <a href="#st64">shift 64</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    VAR <a href="#st68">shift 68</a>
+    . error
+
+    N_ordenes <a href="#st205">goto 205</a>
+    declaration_expr <a href="#st2">goto 2</a>
+    expression <a href="#st154">goto 154</a>
+    procedure1P_noval <a href="#st4">goto 4</a>
+    procedure1P_val <a href="#st5">goto 5</a>
+    procedure1_noval <a href="#st6">goto 6</a>
+    procedure1_val <a href="#st7">goto 7</a>
+    procedure2_noval <a href="#st8">goto 8</a>
+    procedure2_val <a href="#st9">goto 9</a>
+    procedureN_val <a href="#st10">goto 10</a>
+    procedureP_noval <a href="#st11">goto 11</a>
+    procedureP_val <a href="#st12">goto 12</a>
+    procedure_noval <a href="#st13">goto 13</a>
+    procedure_val <a href="#st14">goto 14</a>
+    redeclaration_expr <a href="#st15">goto 15</a>
+
+<hr><a name="st167"><b>state 167 (entry on '[')</b></a>
+    procedure1P_noval : REPITE INTEGER '['_N_ordenes ']'    (116)
+
+    APARECETORTUGA <a href="#st16">shift 16</a>
+    AT <a href="#st17">shift 17</a>
+    AV <a href="#st18">shift 18</a>
+    AVANZA <a href="#st19">shift 19</a>
+    AZAR <a href="#st20">shift 20</a>
+    BAJALAPIZ <a href="#st21">shift 21</a>
+    BL <a href="#st22">shift 22</a>
+    BORRAPANTALLA <a href="#st23">shift 23</a>
+    CENTRO <a href="#st24">shift 24</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    EJECUTA <a href="#st29">shift 29</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    ESPERA <a href="#st32">shift 32</a>
+    GD <a href="#st33">shift 33</a>
+    GI <a href="#st34">shift 34</a>
+    GIRADERECHA <a href="#st35">shift 35</a>
+    GIRAIZQUIERZA <a href="#st36">shift 36</a>
+    INC <a href="#st37">shift 37</a>
+    INIC <a href="#st38">shift 38</a>
+    MENOS <a href="#st39">shift 39</a>
+    OCULTARTORTUGA <a href="#st40">shift 40</a>
+    OT <a href="#st41">shift 41</a>
+    PONCL <a href="#st42">shift 42</a>
+    PONCOLORLAPIZ <a href="#st43">shift 43</a>
+    PONPOS <a href="#st44">shift 44</a>
+    PONRUMBO <a href="#st45">shift 45</a>
+    PONX <a href="#st46">shift 46</a>
+    PONXY <a href="#st47">shift 47</a>
+    PONY <a href="#st48">shift 48</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    RE <a href="#st54">shift 54</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    REPITE <a href="#st56">shift 56</a>
+    RESTO <a href="#st57">shift 57</a>
+    RETROCEDE <a href="#st58">shift 58</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SB <a href="#st60">shift 60</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SI <a href="#st63">shift 63</a>
+    SUBELAPIZ <a href="#st64">shift 64</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    VAR <a href="#st68">shift 68</a>
+    . error
+
+    N_ordenes <a href="#st206">goto 206</a>
+    declaration_expr <a href="#st2">goto 2</a>
+    expression <a href="#st154">goto 154</a>
+    procedure1P_noval <a href="#st4">goto 4</a>
+    procedure1P_val <a href="#st5">goto 5</a>
+    procedure1_noval <a href="#st6">goto 6</a>
+    procedure1_val <a href="#st7">goto 7</a>
+    procedure2_noval <a href="#st8">goto 8</a>
+    procedure2_val <a href="#st9">goto 9</a>
+    procedureN_val <a href="#st10">goto 10</a>
+    procedureP_noval <a href="#st11">goto 11</a>
+    procedureP_val <a href="#st12">goto 12</a>
+    procedure_noval <a href="#st13">goto 13</a>
+    procedure_val <a href="#st14">goto 14</a>
+    redeclaration_expr <a href="#st15">goto 15</a>
+
+168: shift/reduce conflict (shift 143 and red'n 80) on '*'
+168: shift/reduce conflict (shift 144 and red'n 80) on '+'
+168: shift/reduce conflict (shift 145 and red'n 80) on '-'
+168: shift/reduce conflict (shift 146 and red'n 80) on '/'
+<hr><a name="st168"><b>state 168 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_val : RESTO number number_    (80)
+
+    AZUL error
+    VERDE error
+    CIAN error
+    $end error
+    O error
+    '(' error
+    ROJO error
+    Y error
+    GRIS error
+    IGUALES error
+    error error
+    NEGRO error
+    BLANCO error
+    MENORQUE error
+    ')' error
+    MARRON error
+    '=' error
+    MAYORQUE error
+    AMARILLO error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 80
+
+<hr><a name="st169"><b>state 169 (entry on '[')</b></a>
+    procedure1P_noval : SI logic_expr '['_N_ordenes ']'    (118)
+
+    APARECETORTUGA <a href="#st16">shift 16</a>
+    AT <a href="#st17">shift 17</a>
+    AV <a href="#st18">shift 18</a>
+    AVANZA <a href="#st19">shift 19</a>
+    AZAR <a href="#st20">shift 20</a>
+    BAJALAPIZ <a href="#st21">shift 21</a>
+    BL <a href="#st22">shift 22</a>
+    BORRAPANTALLA <a href="#st23">shift 23</a>
+    CENTRO <a href="#st24">shift 24</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    EJECUTA <a href="#st29">shift 29</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    ESPERA <a href="#st32">shift 32</a>
+    GD <a href="#st33">shift 33</a>
+    GI <a href="#st34">shift 34</a>
+    GIRADERECHA <a href="#st35">shift 35</a>
+    GIRAIZQUIERZA <a href="#st36">shift 36</a>
+    INC <a href="#st37">shift 37</a>
+    INIC <a href="#st38">shift 38</a>
+    MENOS <a href="#st39">shift 39</a>
+    OCULTARTORTUGA <a href="#st40">shift 40</a>
+    OT <a href="#st41">shift 41</a>
+    PONCL <a href="#st42">shift 42</a>
+    PONCOLORLAPIZ <a href="#st43">shift 43</a>
+    PONPOS <a href="#st44">shift 44</a>
+    PONRUMBO <a href="#st45">shift 45</a>
+    PONX <a href="#st46">shift 46</a>
+    PONXY <a href="#st47">shift 47</a>
+    PONY <a href="#st48">shift 48</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    RE <a href="#st54">shift 54</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    REPITE <a href="#st56">shift 56</a>
+    RESTO <a href="#st57">shift 57</a>
+    RETROCEDE <a href="#st58">shift 58</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SB <a href="#st60">shift 60</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SI <a href="#st63">shift 63</a>
+    SUBELAPIZ <a href="#st64">shift 64</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    VAR <a href="#st68">shift 68</a>
+    . error
+
+    N_ordenes <a href="#st207">goto 207</a>
+    declaration_expr <a href="#st2">goto 2</a>
+    expression <a href="#st154">goto 154</a>
+    procedure1P_noval <a href="#st4">goto 4</a>
+    procedure1P_val <a href="#st5">goto 5</a>
+    procedure1_noval <a href="#st6">goto 6</a>
+    procedure1_val <a href="#st7">goto 7</a>
+    procedure2_noval <a href="#st8">goto 8</a>
+    procedure2_val <a href="#st9">goto 9</a>
+    procedureN_val <a href="#st10">goto 10</a>
+    procedureP_noval <a href="#st11">goto 11</a>
+    procedureP_val <a href="#st12">goto 12</a>
+    procedure_noval <a href="#st13">goto 13</a>
+    procedure_val <a href="#st14">goto 14</a>
+    redeclaration_expr <a href="#st15">goto 15</a>
+
+<hr><a name="st170"><b>state 170 (entry on '<')</b></a>
+    logic_expr : number '<'_number    (29)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st208">goto 208</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st171"><b>state 171 (entry on '>')</b></a>
+    logic_expr : number '>'_number    (30)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st209">goto 209</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st172"><b>state 172 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : IGUALES number_number    (81)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st210">goto 210</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st173"><b>state 173 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : MAYORQUE number_number    (84)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st211">goto 211</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st174"><b>state 174 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : MENORQUE number_number    (85)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st212">goto 212</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st175"><b>state 175 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : O number_number    (83)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st213">goto 213</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st176"><b>state 176 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : Y number_number    (82)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st214">goto 214</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st177"><b>state 177 (entry on N_intvals)</b></a>
+    procedureP_val : UL '[' N_intvals_']'    (103)
+
+    ']' <a href="#st215">shift 215</a>
+    . error
+
+<hr><a name="st178"><b>state 178 (entry on N_floatvals)</b></a>
+    procedureP_val : UL '[' N_floatvals_']'    (105)
+
+    ']' <a href="#st216">shift 216</a>
+    . error
+
+<hr><a name="st179"><b>state 179 (entry on N_intvals)</b></a>
+    procedureP_val : ULTIMO '[' N_intvals_']'    (102)
+
+    ']' <a href="#st217">shift 217</a>
+    . error
+
+<hr><a name="st180"><b>state 180 (entry on N_floatvals)</b></a>
+    procedureP_val : ULTIMO '[' N_floatvals_']'    (104)
+
+    ']' <a href="#st218">shift 218</a>
+    . error
+
+<hr><a name="st181"><b>state 181 (entry on '=')</b></a>
+    declaration_expr : VAR IDENTIFIER '='_number    (28)
+
+    AZAR <a href="#st20">shift 20</a>
+    COS <a href="#st25">shift 25</a>
+    CUENTA <a href="#st26">shift 26</a>
+    DIFERENCIA <a href="#st27">shift 27</a>
+    DIVISION <a href="#st28">shift 28</a>
+    ELEGIR <a href="#st30">shift 30</a>
+    ELEMENTO <a href="#st31">shift 31</a>
+    MENOS <a href="#st39">shift 39</a>
+    POTENCIA <a href="#st49">shift 49</a>
+    PRIMERO <a href="#st50">shift 50</a>
+    PRODUCTO <a href="#st51">shift 51</a>
+    RAIZCUADRADA <a href="#st52">shift 52</a>
+    RC <a href="#st53">shift 53</a>
+    REDONDEA <a href="#st55">shift 55</a>
+    RESTO <a href="#st57">shift 57</a>
+    RUMBO <a href="#st59">shift 59</a>
+    SEN <a href="#st61">shift 61</a>
+    SENO <a href="#st62">shift 62</a>
+    SUMA <a href="#st65">shift 65</a>
+    UL <a href="#st66">shift 66</a>
+    ULTIMO <a href="#st67">shift 67</a>
+    FLOAT <a href="#st79">shift 79</a>
+    IDENTIFIER <a href="#st80">shift 80</a>
+    INTEGER <a href="#st81">shift 81</a>
+    . error
+
+    arithmetic_expr <a href="#st71">goto 71</a>
+    number <a href="#st219">goto 219</a>
+    procedure1P_val <a href="#st73">goto 73</a>
+    procedure1_val <a href="#st74">goto 74</a>
+    procedure2_val <a href="#st75">goto 75</a>
+    procedureN_val <a href="#st76">goto 76</a>
+    procedureP_val <a href="#st77">goto 77</a>
+    procedure_val <a href="#st78">goto 78</a>
+
+<hr><a name="st182"><b>state 182 (entry on ';')</b></a>
+    prog : prog ';' expression ';'_    (1)
+
+    $end reduce 1
+    ';' reduce 1
+    . error
+
+<hr><a name="st183"><b>state 183 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number '*' number_    (34)
+    arithmetic_expr : number_'/' number    (35)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 34
+
+<hr><a name="st184"><b>state 184 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number '+' number_    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+
+    CIAN error
+    IGUALES error
+    AZUL error
+    MAYORQUE error
+    O error
+    error error
+    VERDE error
+    MARRON error
+    GRIS error
+    AMARILLO error
+    MENORQUE error
+    BLANCO error
+    NEGRO error
+    '(' error
+    ')' error
+    $end error
+    Y error
+    '=' error
+    ROJO error
+    '*' <a href="#st143">shift 143</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 32
+
+<hr><a name="st185"><b>state 185 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number '-' number_    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+
+    CIAN error
+    IGUALES error
+    AZUL error
+    MAYORQUE error
+    O error
+    error error
+    VERDE error
+    MARRON error
+    GRIS error
+    AMARILLO error
+    MENORQUE error
+    BLANCO error
+    NEGRO error
+    '(' error
+    ')' error
+    $end error
+    Y error
+    '=' error
+    ROJO error
+    '*' <a href="#st143">shift 143</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 33
+
+<hr><a name="st186"><b>state 186 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    arithmetic_expr : number '/' number_    (35)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 35
+
+<hr><a name="st187"><b>state 187 (entry on ']')</b></a>
+    procedureP_val : CUENTA '[' N_intvals ']'_    (100)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 100
+
+<hr><a name="st188"><b>state 188 (entry on ']')</b></a>
+    procedureP_val : CUENTA '[' N_floatvals ']'_    (101)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 101
+
+<hr><a name="st189"><b>state 189 (entry on N_floatvals)</b></a>
+    N_floatvals : FLOAT N_floatvals_    (96)
+
+    ']' reduce 96
+    . error
+
+<hr><a name="st190"><b>state 190 (entry on N_intvals)</b></a>
+    N_intvals : INTEGER N_intvals_    (94)
+
+    ']' reduce 94
+    . error
+
+<hr><a name="st191"><b>state 191 (entry on ']')</b></a>
+    procedureP_noval : EJECUTA '[' N_ordenes ']'_    (111)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 111
+
+<hr><a name="st192"><b>state 192 (entry on N_ordenes)</b></a>
+    N_ordenes : expression N_ordenes_    (92)
+
+    ']' reduce 92
+    . error
+
+<hr><a name="st193"><b>state 193 (entry on ']')</b></a>
+    procedureP_val : ELEGIR '[' N_intvals ']'_    (98)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 98
+
+<hr><a name="st194"><b>state 194 (entry on ']')</b></a>
+    procedureP_val : ELEGIR '[' N_floatvals ']'_    (99)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 99
+
+<hr><a name="st195"><b>state 195 (entry on N_intvals)</b></a>
+    procedure1P_val : ELEMENTO IDENTIFIER '[' N_intvals_']'    (114)
+
+    ']' <a href="#st220">shift 220</a>
+    . error
+
+<hr><a name="st196"><b>state 196 (entry on N_floatvals)</b></a>
+    procedure1P_val : ELEMENTO IDENTIFIER '[' N_floatvals_']'    (115)
+
+    ']' <a href="#st221">shift 221</a>
+    . error
+
+<hr><a name="st197"><b>state 197 (entry on N_intvals)</b></a>
+    procedure1P_val : ELEMENTO INTEGER '[' N_intvals_']'    (112)
+
+    ']' <a href="#st222">shift 222</a>
+    . error
+
+<hr><a name="st198"><b>state 198 (entry on N_floatvals)</b></a>
+    procedure1P_val : ELEMENTO INTEGER '[' N_floatvals_']'    (113)
+
+    ']' <a href="#st223">shift 223</a>
+    . error
+
+<hr><a name="st199"><b>state 199 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedureP_noval : INC '[' IDENTIFIER number_']'    (109)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    ']' <a href="#st224">shift 224</a>
+    . error
+
+<hr><a name="st200"><b>state 200 (entry on ']')</b></a>
+    procedureP_noval : INC '[' IDENTIFIER ']'_    (108)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 108
+
+<hr><a name="st201"><b>state 201 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    redeclaration_expr : INIC IDENTIFIER '=' number_    (26)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 26
+
+<hr><a name="st202"><b>state 202 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedureP_noval : PONPOS '[' number number_']'    (110)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    ']' <a href="#st225">shift 225</a>
+    . error
+
+<hr><a name="st203"><b>state 203 (entry on ']')</b></a>
+    procedureP_val : PRIMERO '[' N_intvals ']'_    (106)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 106
+
+<hr><a name="st204"><b>state 204 (entry on ']')</b></a>
+    procedureP_val : PRIMERO '[' N_floatvals ']'_    (107)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 107
+
+<hr><a name="st205"><b>state 205 (entry on N_ordenes)</b></a>
+    procedure1P_noval : REPITE IDENTIFIER '[' N_ordenes_']'    (117)
+
+    ']' <a href="#st226">shift 226</a>
+    . error
+
+<hr><a name="st206"><b>state 206 (entry on N_ordenes)</b></a>
+    procedure1P_noval : REPITE INTEGER '[' N_ordenes_']'    (116)
+
+    ']' <a href="#st227">shift 227</a>
+    . error
+
+<hr><a name="st207"><b>state 207 (entry on N_ordenes)</b></a>
+    procedure1P_noval : SI logic_expr '[' N_ordenes_']'    (118)
+
+    ']' <a href="#st228">shift 228</a>
+    . error
+
+<hr><a name="st208"><b>state 208 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    logic_expr : number '<' number_    (29)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '[' reduce 29
+    . error
+
+<hr><a name="st209"><b>state 209 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    logic_expr : number '>' number_    (30)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '[' reduce 30
+    . error
+
+<hr><a name="st210"><b>state 210 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : IGUALES number number_    (81)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '[' reduce 81
+    . error
+
+<hr><a name="st211"><b>state 211 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : MAYORQUE number number_    (84)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '[' reduce 84
+    . error
+
+<hr><a name="st212"><b>state 212 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : MENORQUE number number_    (85)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '[' reduce 85
+    . error
+
+<hr><a name="st213"><b>state 213 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : O number number_    (83)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '[' reduce 83
+    . error
+
+<hr><a name="st214"><b>state 214 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    procedure2_bool : Y number number_    (82)
+
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    '[' reduce 82
+    . error
+
+<hr><a name="st215"><b>state 215 (entry on ']')</b></a>
+    procedureP_val : UL '[' N_intvals ']'_    (103)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 103
+
+<hr><a name="st216"><b>state 216 (entry on ']')</b></a>
+    procedureP_val : UL '[' N_floatvals ']'_    (105)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 105
+
+<hr><a name="st217"><b>state 217 (entry on ']')</b></a>
+    procedureP_val : ULTIMO '[' N_intvals ']'_    (102)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 102
+
+<hr><a name="st218"><b>state 218 (entry on ']')</b></a>
+    procedureP_val : ULTIMO '[' N_floatvals ']'_    (104)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 104
+
+<hr><a name="st219"><b>state 219 (entry on number)</b></a>
+    arithmetic_expr : number_'+' number    (32)
+    arithmetic_expr : number_'-' number    (33)
+    arithmetic_expr : number_'*' number    (34)
+    arithmetic_expr : number_'/' number    (35)
+    declaration_expr : VAR IDENTIFIER '=' number_    (28)
+
+    VERDE error
+    '<' error
+    '(' error
+    IDENTIFIER error
+    ')' error
+    $end error
+    AZUL error
+    Y error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    NEGRO error
+    '>' error
+    '=' error
+    O error
+    MENORQUE error
+    error error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    '*' <a href="#st143">shift 143</a>
+    '+' <a href="#st144">shift 144</a>
+    '-' <a href="#st145">shift 145</a>
+    '/' <a href="#st146">shift 146</a>
+    . reduce 28
+
+<hr><a name="st220"><b>state 220 (entry on ']')</b></a>
+    procedure1P_val : ELEMENTO IDENTIFIER '[' N_intvals ']'_    (114)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 114
+
+<hr><a name="st221"><b>state 221 (entry on ']')</b></a>
+    procedure1P_val : ELEMENTO IDENTIFIER '[' N_floatvals ']'_    (115)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 115
+
+<hr><a name="st222"><b>state 222 (entry on ']')</b></a>
+    procedure1P_val : ELEMENTO INTEGER '[' N_intvals ']'_    (112)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 112
+
+<hr><a name="st223"><b>state 223 (entry on ']')</b></a>
+    procedure1P_val : ELEMENTO INTEGER '[' N_floatvals ']'_    (113)
+
+    Y error
+    CIAN error
+    IGUALES error
+    VERDE error
+    ')' error
+    ROJO error
+    error error
+    AMARILLO error
+    AZUL error
+    '=' error
+    O error
+    BLANCO error
+    MENORQUE error
+    MARRON error
+    NEGRO error
+    '(' error
+    MAYORQUE error
+    $end error
+    GRIS error
+    . reduce 113
+
+<hr><a name="st224"><b>state 224 (entry on ']')</b></a>
+    procedureP_noval : INC '[' IDENTIFIER number ']'_    (109)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 109
+
+<hr><a name="st225"><b>state 225 (entry on ']')</b></a>
+    procedureP_noval : PONPOS '[' number number ']'_    (110)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 110
+
+<hr><a name="st226"><b>state 226 (entry on ']')</b></a>
+    procedure1P_noval : REPITE IDENTIFIER '[' N_ordenes ']'_    (117)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 117
+
+<hr><a name="st227"><b>state 227 (entry on ']')</b></a>
+    procedure1P_noval : REPITE INTEGER '[' N_ordenes ']'_    (116)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 116
+
+<hr><a name="st228"><b>state 228 (entry on ']')</b></a>
+    procedure1P_noval : SI logic_expr '[' N_ordenes ']'_    (118)
+
+    AZUL error
+    '<' error
+    Y error
+    IDENTIFIER error
+    ')' error
+    $end error
+    '-' error
+    error error
+    INTEGER error
+    CIAN error
+    MARRON error
+    BLANCO error
+    '+' error
+    '>' error
+    '=' error
+    '/' error
+    '*' error
+    '(' error
+    MAYORQUE error
+    AMARILLO error
+    ROJO error
+    GRIS error
+    IGUALES error
+    FLOAT error
+    '[' error
+    VERDE error
+    O error
+    NEGRO error
+    MENORQUE error
+    . reduce 118
+
+84 terminals, 24 nonterminals;
+118 grammar rules, 229 states;
+72 shift/reduce and 0 reduce/reduce conflicts reported.
+</pre>
+</body>
+</html>

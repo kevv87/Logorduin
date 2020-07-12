@@ -1,0 +1,182 @@
+%package Tests.Jacc
+%class Parser
+%interface ParserTokens
+%semantic Object
+
+//Operadores y otros.
+%token '+' '-' '*' '/' '(' ')' ';' '=' INTEGER FLOAT VAR IDENTIFIER INIC
+
+//Colores permitidos
+%token BLANCO AZUL MARRON CIAN GRIS AMARILLO NEGRO ROJO VERDE
+
+//Procedimientos sin parámetros.
+%token OCULTARTORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
+
+//Procedimientos con un parámetro.
+%token AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERZA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
+
+//Procedimientos con 2 parámetros.
+%token PONXY IGUALES Y O MAYORQUE MENORQUE POTENCIA DIVISION RESTO
+
+//Procedimientos con N parámetros.
+%token DIFERENCIA PRODUCTO SUMA
+
+//Procedimientos con paréntesis []
+%token INC PONPOS EJECUTA ELEGIR CUENTA ULTIMO UL PRIMERO
+
+//Procedimientos con un parámetro y paréntesis []
+%token REPITE SI ELEMENTO
+
+%left '+' '-'
+%left '*' '/'
+
+%%
+
+//Símbolo inicial
+prog
+    : prog ';' expression
+    | expression ';'
+    ;
+
+//Definición de expresión
+expression
+    : VAR IDENTIFIER
+    | VAR IDENTIFIER '=' number
+    | INIC IDENTIFIER '=' number
+    | PONXY number number
+    | RUMBO
+    | OCULTARTORTUGA
+    | OT
+    | APARECETORTUGA
+    | AT
+    | BAJALAPIZ
+    | BL
+    | SUBELAPIZ
+    | SB
+    | CENTRO
+    | BORRAPANTALLA
+    | AVANZA        number
+    | AV            number
+    | RETROCEDE     number
+    | RE            number
+    | GIRADERECHA   number
+    | GD            number
+    | GIRAIZQUIERZA number
+    | GI            number
+    | PONRUMBO      number
+    | PONX          number
+    | PONY          number
+    | PONCOLORLAPIZ color
+    | PONCL         color
+    | ESPERA        number
+    | INC '[' IDENTIFIER ']'
+    | INC '[' IDENTIFIER number ']'
+    | PONPOS '[' number number ']'
+    | EJECUTA '[' prog ']'
+    | REPITE INTEGER '[' prog ']'
+    | REPITE IDENTIFIER '[' prog ']'
+    | SI logic_expr '[' prog ']'
+    | SI procedure2_bool '[' prog ']'
+    | procedure2_val
+    | procedureP_val
+    | procedure1P_val
+    ;
+
+//Lo que se evalúa a un número
+number
+    : INTEGER
+    | FLOAT
+    | IDENTIFIER
+    | DIFERENCIA N_params
+    | PRODUCTO N_params
+    | SUMA N_params
+    | number '+' number
+    | number '-' number
+    | number '*' number
+    | number '/' number
+    | REDONDEA     number
+    | COS          number
+    | AZAR         number
+    | MENOS        number
+    | RAIZCUADRADA number
+    | RC           number
+    | SENO         number
+    | SEN          number
+    | procedure2_val
+    | procedureP_val
+    | procedure1P_val
+    ;
+
+//Expresiones con valor booleano
+logic_expr
+    : number '<' number { $$ = $1 < $3 }
+    | number '>' number { $$ = $1 > $3 }
+    ;
+
+//Colores permitidos
+color
+    : BLANCO
+    | AZUL
+    | MARRON
+    | CIAN
+    | GRIS
+    | AMARILLO
+    | NEGRO
+    | ROJO
+    | VERDE
+    ;
+
+//Procedimientos con 2 parámetros que devuelven un valor numérico
+procedure2_val
+    : POTENCIA number number
+    | DIVISION number number
+    | RESTO    number number
+    ;
+
+//Procedimientos con 2 parámetros que devuelven un valor booleano
+procedure2_bool
+    : IGUALES  number number
+    | Y        number number
+    | O        number number
+    | MAYORQUE number number
+    | MENORQUE number number
+    ;
+
+//Regla para N cantidad de parámetros
+N_params
+    : number N_params
+    | number
+    ;
+
+N_vals
+    : N_intvals
+    | N_floatvals
+    ;
+
+//N cantidad de valores enteros
+N_intvals
+    : INTEGER N_intvals
+    | INTEGER
+    ;
+
+//N cantidad de valores flotante
+N_floatvals
+    : FLOAT N_floatvals
+    | FLOAT
+    ;
+
+//Procedimientos con paréntesis que devuelven un valor numérico
+procedureP_val
+    : ELEGIR '[' N_vals ']'
+    | CUENTA '[' N_vals ']'
+    | ULTIMO '[' N_vals ']'
+    | UL '[' N_vals ']'
+    | PRIMERO '[' N_vals ']'
+    ;
+
+procedure1P_val
+    : ELEMENTO INTEGER '[' N_vals ']'
+    | ELEMENTO IDENTIFIER '[' N_vals ']'
+    ;
+
+%%
