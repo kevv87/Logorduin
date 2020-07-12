@@ -1,4 +1,3 @@
-
 package Compiler.Lex;
 import static Compiler.Lex.Tokens.*;
 %%
@@ -6,10 +5,10 @@ import static Compiler.Lex.Tokens.*;
 %line
 %column
 %type Tokens
-L = [a-zA-Z]*
+L = [a-zA-Z]+
 D = [0-9]+
 espacio = [ ,\t,\r,\n]+
-Identt = [a-z][A-Za-z_&@0-9]{1,9}
+Ident = [a-z][A-Za-z_&@0-9]{1,9}
 IdeError = [A-Za-z_&@0-9]*
 %{
     public String lexeme;
@@ -21,6 +20,70 @@ para |
 fin |
 var |
 inic {lexeme = yytext(); return Reservadas;}
+
+ocultatortuga |
+ot |
+aparecetortuga |
+at |
+rumbo |
+bajalapiz |
+bl |
+subelapiz |
+sb |
+centro |
+borrarpantalla {lexeme = yytext(); return Procedimiento;}
+
+avanza |
+av |
+retrocede |
+re |
+giraderecha |
+gd |
+giraizquierda |
+gi |
+ponrumbo |
+ponx |
+pony |
+poncolorlapiz |
+poncl |
+espera |
+redondea |
+cos |
+azar |
+menos |
+raizcuadrada |
+rc |
+seno |
+sen {lexeme = yytext(); return Procedimiento1;}
+
+ponxy |
+iguales? |
+y |
+o |
+mayorque? |
+menorque? |
+potencia |
+division |
+resto {lexeme = yytext(); return Procedimiento2;}
+
+diferencia |
+producto |
+suma {lexeme = yytext(); return ProcedimientoN;}
+
+inc |
+ponpos |
+ejecuta |
+elegir |
+cuenta |
+ultimo |
+ul |
+primero {lexeme = yytext(); return ProcedimientoP;}
+
+repite |
+si |
+elemento {lexeme = yytext(); return Procedimiento1P;}
+
+
 {espacio} {/*Ignore*/}
 "//".* {/*Ignore*/}
 "=" |
@@ -34,7 +97,7 @@ inic {lexeme = yytext(); return Reservadas;}
 "(" |
 ")" {lexeme = yytext(); return SimboloEspecial;}
 {D} | {L} {lexeme = yytext(); return Constante;}
-{Identt} {lexeme = yytext(); return Identificador;}
+{Ident} {lexeme = yytext(); return Identificador;}
 {IdeError} {
     lexeme = yytext(); 
     line = yyline;
