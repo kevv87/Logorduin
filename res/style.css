@@ -1,11 +1,102 @@
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.text-area {
+    -fx-font-family: monospace;
+    -fx-font-size: 14px;
+}
+.text-area {
+    -fx-background-insets: 0;
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area .content {
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area:focused .content {
+    -fx-background-color: transparent, white, transparent, white;
+}
+
+.text-area:focused {
+    -fx-highlight-fill: #7ecfff;
+}
+
+.text-area .content {
+    -fx-padding: 10px;
+    -fx-text-fill: gray;
+    -fx-highlight-fill: #7ecfff;
+}
+
+.msg-text {
+    -fx-font-family: monospace;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.msg-parent-container {
+    -fx-fit-to-width: true;
+    -fx-pref-height: 200px;
+    //-fx-background: #2b2b2b;
+}
+
+.msg-container {
+    -fx-fill-width: true;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+}
+
 .info-text {
-    -fx-fill: gray;
+    -fx-text-fill: gray;
 }
 
 .error-text {
-    -fx-fill: darkred;
+    -fx-text-fill: firebrick;
 }
 
 .warning-text {
-    -fx-fill: orange;
+    -fx-text-fill: orange;
+}
+
+.menu-container {
+    -fx-background-color: white;
+}
+
+.menu-bar {
+    -fx-background-color: white ;
+    /*-fx-opacity: 0.5;*/
+    /*-fx-border-width: 2.0;*/
+
+}
+.menu-bar .label {
+    -fx-font-size: 14.0 pt;
+    -fx-font-family: monospace;
+    -fx-text-fill: black;
+    /*-fx-font-weight: bold;*/
+    -fx-padding: 10px;
+
+}
+.menu-bar .menu-button:hover, .menu-bar .menu-button:focused, .menu-bar .menu-button:showing {
+    -fx-background: white;
+    -fx-opacity: 0.5;
+    -fx-text-fill: black;
+}
+
+.menu-item {
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+    -fx-text-fill: black;
+    -fx-background: #eae9e9;
+}
+.menu-item .label{
+    -fx-font-size: 14.0 pt;
+    -fx-text-fill: black;
+}
+.menu-item .label:hover{
+    -fx-font-size: 14.0 pt;
+    -fx-background: darkgray;
+    -fx-text-fill: black;
+    -fx-opacity: 0.5;
 }

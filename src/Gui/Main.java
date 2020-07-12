@@ -5,34 +5,24 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
+import java.io.File;
 /**
  * Clase de interfaz principal.
  */
 public class Main extends Application {
 
-    private final String cwd = System.getProperty("user.dir");
     private BorderPane mainPane;
     private VBox messagesContainer;
     private TextArea code;
-    private HBox menuButtonContainer;
 
     /**
      * Método para iniciar la aplicación.
@@ -59,12 +49,12 @@ public class Main extends Application {
         setMessagesSection();
 
         //Sección de menu y botones
-        setMenuButtonSection();
+        setMenuButtonSection(stage);
 
         setCodeSection();
 
         Scene scene = new Scene(mainPane);
-        scene.getStylesheets().add("file:///" + cwd.replaceAll("\\\\", "/") + "/res/style.css");
+        scene.getStylesheets().add("file:///" + CommonMethods.getCwd().replaceAll("\\\\", "/") + "/res/style.css");
         stage.setTitle("Logorduin");
         stage.setMaximized(true);
         stage.setScene(scene);
@@ -75,8 +65,6 @@ public class Main extends Application {
      * Metodo para establecer la seccion de edicion de codigo.
      */
     private void setCodeSection(){
-
-
         code = new TextArea();
         code.setEditable(true);
 
@@ -86,7 +74,6 @@ public class Main extends Application {
 
         GridPane.setVgrow(code, Priority.ALWAYS);
         GridPane.setHgrow(code, Priority.ALWAYS);
-
 
         mainPane.setCenter(code);
     }
@@ -109,19 +96,24 @@ public class Main extends Application {
 
     /**
      * Método para establecer la sección de menu y de botones de compilacion y ejecución
+     * @param stage Instancia de la ventana principal.
      */
-    private void setMenuButtonSection() {
-        menuButtonContainer = new HBox();
+    private void setMenuButtonSection(Stage stage) {
+        VBox container  = new VBox();
+        HBox menuButtonContainer = new HBox();
         menuButtonContainer.setSpacing(20);
+        menuButtonContainer.getStyleClass().add("menu-container");
 
-        // TODO crear menu
+        Line line = new Line(0, 0, 0, 0);
 
         HBox buttonSection = new HBox();
-        buttonSection.setSpacing(20);
-        HBox.setMargin(buttonSection, new Insets(10));
+        buttonSection.setAlignment(Pos.TOP_RIGHT);
+        HBox.setHgrow(buttonSection, Priority.ALWAYS);
+        buttonSection.setSpacing(25);
+        HBox.setMargin(buttonSection, new Insets(10, 30, 10, 10));
 
-        ImageView compileButton = loadImageView("/res/compileButton.png", 30, 30);
-        ImageView runButton = loadImageView("/res/runButton.png", 30, 30);
+        ImageView compileButton = CommonMethods.loadImageView("/res/compileButton.png", 20, 20);
+        ImageView runButton = CommonMethods.loadImageView("/res/runButton.png", 20, 20);
         compileButton.setOnMouseClicked(mouseEvent -> {
             // TODO compilar el programa
             System.out.println("Compilando...");
@@ -129,6 +121,7 @@ public class Main extends Application {
         runButton.setOnMouseClicked(mouseEvent -> {
             //TODO compilar y ejecutar el programa
             System.out.println("Compilando y ejecutando...");
+            CanvasGui.show();
         });
 
         DropShadow shadow = new DropShadow();
@@ -139,8 +132,58 @@ public class Main extends Application {
 
         buttonSection.getChildren().addAll(compileButton, runButton);
 
-        menuButtonContainer.getChildren().addAll(buttonSection); // TODO agregar seccion de menu antes de buttonSection
-        mainPane.setTop(menuButtonContainer);
+        menuButtonContainer.getChildren().add(setMenuBarSection(stage));
+        menuButtonContainer.getChildren().addAll(buttonSection);
+
+        container.getChildren().addAll(menuButtonContainer, line);
+
+        mainPane.setTop(container);
+    }
+
+    /**
+     * Metodo para establecer el toolbar de la aplicacion
+     * @param stage Instancia de la ventana principal.
+     */
+    private MenuBar setMenuBarSection(Stage stage){
+        // Menu de Archivo
+        Menu menuArchivo = new Menu("Archivo");
+        FileChooser fileChooser = new FileChooser();
+        MenuItem nuevoItem = new MenuItem("Nuevo");
+        MenuItem cargarItem = new MenuItem("Cargar");
+        cargarItem.setOnAction(e -> {
+            File selectedFile = fileChooser.showOpenDialog(stage);
+        });
+        MenuItem guardarItem = new MenuItem("Guardar");
+        guardarItem.setOnAction(e -> {
+            File selectedFile = fileChooser.showOpenDialog(stage);
+        });
+        menuArchivo.getItems().addAll(nuevoItem, cargarItem, guardarItem);
+        // TODO anadir filtros para extension de archivos a usar
+
+        // Menu de Editar
+        Menu menuEditar = new Menu("Editar");
+        MenuItem deshacerItem = new MenuItem("Deshacer");
+        MenuItem rehacerItem = new MenuItem("Rehacer");
+        MenuItem cortarItem = new MenuItem("Cortar");
+        MenuItem copiarItem = new MenuItem("Copiar");
+        MenuItem pegarItem = new MenuItem("Pegar");
+        menuEditar.getItems().addAll(deshacerItem, rehacerItem, cortarItem, copiarItem, pegarItem);
+
+        // Menu de vista
+        Menu menuVista = new Menu("Vista");
+        // Menu de Herramientas
+        Menu menuHerramientas = new Menu("Herramientas");
+        // Menu de Ayuda
+        Menu menuAyuda = new Menu("Ayuda");
+
+        MenuBar menuBar = new MenuBar();
+        menuBar.setMinHeight(30);
+        // TODO anadir iconos a items
+        // TODO agregar items necesarios
+        // TODO funcionalidades de cada item del menu
+
+        menuBar.getMenus().addAll(menuArchivo, menuEditar, menuVista, menuHerramientas, menuAyuda);
+        return menuBar;
     }
 
     /**
@@ -148,11 +191,9 @@ public class Main extends Application {
      */
     private void setMessagesSection() {
         messagesContainer = new VBox();
-        messagesContainer.setFillWidth(true);
-        messagesContainer.setAlignment(Pos.CENTER_LEFT);
+        messagesContainer.getStyleClass().add("msg-container");
         ScrollPane messages = new ScrollPane(messagesContainer);
-        messages.setFitToWidth(true);
-        messages.setPrefHeight(200);
+        messages.getStyleClass().add("msg-parent-container");
 
         mainPane.setBottom(messages);
     }
@@ -164,50 +205,16 @@ public class Main extends Application {
      */
     private void addMessage(String text, MessageType type) {
         Label lbl = new Label(text);
-        lbl.setAlignment(Pos.CENTER_RIGHT);
-
-        //TODO: crear archivo css para agregar estilos.
-//        lbl.getStyleClass().add("info-text"); // Ejemplo para agregar css a objeto
-        // objeto.getStyleClass().add("nombre-selector");
+        lbl.getStyleClass().add("msg-text");
 
         switch (type) {
-            case INFO -> lbl.setTextFill(Color.GRAY);
-            case WARNING -> lbl.setTextFill(Color.ORANGE);
-            case ERROR -> lbl.setTextFill(Color.FIREBRICK);
+            case INFO -> lbl.getStyleClass().add("info-text");
+            case WARNING -> lbl.getStyleClass().add("warning-text");
+            case ERROR -> lbl.getStyleClass().add("error-text");
         }
 
         messagesContainer.getChildren().add(lbl);
     }
 
-    /**
-     * Método para cargar una imagen
-     * @param path Ruta de la imagen
-     * @return El objeto de la imagen creada
-     */
-    private Image imageLoader(String path){
-        try{
-            FileInputStream i = new FileInputStream(path);
-            return new Image(i);
-        }catch (FileNotFoundException e){
-            System.out.println("Couldn't load images!");
-        }
-        System.out.println("Could not find " + path);
-        return null;
-    }
 
-    /**
-     * Métod para cargar un ImageView
-     * @param path Ruta del archivo
-     * @param height Altura de la imagen
-     * @param width Ancho de la imagen
-     * @return Un objeto ImageView de la imagen agregada
-     */
-    private ImageView loadImageView(String path, Integer height, Integer width){
-        Image tokenImage = imageLoader(cwd.replaceAll("\\\\", "/") + path);
-        ImageView addTokenImage = new ImageView(tokenImage);
-        addTokenImage.setFitHeight(height);
-        addTokenImage.setFitWidth(width);
-
-        return addTokenImage;
-    }
 }
