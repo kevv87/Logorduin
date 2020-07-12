@@ -6,5 +6,11 @@ public enum Tokens {
     Error,
     Constante,
     Operador,
-    SimboloEspecial
+    SimboloEspecial,
+    Procedimiento,
+    Procedimiento1,
+    ProcedimientoP,
+    Procedimiento1P,
+    Procedimiento2,
+    ProcedimientoN
 }
