@@ -2,7 +2,15 @@ package Compiler.Lex;
 
 import java.io.*;
 
+/**
+ * Clase que hace el analisis a los tokens
+ */
 public class Analizador {
+
+    /**
+     * Método para imprimir los tokens
+     * @param ruta Ruta del archivo a analizar
+     */
     public void printTokens(String ruta) {
         try {
             Reader reader = new BufferedReader(new FileReader(ruta));
@@ -23,6 +31,10 @@ public class Analizador {
         }
     }
 
+    /**
+     * Método principal
+     * @param args ...
+     */
     public static void main(String[] args) {
         String pathL = "/src/Compiler/Lex/lexical.jflex";
         String rutaL  = System.getProperty("user.dir").replaceAll("\\\\", "/") + pathL;

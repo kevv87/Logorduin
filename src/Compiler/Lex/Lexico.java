@@ -8,6 +8,10 @@ import java.io.File;
 public class Lexico {
     private static final String cwd = System.getProperty("user.dir");
 
+    /**
+     * Método para generar la clase lexer
+     * @param ruta Ruta del archivo .jflex
+     */
     public static void generarLexer(String ruta) {
         File archivo = new File(ruta);
         JFlex.Main.generate(archivo);
