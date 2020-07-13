@@ -6,9 +6,12 @@ import static Compiler.Lex.Tokens.*;
 %column
 %type Tokens
 L = [a-zA-Z]+
-D = [0-9]+
+Digit = [1-9][0-9]*
+Zero = 0
+Float = [0-9]+"."[0-9]+
 espacio = [ ,\t,\r,\n]+
-Ident = [a-z][A-Za-z_&@0-9]{1,9}
+Ident = [a-z][A-Z|a-z|_|&|@|0-9]{1,9}
+Identi = [a-z] [A-Za-z]{1,9}
 IdeError = [A-Za-z_&@0-9]*
 %{
     public String lexeme;
@@ -96,8 +99,8 @@ elemento {lexeme = yytext(); return Procedimiento1P;}
 "]" |
 "(" |
 ")" {lexeme = yytext(); return SimboloEspecial;}
-{D} | {L} {lexeme = yytext(); return Constante;}
-{Ident} {lexeme = yytext(); return Identificador;}
+{Ident} | {Identi} {lexeme = yytext(); return Identificador;}
+{Digit} | {L} | {Float} | {Zero} {lexeme = yytext(); return Constante;}
 {IdeError} {
     lexeme = yytext(); 
     line = yyline;

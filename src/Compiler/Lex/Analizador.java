@@ -38,7 +38,7 @@ public class Analizador {
     public static void main(String[] args) {
         String pathL = "/src/Compiler/Lex/lexical.jflex";
         String rutaL  = System.getProperty("user.dir").replaceAll("\\\\", "/") + pathL;
-//        Lexico.generarLexer(rutaL);
+        Lexico.generarLexer(rutaL);
 
         String path = "/src/Compiler/Lex/parse.txt";
         String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
