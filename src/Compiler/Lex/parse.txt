@@ -7,3 +7,6 @@ fjfj(fvjf
 marlon//holkasjicbvjiskjvbsikfbvieuvjbskjvbskfjv
 jfbv djfbvjdbfv
 9/2
+iguales? 1 2
+mayorque?
+menorque?

@@ -30,7 +30,7 @@ bajalapiz |
 bl |
 subelapiz |
 sb |
-centro |
+centro | 
 borrarpantalla {lexeme = yytext(); return Procedimiento;}
 
 avanza |
@@ -57,11 +57,11 @@ seno |
 sen {lexeme = yytext(); return Procedimiento1;}
 
 ponxy |
-iguales? |
+"iguales?" |
 y |
 o |
-mayorque? |
-menorque? |
+"mayorque?" |
+"menorque?" |
 potencia |
 division |
 resto {lexeme = yytext(); return Procedimiento2;}
