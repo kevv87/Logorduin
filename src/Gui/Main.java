@@ -154,6 +154,9 @@ public class Main extends Application {
             File selectedFile = fileChooser.showOpenDialog(stage);
         });
         MenuItem guardarItem = new MenuItem("Guardar");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Codigo Logorduin", "*.ldr") //.ldr Es el tipo de archivo arbitrario para nuestros codigos
+        );
         guardarItem.setOnAction(e -> {
             File selectedFile = fileChooser.showOpenDialog(stage);
         });
@@ -169,20 +172,13 @@ public class Main extends Application {
         MenuItem pegarItem = new MenuItem("Pegar");
         menuEditar.getItems().addAll(deshacerItem, rehacerItem, cortarItem, copiarItem, pegarItem);
 
-        // Menu de vista
-        Menu menuVista = new Menu("Vista");
-        // Menu de Herramientas
-        Menu menuHerramientas = new Menu("Herramientas");
-        // Menu de Ayuda
-        Menu menuAyuda = new Menu("Ayuda");
-
         MenuBar menuBar = new MenuBar();
         menuBar.setMinHeight(30);
         // TODO anadir iconos a items
         // TODO agregar items necesarios
         // TODO funcionalidades de cada item del menu
 
-        menuBar.getMenus().addAll(menuArchivo, menuEditar, menuVista, menuHerramientas, menuAyuda);
+        menuBar.getMenus().addAll(menuArchivo, menuEditar);
         return menuBar;
     }
 
