@@ -15,6 +15,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
  * Clase de interfaz principal.
  */
@@ -23,6 +26,7 @@ public class Main extends Application {
     private BorderPane mainPane;
     private VBox messagesContainer;
     private TextArea code;
+    private File workingFile;
 
     /**
      * Método para iniciar la aplicación.
@@ -151,15 +155,20 @@ public class Main extends Application {
         MenuItem nuevoItem = new MenuItem("Nuevo");
         MenuItem cargarItem = new MenuItem("Cargar");
         cargarItem.setOnAction(e -> {
-            File selectedFile = fileChooser.showOpenDialog(stage);
+            workingFile = fileChooser.showOpenDialog(stage);
+            try {
+                Scanner s = new Scanner(workingFile).useDelimiter("");
+                while(s.hasNext()){
+                    code.appendText(s.next());
+                }
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
         });
         MenuItem guardarItem = new MenuItem("Guardar");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Codigo Logorduin", "*.ldr") //.ldr Es el tipo de archivo arbitrario para nuestros codigos
         );
-        guardarItem.setOnAction(e -> {
-            File selectedFile = fileChooser.showOpenDialog(stage);
-        });
         menuArchivo.getItems().addAll(nuevoItem, cargarItem, guardarItem);
         // TODO anadir filtros para extension de archivos a usar
 
