@@ -15,6 +15,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
  * Clase de interfaz principal.
  */
@@ -23,6 +26,7 @@ public class Main extends Application {
     private BorderPane mainPane;
     private VBox messagesContainer;
     private TextArea code;
+    private File workingFile;
 
     /**
      * Método para iniciar la aplicación.
@@ -151,12 +155,20 @@ public class Main extends Application {
         MenuItem nuevoItem = new MenuItem("Nuevo");
         MenuItem cargarItem = new MenuItem("Cargar");
         cargarItem.setOnAction(e -> {
-            File selectedFile = fileChooser.showOpenDialog(stage);
+            workingFile = fileChooser.showOpenDialog(stage);
+            try {
+                Scanner s = new Scanner(workingFile).useDelimiter("");
+                while(s.hasNext()){
+                    code.appendText(s.next());
+                }
+            } catch (FileNotFoundException fileNotFoundException) {
+                fileNotFoundException.printStackTrace();
+            }
         });
         MenuItem guardarItem = new MenuItem("Guardar");
-        guardarItem.setOnAction(e -> {
-            File selectedFile = fileChooser.showOpenDialog(stage);
-        });
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Codigo Logorduin", "*.ldr") //.ldr Es el tipo de archivo arbitrario para nuestros codigos
+        );
         menuArchivo.getItems().addAll(nuevoItem, cargarItem, guardarItem);
         // TODO anadir filtros para extension de archivos a usar
 
@@ -169,20 +181,13 @@ public class Main extends Application {
         MenuItem pegarItem = new MenuItem("Pegar");
         menuEditar.getItems().addAll(deshacerItem, rehacerItem, cortarItem, copiarItem, pegarItem);
 
-        // Menu de vista
-        Menu menuVista = new Menu("Vista");
-        // Menu de Herramientas
-        Menu menuHerramientas = new Menu("Herramientas");
-        // Menu de Ayuda
-        Menu menuAyuda = new Menu("Ayuda");
-
         MenuBar menuBar = new MenuBar();
         menuBar.setMinHeight(30);
         // TODO anadir iconos a items
         // TODO agregar items necesarios
         // TODO funcionalidades de cada item del menu
 
-        menuBar.getMenus().addAll(menuArchivo, menuEditar, menuVista, menuHerramientas, menuAyuda);
+        menuBar.getMenus().addAll(menuArchivo, menuEditar);
         return menuBar;
     }
 
