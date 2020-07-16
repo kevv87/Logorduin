@@ -1,5 +1,7 @@
 package Logic;
 
+import java.util.ArrayList;
+
 /**
  * El archivo compilado va a guardar acciones en forma de jsons, esta clase representa dichas acciones
  * además sirve para realizar el parseo a la hora de traducir el código máquina en la interfaz
