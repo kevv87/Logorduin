@@ -1,20 +1,9 @@
-hola
-holaholaholaholaholahola
-holahola2
-6hdik
-Galsk
-fjfj(fvjf
-//jfol&@jd3
-marlon//holkasjicbvjiskjvbsikfbvieuvjbskjvbskfjv
-jfbv djfbvjdbfv
-9/2
-iguales? 1 2
-mayorque?
-menorque?
-0.5
-1.698
-254.6558
-0
-54184
-paolaville
-paolavillegas
+var myvar = 10;
+inic myvar = myvar + 5;
+avanza myvar;
+giraderecha 90;
+var paola = 100000;
+avanza 15;
+// ESTO ES UN COMENTARIO $
+//$
+iguales? 1 2;

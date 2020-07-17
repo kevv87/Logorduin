@@ -2,7 +2,7 @@
 
 package Compiler.Jacc;
 
-import Compiler.NewLex.NewLexer;
+import Compiler.Lex.Lexer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10644,7 +10644,7 @@ class Parser implements ParserTokens {
     };
 
 
-    public NewLexer lexer;
+    public Lexer lexer;
 
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
@@ -10661,7 +10661,7 @@ class Parser implements ParserTokens {
     public Parser(String ruta) {
         try {
             Reader reader = new BufferedReader(new FileReader(ruta));
-            lexer = new NewLexer(reader);
+            lexer = new Lexer(reader);
             lexer.getNextToken();
         } catch (IOException ex) {
             yyerror("Could not open file for parsing.");
@@ -10670,7 +10670,7 @@ class Parser implements ParserTokens {
 
     public static void main(String[] args) {
         //TODO: recibir ruta desde args.
-        String path = "/src/Compiler/NewLex/parse.txt";
+        String path = "/src/Compiler/Lex/parse.txt";
         String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
         Parser parser = new Parser(ruta);
         parser.parse();

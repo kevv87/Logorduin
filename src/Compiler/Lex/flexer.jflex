@@ -1,4 +1,4 @@
-package Compiler.NewLex;
+package Compiler.Lex;
 
 import Compiler.Jacc.ParserTokens;
 import java.io.*;
@@ -6,7 +6,7 @@ import java.io.*;
 %%
 
 %public
-%class NewLexer
+%class Lexer
 %line
 %column
 %type Integer

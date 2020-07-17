@@ -6,7 +6,6 @@ import java.io.File;
  * Clase del analizador lexico
  */
 public class Lexico {
-    private static final String cwd = System.getProperty("user.dir");
 
     /**
      * Método para generar la clase lexer

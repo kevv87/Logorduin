@@ -7,7 +7,7 @@
 %next lexer.getNextToken()
 
 %{
-    import Compiler.NewLex.NewLexer;
+    import Compiler.Lex.Lexer;
     import java.io.*;
 %}
 
@@ -259,7 +259,7 @@ procedure1P_noval
 
 %%
 
-    public NewLexer lexer;
+    public Lexer lexer;
 
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
@@ -276,7 +276,7 @@ procedure1P_noval
     public Parser(String ruta) {
         try {
             Reader reader = new BufferedReader(new FileReader(ruta));
-            lexer = new NewLexer(reader);
+            lexer = new Lexer(reader);
             lexer.getNextToken();
         } catch (IOException ex) {
             yyerror("Could not open file for parsing.");
