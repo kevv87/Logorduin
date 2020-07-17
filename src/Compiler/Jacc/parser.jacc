@@ -7,8 +7,9 @@
 %next lexer.getNextToken()
 
 %{
-    import Compiler.Lex.Lexer;
-    import java.io.*;
+import Compiler.Lex.Lexer;
+import java.io.*;
+import Logic.MessageType;
 %}
 
 //Operadores y otros.
@@ -264,8 +265,7 @@ procedure1P_noval
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
         if (lastToken == 0) {
-            System.out.println("Compilación finalizada correctamente.");
-            //TODO: notificar interfaz que finalizó la compilación.
+            parseFinished();
             return;
         }
 
@@ -281,6 +281,18 @@ procedure1P_noval
         } catch (IOException ex) {
             yyerror("Could not open file for parsing.");
         }
+    }
+
+    /**
+     * Función para mostrar un mensaje del compilador en la interfaz.
+     */
+    public void showMessage(String msg, MessageType type) {
+        //TODO: mostrar mensaje del tipo correspondiente en la interfaz.
+    }
+
+    public void parseFinished() {
+        System.out.println("Compilación finalizada correctamente.");
+        //TODO: notificar interfaz que finalizó la compilación.
     }
 
     public static void main(String[] args) {
