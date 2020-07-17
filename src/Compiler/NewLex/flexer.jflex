@@ -1,5 +1,7 @@
 package Compiler.NewLex;
+
 import Compiler.Jacc.ParserTokens;
+import java.io.*;
 
 %%
 
@@ -22,6 +24,24 @@ import Compiler.Jacc.ParserTokens;
         return this.currentToken;
     }
 
+    public String getSemantic() {
+        return this.lexeme;
+    }
+
+    public int getNextToken() {
+        try {
+            Integer token = yylex();
+            if (token == null) {
+                currentToken = ENDINPUT;
+                return currentToken;
+            }
+            return token;
+        } catch(IOException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+
     public int getCurrentLine() {
         return this.line;
     }
@@ -32,6 +52,8 @@ import Compiler.Jacc.ParserTokens;
 
     public int prepare(int token) {
         lexeme = yytext();
+        line = yyline;
+        column = yycolumn;
         currentToken = token;
         return token;
     }
@@ -65,6 +87,8 @@ TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" 
 
 {Digit} { 
     lexeme = yytext();
+    line = yyline;
+    column = yycolumn;
     intValue = Integer.parseInt(lexeme);
     currentToken = INTEGER;
     return currentToken; 
@@ -72,6 +96,8 @@ TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" 
 
 {Float} {
     lexeme = yytext();
+    line = yyline;
+    column = yycolumn;
     floatValue = Float.parseFloat(lexeme);
     currentToken = FLOAT;
     return currentToken;
@@ -83,6 +109,8 @@ TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" 
 {TerminalChars} {
     String token = yytext();
     lexeme = token;
+    line = yyline;
+    column = yycolumn;
     char tokenValue = token.charAt(0);
     currentToken = tokenValue;
     return currentToken;
@@ -90,7 +118,7 @@ TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" 
 
 var     { return prepare(VAR); }
 inic    { return prepare(INIC); }
-ocultatortuga { return prepare(OCULTARTORTUGA); }
+ocultatortuga { return prepare(OCULTATORTUGA); }
 ot { return prepare(OT); }
 aparecetortuga { return prepare(APARECETORTUGA); }
 at { return prepare(AT); }
@@ -107,7 +135,7 @@ retrocede { return prepare(RETROCEDE); }
 re { return prepare(RE); }
 giraderecha { return prepare(GIRADERECHA); }
 gd { return prepare(GD); }
-giraizquierda { return prepare(GIRAIZQUIERZA); } /* TODO: REEMPLAZAR POR GIRAIZQUIERDA */
+giraizquierda { return prepare(GIRAIZQUIERDA); }
 gi { return prepare(GI); }
 ponrumbo { return prepare(PONRUMBO); }
 ponx { return prepare(PONX); }
