@@ -1,0 +1,6 @@
+var Myvar = 10;
+Myvar = Myvar + 5;
+
+avanza Myvar;
+gira 90;
+avanza 15;
