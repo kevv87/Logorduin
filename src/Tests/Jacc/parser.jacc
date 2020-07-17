@@ -1,19 +1,27 @@
 %package Tests.Jacc
 %class Parser
 %interface ParserTokens
-%semantic Object
+
+%semantic String
+%get lexer.getCurrentToken()
+%next lexer.getNextToken()
+
+%{
+    import Compiler.NewLex.NewLexer;
+    import java.io.*;
+%}
 
 //Operadores y otros.
-%token '+' '-' '*' '/' '(' ')' ';' '=' INTEGER FLOAT VAR IDENTIFIER INIC
+%token '+' '-' '*' '/' '(' ')' '[' ']' '<' '>' ';' '=' INTEGER FLOAT VAR IDENTIFIER INIC
 
 //Colores permitidos
 %token BLANCO AZUL MARRON CIAN GRIS AMARILLO NEGRO ROJO VERDE
 
 //Procedimientos sin parámetros.
-%token OCULTARTORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
+%token OCULTATORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
 
 //Procedimientos con un parámetro.
-%token AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERZA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
+%token AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERDA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
 
 //Procedimientos con 2 parámetros.
 %token PONXY IGUALES Y O MAYORQUE MENORQUE POTENCIA DIVISION RESTO
@@ -34,16 +42,16 @@
 
 //Símbolo inicial
 prog
-    : prog ';' expression ';'
-    | expression ';'
+    : expression ';' prog ';'
+    | expression
     ;
 
 //Definición de expresión
 expression
     : declaration_expr
     | redeclaration_expr
-//    | logic_expr
-//    | arithmetic_expr
+    | logic_expr
+    | arithmetic_expr
     | procedure_val
     | procedure1_val
     | procedure2_val
@@ -79,7 +87,7 @@ redeclaration_expr
 //Expresiones para declarar una variable
 declaration_expr
     : VAR IDENTIFIER            { /* Almacenar identificador */ }
-    | VAR IDENTIFIER '=' number { /* Almacenar identificador con valor dado */ }
+    | VAR IDENTIFIER '=' number { System.out.println("Identificador " + $2 + " creado."); }
     ;
 
 //Expresiones con valor booleano
@@ -119,7 +127,7 @@ procedure_val
 
 //Procedimientos sin parámetros ni valor de retorno
 procedure_noval
-    : OCULTARTORTUGA
+    : OCULTATORTUGA
     | OT
     | APARECETORTUGA
     | AT
@@ -151,7 +159,7 @@ procedure1_noval
     | RE            number
     | GIRADERECHA   number
     | GD            number
-    | GIRAIZQUIERZA number
+    | GIRAIZQUIERDA number
     | GI            number
     | PONRUMBO      number
     | PONX          number
@@ -251,7 +259,34 @@ procedure1P_noval
 
 %%
 
-public static void main(String[] args) {
-    Parser parser = new Parser();
-    parser.parse();
-}
+    public NewLexer lexer;
+
+    public void yyerror(String msg) {
+        int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
+        if (lastToken == 0) {
+            System.out.println("Compilación finalizada correctamente.");
+            //TODO: notificar interfaz que finalizó la compilación.
+            return;
+        }
+
+        System.out.println(msg);
+        System.out.println("En " + lexer.getSemantic() + ", línea " + (lexer.line + 1) + ". columna " + (lexer.column + 1));
+    }
+
+    public Parser(String ruta) {
+        try {
+            Reader reader = new BufferedReader(new FileReader(ruta));
+            lexer = new NewLexer(reader);
+            lexer.getNextToken();
+        } catch (IOException ex) {
+            yyerror("Could not open file for parsing.");
+        }
+    }
+
+    public static void main(String[] args) {
+        //TODO: recibir ruta desde args.
+        String path = "/src/Compiler/NewLex/parse.txt";
+        String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+        Parser parser = new Parser(ruta);
+        parser.parse();
+    }
