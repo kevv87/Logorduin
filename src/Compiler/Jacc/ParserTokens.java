@@ -1,8 +1,8 @@
-// Output created by jacc on Sun Jul 12 15:03:22 CST 2020
+// Output created by jacc on Fri Jul 17 11:53:40 CST 2020
 
-package Compiler;
+package Compiler.Jacc;
 
-interface ParserTokens {
+public interface ParserTokens {
     int ENDINPUT = 0;
     int AMARILLO = 1;
     int APARECETORTUGA = 2;
@@ -29,7 +29,7 @@ interface ParserTokens {
     int GD = 23;
     int GI = 24;
     int GIRADERECHA = 25;
-    int GIRAIZQUIERZA = 26;
+    int GIRAIZQUIERDA = 26;
     int GRIS = 27;
     int IDENTIFIER = 28;
     int IGUALES = 29;
@@ -42,7 +42,7 @@ interface ParserTokens {
     int MENOS = 36;
     int NEGRO = 37;
     int O = 38;
-    int OCULTARTORTUGA = 39;
+    int OCULTATORTUGA = 39;
     int OT = 44;
     int PONCL = 46;
     int PONCOLORLAPIZ = 48;

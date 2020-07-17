@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="JFlex">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/JFlex.jar!/" />
+      <root url="jar://$PROJECT_DIR$/res/JFlex.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

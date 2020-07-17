@@ -1,0 +1,9 @@
+var myvar = 10;
+inic myvar = myvar + 5;
+avanza myvar;
+giraderecha 90;
+var paola = 100000;
+avanza 15;
+// ESTO ES UN COMENTARIO $
+//$
+iguales? 1 2;
