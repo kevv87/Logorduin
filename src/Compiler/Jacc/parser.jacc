@@ -10,6 +10,8 @@
 import Compiler.Lex.Lexer;
 import java.io.*;
 import Logic.MessageType;
+import jsonAction;
+import java.util.ArrayList;
 %}
 
 //Operadores y otros.
@@ -68,9 +70,9 @@ expression
 
 //Lo que se evalúa a un número
 number
-    : INTEGER
-    | FLOAT
-    | IDENTIFIER
+    : INTEGER {$$=$1}
+    | FLOAT {$$=$1}
+    | IDENTIFIER {$$=$1}
     | arithmetic_expr
     | procedure_val
     | procedure1_val
@@ -93,17 +95,17 @@ declaration_expr
 
 //Expresiones con valor booleano
 logic_expr
-    : number '<' number
-    | number '>' number
+    : number '<' number {$$=$1<$3}
+    | number '>' number {$$=$1>$3}
     | procedure2_bool
     ;
 
 //Expresiones aritméticas con valor numérico
 arithmetic_expr
-    : number '+' number
-    | number '-' number
-    | number '*' number
-    | number '/' number
+    : number '+' number {$$=$1+$3}
+    | number '-' number {$$=$1-$3}
+    | number '*' number {$$=$1*$3}
+    | number '/' number {$$=$1/$3}
     ;
 
 //Colores permitidos
@@ -127,6 +129,7 @@ procedure_val
     ;
 
 //Procedimientos sin parámetros ni valor de retorno
+// TODO: Json de acciones
 procedure_noval
     : OCULTATORTUGA
     | OT
@@ -142,14 +145,14 @@ procedure_noval
 
 //Procedimientos con un parámetro que devuelven un valor numérico
 procedure1_val
-    : REDONDEA     number
-    | COS          number
-    | AZAR         number
-    | MENOS        number
-    | RAIZCUADRADA number
-    | RC           number
-    | SENO         number
-    | SEN          number
+    : REDONDEA     number {Math.rint($2)}
+    | COS          number {$$ = Math.cos($2)}
+    | AZAR         number {$$ = Random.doubles($2)}
+    | MENOS        number {$$ = $2*-1}
+    | RAIZCUADRADA number {$$ = Math.sqrt($2)}
+    | RC           number {$$ = Math.sqrt($2)}
+    | SENO         number {$$ = Math.sin($2)}
+    | SEN          number {$$ = Math.sin($2)}
     ;
 
 //Procedimientos con un parámetro que no tienen valor de retorno
@@ -172,18 +175,18 @@ procedure1_noval
 
 //Procedimientos con 2 parámetros que devuelven un valor numérico
 procedure2_val
-    : POTENCIA number number
-    | DIVISION number number
-    | RESTO    number number
+    : POTENCIA number number {$$ = $1**$2}
+    | DIVISION number number {$$ = $1/$2}
+    | RESTO    number number {$$=$1%$2}
     ;
 
 //Procedimientos con 2 parámetros que devuelven un valor booleano
 procedure2_bool
-    : IGUALES  number number
-    | Y        number number
-    | O        number number
-    | MAYORQUE number number
-    | MENORQUE number number
+    : IGUALES  number number {$$=$1==$2}
+    | Y        number number {$$=($1 AND $2)}
+    | O        number number {$$=($1 OR $2)}
+    | MAYORQUE number number  {$$= $1 > $2}
+    | MENORQUE number number  {$$= $1 < $2}
     ;
 
 //Procedimientos con 2 parámetros que no tienen valor de retorno
@@ -198,6 +201,7 @@ N_params
     ;
 
 //Procedimientos con N parámetros que devuelven un valor numérico
+// TODO
 procedureN_val
     : DIFERENCIA N_params
     | PRODUCTO N_params
@@ -224,16 +228,16 @@ N_floatvals
 
 //Procedimientos con paréntesis que devuelven un valor numérico
 procedureP_val
-    : ELEGIR '[' N_intvals ']'
-    | ELEGIR '[' N_floatvals ']'
-    | CUENTA '[' N_intvals ']'
-    | CUENTA '[' N_floatvals ']'
-    | ULTIMO '[' N_intvals ']'
-    | UL '[' N_intvals ']'
-    | ULTIMO '[' N_floatvals ']'
-    | UL '[' N_floatvals ']'
-    | PRIMERO '[' N_intvals ']'
-    | PRIMERO '[' N_floatvals ']'
+    : ELEGIR '[' N_intvals ']' {$$=($3)}
+    | ELEGIR '[' N_floatvals ']'{$$=($3)}
+    | CUENTA '[' N_intvals ']'{$$=($3)}
+    | CUENTA '[' N_floatvals ']'{$$=($3)}
+    | ULTIMO '[' N_intvals ']'{$$=($3)}
+    | UL '[' N_intvals ']'{$$=($3)}
+    | ULTIMO '[' N_floatvals ']'{$$=($3)}
+    | UL '[' N_floatvals ']'{$$=($3)}
+    | PRIMERO '[' N_intvals ']'{$$=($3)}
+    | PRIMERO '[' N_floatvals ']'{$$=($3)}
     ;
 
 
@@ -261,6 +265,9 @@ procedure1P_noval
 %%
 
     public Lexer lexer;
+	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz
+// TODO: Guardar una version en texto plano de este array list en un documento
+
 
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
@@ -274,6 +281,7 @@ procedure1P_noval
     }
 
     public Parser(String ruta) {
+	    acciones = new ArrayList<jsonAction>();
         try {
             Reader reader = new BufferedReader(new FileReader(ruta));
             lexer = new Lexer(reader);
