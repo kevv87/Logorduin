@@ -1,8 +1,9 @@
-// Output created by jacc on Thu Jul 16 23:15:31 CST 2020
+// Output created by jacc on Fri Jul 17 11:53:40 CST 2020
 
 package Compiler.Jacc;
 
 import Compiler.Lex.Lexer;
+import Logic.MessageType;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10649,8 +10650,7 @@ class Parser implements ParserTokens {
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
         if (lastToken == 0) {
-            System.out.println("Compilación finalizada correctamente.");
-            //TODO: notificar interfaz que finalizó la compilación.
+            parseFinished();
             return;
         }
 
@@ -10668,9 +10668,21 @@ class Parser implements ParserTokens {
         }
     }
 
+    /**
+     * Función para mostrar un mensaje del compilador en la interfaz.
+     */
+    public void showMessage(String msg, MessageType type) {
+        //TODO: mostrar mensaje del tipo correspondiente en la interfaz.
+    }
+
+    public void parseFinished() {
+        System.out.println("Compilación finalizada correctamente.");
+        //TODO: notificar interfaz que finalizó la compilación.
+    }
+
     public static void main(String[] args) {
         //TODO: recibir ruta desde args.
-        String path = "/src/Compiler/Lex/parse.txt";
+        String path = "/src/Compiler/NewLex/parse.txt";
         String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
         Parser parser = new Parser(ruta);
         parser.parse();
