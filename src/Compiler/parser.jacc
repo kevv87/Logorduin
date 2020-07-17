@@ -258,7 +258,7 @@ import jsonAction;
 import java.util.ArrayList;
 
 private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz
-&// TODO: Guardar una version en texto plano de este array list en un documento
+// TODO: Guardar una version en texto plano de este array list en un documento
 
 // Constructor
 public Parser(){
