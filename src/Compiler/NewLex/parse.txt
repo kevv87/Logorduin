@@ -1,6 +1,8 @@
-var Myvar = 10;
-Myvar = Myvar + 5;
-
-avanza Myvar;
+var myvar@98955 = 10;
+myvar = myvar + 5;
+avanza myvar;
 gira 90;
 avanza 15;
+// ESTO ES UN COMENTARIO $
+$
+iguales? 1 2;

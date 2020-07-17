@@ -47,21 +47,21 @@ import Compiler.Jacc.ParserTokens;
 %}
 
 LineTerminator = \r|\n|\r\n
-Space = {LineTerminator} | [\t\f]
+Space = {LineTerminator} | [\t\f] | [ ]
 InputCharacter = [^\r\n]
 
-Comment = {TraditionalComment} //| {EndOfLineComment}
+Comment = {EndOfLineComment} //| {TraditionalComment}
 //TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-Identifier = [A-Z][a-z|A-Z|_|&|@|0-9]*
+Identifier = [a-z][a-z|A-Z|_|&|@|0-9]{1,9}
+IdeError = [A-Za-z_&@0-9]* //TODO agregar error cuando hay mas de 10 caracteres en el identificador
 Digit = 0 | [1-9][0-9]*
-Float = [0+9]+ "." [0-9]+
+Float = [0-9]+ "." [0-9]+
 TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" | "(" | ")"
 
 %%
 
-{Identifier} { return prepare(IDENTIFIER); }
 
 {Digit} { 
     lexeme = yytext();
@@ -112,6 +112,55 @@ gi { return prepare(GI); }
 ponrumbo { return prepare(PONRUMBO); }
 ponx { return prepare(PONX); }
 pony { return prepare(PONY); }
+poncolorlapiz {return prepare(PONCOLORLAPIZ); }
+poncl {return prepare(PONCL); }
+espera {return prepare(ESPERA); }
+redondea {return prepare(REDONDEA); }
+cos {return prepare(COS); }
+azar {return prepare(AZAR); }
+menos {return prepare(MENOS); }
+raizcuadrada {return prepare(RAIZCUADRADA); }
+rc {return prepare(RC); }
+seno {return prepare(SENO); }
+sen {return prepare(SEN); }
+ponxy {return prepare(PONXY); }
+"iguales?" {return prepare(IGUALES); }
+y {return prepare(Y); }
+o {return prepare(O); }
+"mayorque?" {return prepare(MAYORQUE); }
+"menorque?" {return prepare(MENORQUE); }
+potencia {return prepare(POTENCIA); }
+division {return prepare(DIVISION); }
+resto {return prepare(RESTO); }
+diferencia {return prepare(DIFERENCIA); }
+producto {return prepare(PRODUCTO); }
+suma {return prepare(SUMA); }
+inc {return prepare(INC); }
+ponpos {return prepare(PONPOS); }
+ejecuta {return prepare(EJECUTA); }
+elegir {return prepare(ELEGIR); }
+cuenta {return prepare(CUENTA); }
+ultimo {return prepare(ULTIMO); }
+ul {return prepare(UL); }
+primero {return prepare(PRIMERO); }
+repite {return prepare(REPITE); }
+si {return prepare(SI); }
+elemento {return prepare(ELEMENTO); }
+
+
+{Identifier} { return prepare(IDENTIFIER); }
+
+{IdeError} {
+    lexeme = yytext();
+    line = yyline;
+    column = yycolumn;
+    return error;} //TODO CAMBIAR POR ERROR DE IDENTIFICADOR MAL DEFINIDO
+
+[^] {// token desconocido
+    lexeme = yytext();
+    line = yyline;
+    column = yycolumn;
+    return error;} //TODO CAMBIAR POR ERROR DE SIMBOLO NO DEFINIDO EN LA GRAMATICA
 
 /* Error Fallback */
-[^] { /* TODO: manejar errores */ }
+//[^] { /* TODO: manejar errores */ }

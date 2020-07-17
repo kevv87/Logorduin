@@ -43,7 +43,12 @@ public class Analizador {
                     System.out.println("Análisis completado! :D");
                     return;
                 }
-                System.out.println(lexer.lexeme + ", código: " + token);
+                if (token == 81) {
+                    System.out.println("Simbolo no definido " + lexer.lexeme + " en linea " + lexer.line + " en columna " + lexer.column);
+                } else {
+                    System.out.println(lexer.lexeme + ", código: " + token);
+                }
+
             }
 
         } catch (IOException ex) {
