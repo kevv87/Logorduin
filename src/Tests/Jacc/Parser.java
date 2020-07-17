@@ -11,6 +11,26 @@ class Parser implements ParserTokens {
     private Object[] yysv;
     private Object yyrv;
 
+    private class Lexer {
+        public int getToken() {
+            return 0;
+        }
+
+        public Object getSemantic() {
+            return null;
+        }
+
+        public int nextToken() {
+            return 0;
+        }
+    }
+
+    private Lexer lexer = new Lexer();
+
+    public void yyerror(String msg) {
+        System.out.println(msg);
+    }
+
     public boolean parse() {
         int yyn = 0;
         yysp = 0;

@@ -1,6 +1,6 @@
 // Output created by jacc on Sun Jul 12 15:03:21 CST 2020
 
-package Compiler;
+package Compiler.Jacc;
 
 class Parser implements ParserTokens {
     private int yyss = 100;
@@ -10,6 +10,22 @@ class Parser implements ParserTokens {
     protected int yyerrno = (-1);
     private Object[] yysv;
     private Object yyrv;
+
+    private class Lexer {
+        public int getToken() {
+            return 0;
+        }
+
+        public Object getSemantic() {
+            return null;
+        }
+
+        public int nextToken() {
+            return 0;
+        }
+    }
+
+    private Lexer lexer = new Lexer();
 
     public boolean parse() {
         int yyn = 0;
@@ -3055,6 +3071,10 @@ class Parser implements ParserTokens {
                     return false;
             }
         }
+    }
+
+    public void yyerror(String msg) {
+        System.out.println(msg);
     }
 
     protected void yyexpand() {
