@@ -1,5 +1,7 @@
 package Compiler.Lex;
 
+import Compiler.NewLex.NewLexer;
+
 import java.io.*;
 
 /**
@@ -31,18 +33,40 @@ public class Analizador {
         }
     }
 
+    public void printTokens2(String ruta) {
+        try {
+            Reader reader = new BufferedReader(new FileReader(ruta));
+            NewLexer lexer = new NewLexer(reader);
+            while (true) {
+                Integer token = lexer.yylex();
+                if (token == null) {
+                    System.out.println("Análisis completado! :D");
+                    return;
+                }
+                System.out.println(lexer.lexeme + ", código: " + token);
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * Método principal
      * @param args ...
      */
     public static void main(String[] args) {
-        String pathL = "/src/Compiler/Lex/lexical.jflex";
+//        String pathL = "/src/Compiler/Lex/lexical.jflex";
+        String pathL = "/src/Compiler/NewLex/flexer.jflex";
         String rutaL  = System.getProperty("user.dir").replaceAll("\\\\", "/") + pathL;
         Lexico.generarLexer(rutaL);
 
-        String path = "/src/Compiler/Lex/parse.txt";
+//        String path = "/src/Compiler/Lex/parse.txt";
+        String path = "/src/Compiler/NewLex/parse.txt";
         String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
         Analizador analizador = new Analizador();
-        analizador.printTokens(ruta);
+//        analizador.printTokens(ruta);
+        analizador.printTokens2(ruta);
+
     }
 }
