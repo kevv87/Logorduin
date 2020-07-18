@@ -1,14 +1,12 @@
-// Output created by jacc on Fri Jul 17 11:53:40 CST 2020
+// Output created by jacc on Fri Jul 17 21:33:13 CST 2020
 
 package Compiler.Jacc;
 
 import Compiler.Lex.Lexer;
+import java.io.*;
 import Logic.MessageType;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import Logic.jsonAction;
+import java.util.ArrayList;
 
 class Parser implements ParserTokens {
     private int yyss = 100;
@@ -16,14 +14,14 @@ class Parser implements ParserTokens {
     private int yysp = 0;
     private int[] yyst;
     protected int yyerrno = (-1);
-    private String[] yysv;
-    private String yyrv;
+    private Object[] yysv;
+    private Object yyrv;
 
     public boolean parse() {
         int yyn = 0;
         yysp = 0;
         yyst = new int[yyss];
-        yysv = new String[yyss];
+        yysv = new Object[yyss];
         yytok = (lexer.getCurrentToken()
                  );
     loop:
@@ -2942,7 +2940,7 @@ class Parser implements ParserTokens {
 
     protected void yyexpand() {
         int[] newyyst = new int[2*yyst.length];
-        String[] newyysv = new String[2*yyst.length];
+        Object[] newyysv = new Object[2*yyst.length];
         for (int i=0; i<yyst.length; i++) {
             newyyst[i] = yyst[i];
             newyysv[i] = yysv[i];
@@ -9898,7 +9896,8 @@ class Parser implements ParserTokens {
     }
 
     private int yyr34() { // arithmetic_expr : number '+' number
-        yysp -= 3;
+        {yyrv=(int)yysv[yysp-3]+(int)yysv[yysp-1];System.out.println(yyrv);}
+        yysv[yysp-=3] = yyrv;
         return yyparithmetic_expr();
     }
 
@@ -10078,7 +10077,8 @@ class Parser implements ParserTokens {
     }
 
     private int yyr31() { // logic_expr : number '<' number
-        yysp -= 3;
+        {System.out.println(yysv[yysp-3]);}
+        yysv[yysp-=3] = yyrv;
         return yyplogic_expr();
     }
 
@@ -10100,17 +10100,20 @@ class Parser implements ParserTokens {
     }
 
     private int yyr18() { // number : INTEGER
-        yysp -= 1;
+        {yyrv=yysv[yysp-1];}
+        yysv[yysp-=1] = yyrv;
         return yypnumber();
     }
 
     private int yyr19() { // number : FLOAT
-        yysp -= 1;
+        {yyrv=yysv[yysp-1];}
+        yysv[yysp-=1] = yyrv;
         return yypnumber();
     }
 
     private int yyr20() { // number : IDENTIFIER
-        yysp -= 1;
+        {yyrv=yysv[yysp-1];}
+        yysv[yysp-=1] = yyrv;
         return yypnumber();
     }
 
@@ -10646,6 +10649,9 @@ class Parser implements ParserTokens {
 
 
     public Lexer lexer;
+        private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz
+// TODO: Guardar una version en texto plano de este array list en un documento
+
 
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
@@ -10659,6 +10665,7 @@ class Parser implements ParserTokens {
     }
 
     public Parser(String ruta) {
+            acciones = new ArrayList<jsonAction>();
         try {
             Reader reader = new BufferedReader(new FileReader(ruta));
             lexer = new Lexer(reader);
