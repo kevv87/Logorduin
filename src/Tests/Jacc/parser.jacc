@@ -387,17 +387,19 @@ void_proc_p
                                                                                  acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));
                                                                                  variables.replace("x",$3);
                                                                                  variables.replace("y",$4);}
-    | EJECUTA '[' expr_procs_n            ']'
+    | EJECUTA '[' expr_procs_n            ']' {$$=$3;} // TODO: Probar esto
     ;)
 
+// Procedimientos con parentesis y un parametro que devuelven un valor.
 int_proc_1p
-    : ELEMENTO int_number '[' int_params_n ']'
+    : ELEMENTO int_number '[' int_params_n ']' {$$=elemento_int($2);n_params.pop();}
     ;
 
 float_proc_1p
-    : ELEMENTO int_number '[' float_params_n ']'
+    : ELEMENTO int_number '[' float_params_n ']'{$$=elemento_float($2);n_params.pop();}
     ;
 
+// Procedimientos con parentesis y un parametro que no devuelven un valor.
 void_proc_1p
     : REPITE int_number '[' expr_procs_n ']'
     | SI logic_expr     '[' expr_procs_n ']'
@@ -441,6 +443,18 @@ void_proc_1p
         } catch (IOException ex) {
             yyerror("Could not open file for parsing.");
         }
+    }
+
+    /**
+    * Metodo que representa el procedimiento elemento
+    * @return El elemento en la posicion n-esima de los parametros.
+     */
+    private Integer elemento_int(Integer n){
+        return (Integer)n_params.peek().get(n);
+    }
+
+    private Float elemento_float(Integer n){
+        return (Float)n_params.peek().get(n);
     }
 
     /**
