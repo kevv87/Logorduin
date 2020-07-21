@@ -22,7 +22,7 @@ public class Analizador {
                     return;
                 }
                 if (token == 81) {
-                    System.out.println("Simbolo no definido " + lexer.lexeme + " en linea " + lexer.line + " en columna " + lexer.column);
+                    System.out.println("Simbolo no definido " + lexer.getSemantic() + " en linea " + lexer.getCurrentLine() + " en columna " + lexer.getCurrentColumn());
                 } else {
                     System.out.println(lexer.lexeme + ", código: " + token);
                 }
@@ -40,7 +40,7 @@ public class Analizador {
 //        String pathL = "/src/Compiler/Lex/lexical.jflex";
         String pathL = "/src/Compiler/Lex/flexer.jflex";
         String rutaL  = System.getProperty("user.dir").replaceAll("\\\\", "/") + pathL;
-//        Lexico.generarLexer(rutaL);
+        Lexico.generarLexer(rutaL);
 
 //        String path = "/src/Compiler/Lex/parse.txt";
         String path = "/src/Compiler/Lex/parse.txt";
