@@ -14,6 +14,7 @@ import Logic.jsonAction;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.HashMap;
+import java.util.Stack;
 %}
 
 //Operadores y otros.
@@ -88,7 +89,7 @@ expression
 //Lo que se evalúa a un número
 int_number
     : INTEGER {$$ = $1;}
-    | IDENTIFIER          {$$=(int)variables.get($1);}
+    | IDENTIFIER          {$$=(Integer)variables.get($1);}
     | int_arithmetic_expr
     | int_proc1
     | int_proc2
@@ -99,7 +100,7 @@ int_number
 
 float_number
     : FLOAT {$$=$1;}
-    | IDENTIFIER            { $$=(double)variables.get($1); }
+    | IDENTIFIER            { $$=(Float)variables.get($1); }
     | float_arithmetic_expr
     | float_proc
     | float_proc1
@@ -172,9 +173,8 @@ color
     | ROJO{$$="rojo";}
     | VERDE{$$="verde";}
     ;
-
+//TODO: Convertir todos los int a Integer y doubles a Float.
 //Procedimientos sin parámetros que devuelven un valor numérico
-// TODO: Esta es una informacion que tiene la interfaz, pero que se podria usar para computar algo del lado del compilador.
 float_proc
     : RUMBO
     ;
@@ -255,7 +255,7 @@ void_proc1
     | PONRUMBO      int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
                                 acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));
-                                variables.replace("rumbo",(double)$2);}
+                                variables.replace("rumbo",(Integer)$2);}
     | PONRUMBO      float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
                                   acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));
@@ -263,7 +263,7 @@ void_proc1
     | PONX          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
                                 acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));
-                                variables.replace("x",(double)$2);}
+                                variables.replace("x",(Integer)$2);}
     | PONY          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
                                 acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));
@@ -330,27 +330,29 @@ void_proc2
 
 //Regla para N cantidad de parámetros
 // TODO: Ir guardando los parametros en una lista y despues sacar todos los parametros de la lista para llamar al procedimiento y limpiar la lista.
+// Guardar el procedimiento en un string y borrarlo al ejecutar el procedimiento.
+// TODO: Esto no deberia ser una sola lista, deberia ser un stack de listas, donde cada procedimiento va a trabajar con el stack de mas afuera
 int_params_n
-    : int_number int_params_n
-    | int_number
+    : int_number int_params_n {n_params.peek().add($1);}
+    | int_number {n_params.push(new ArrayList<Object>());n_params.peek().add($1);}
     ;
 
 float_params_n
-    : float_number float_params_n
-    | float_number
+    : float_number float_params_n {n_params.peek().add($1);}
+    | float_number {n_params.push(new ArrayList<Object>());n_params.peek().add($1);}
     ;
 
 //Procedimientos con N parámetros que devuelven un valor numérico
 int_proc_n
-    : DIFERENCIA int_params_n
-    | PRODUCTO   int_params_n
-    | SUMA       int_params_n
+    : DIFERENCIA int_params_n {$$=(Integer)proc_diferencia_int();n_params.pop();}
+    | PRODUCTO   int_params_n {$$=(Integer)proc_producto_int();n_params.pop();}
+    | SUMA       int_params_n {$$=(Integer)proc_suma_int();n_params.pop();}
     ;
 
 float_proc_n
-    : DIFERENCIA float_params_n
-    | PRODUCTO   float_params_n
-    | SUMA       float_params_n
+    : DIFERENCIA float_params_n{$$=(Float)proc_diferencia_Float();n_params.pop();}
+    | PRODUCTO   float_params_n{$$=(Float)proc_producto_Float();n_params.pop();}
+    | SUMA       float_params_n{$$=(Float)proc_suma_Float();n_params.pop();}
     ;
 
 //Regla para definir cualquier cantidad de órdenes
@@ -381,7 +383,7 @@ float_proc_p
 void_proc_p
     : INC     '[' IDENTIFIER              ']' {variables.replace($3, (Integer)variables.get($3)+1);}
     | INC     '[' IDENTIFIER int_number   ']' {variables.replace($3, (Integer)variables.get($3)+$4);}
-    | INC     '[' IDENTIFIER float_number ']' {variables.replace($3, (Double)variables.get($3)+$4);}
+    | INC     '[' IDENTIFIER float_number ']' {variables.replace($3, (Float)variables.get($3)+$4);}
     | PONPOS  '[' int_number int_number   ']' {ArrayList<Object> argumentos = new ArrayList<Object>();
                                                                                  argumentos.add($2);
                                                                                  argumentos.add($3);
@@ -410,6 +412,9 @@ void_proc_1p
 	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz, TODO: Guardar una version en texto plano de este array list en un documento
 	private HashMap<String, Object> variables; // Aqui se guardan las variables en tiempo de compilacion
 
+	// Variables para la ejecucion de procedimientos con n params
+	private Stack<ArrayList<Object>> n_params; // Aqui se guardan los parametros de los procedimientos que tienen multiples parametros
+	private String proc; // Procedimiento a ejecutar
 
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
@@ -425,6 +430,7 @@ void_proc_1p
     public Parser(String ruta) {
 	    acciones = new ArrayList<jsonAction>();
 	    variables = new HashMap<String, Object>();
+	    n_params = new Stack<ArrayList<Object>>();
 
 	    // Inicializacion de variable predefinidas
 	    variables.put("rumbo",0.0);
@@ -440,6 +446,60 @@ void_proc_1p
         }
     }
 
+    /**
+    * Metodo que representa el proceso de suma con n parametros
+    * @return La suma de los n parametros.
+    */
+    private Float proc_suma_Float(){
+        if(n_params.peek().size()==0){
+            return new Float(0.0);
+        }else{
+            return (Float)n_params.peek().remove(n_params.peek().size()-1) + proc_suma_Float();
+        }
+    }
+    private Integer proc_suma_int(){
+            if(n_params.peek().size()==0){
+                return 0;
+            }else{
+                return (Integer)n_params.peek().remove(n_params.peek().size()-1) + proc_suma_int();
+            }
+        }
+    /**
+        * Metodo que representa el proceso de producto con n parametros
+        * @return La suma de los n parametros.
+        */
+        private Float proc_diferencia_Float(){
+            Float resultado = (Float)n_params.peek().get(n_params.peek().size()-1);
+            for(int i=n_params.peek().size()-2;i>=0;i--){
+                resultado -= (Float)n_params.peek().get(i);
+            }
+            return resultado;
+        }
+        private Integer proc_diferencia_int(){
+                    Integer resultado = (Integer)n_params.peek().get(n_params.peek().size()-1);
+                    for(int i=n_params.peek().size()-2;i>=0;i--){
+                        resultado -= (Integer)n_params.peek().get(i);
+                    }
+                    return resultado;
+                }
+        /**
+        * Metodo que representa el proceso de producto con n parametros
+        * @return La suma de los n parametros.
+        */
+        private Float proc_producto_Float(){
+            if(n_params.peek().size()==0){
+                return new Float(1.0);
+            }else{
+                return (Float)n_params.peek().remove(n_params.peek().size()-1) * proc_producto_Float();
+            }
+        }
+        private Integer proc_producto_int(){
+            if(n_params.peek().size()==0){
+                return 1;
+            }else{
+                return (Integer)n_params.peek().remove(n_params.peek().size()-1) * proc_producto_int();
+            }
+        }
     /**
      * Función para mostrar un mensaje del compilador en la interfaz.
      */

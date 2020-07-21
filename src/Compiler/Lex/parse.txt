@@ -1,3 +1,1 @@
-ot;
-ot;
-at;
+var myvar = 1.1;

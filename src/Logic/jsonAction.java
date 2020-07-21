@@ -19,7 +19,6 @@ public class jsonAction {
 
     public jsonAction(){}; // Dummy constructor necesario para jackson
 
-
     public jsonAction(String accion, int repeticiones, ArrayList<Object> argumentos) {
         this.accion = accion;
         this.repeticiones = repeticiones;
