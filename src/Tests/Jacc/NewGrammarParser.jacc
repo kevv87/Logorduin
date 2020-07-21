@@ -1,0 +1,397 @@
+%package Tests.Jacc
+%class Parser
+%interface ParserTokens
+
+%semantic Object
+%get lexer.getCurrentToken()
+%next lexer.getNextToken()
+
+%{
+import Compiler.Lex.Lexer;
+import java.io.*;
+import Logic.MessageType;
+import Logic.jsonAction;
+import java.util.ArrayList;
+import java.util.Random;
+%}
+
+//Operadores y otros.
+%token '+' '-' '*' '/' '(' ')' '[' ']' '<' '>' ';' '='
+%token <Integer> INTEGER
+%token <String> IDENTIFIER VAR INIC
+%token <Float> FLOAT
+
+//Colores permitidos
+%token <String> BLANCO AZUL MARRON CIAN GRIS AMARILLO NEGRO ROJO VERDE
+
+//Procedimientos sin parámetros.
+%token <String> OCULTATORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
+
+//Procedimientos con un parámetro.
+%token <String> AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERDA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
+
+//Procedimientos con 2 parámetros.
+%token <String> PONXY IGUALES Y O MAYORQUE MENORQUE POTENCIA DIVISION RESTO
+
+//Procedimientos con N parámetros.
+%token <String> DIFERENCIA PRODUCTO SUMA
+
+//Procedimientos con paréntesis []
+%token <String> INC PONPOS EJECUTA ELEGIR CUENTA ULTIMO UL PRIMERO
+
+//Procedimientos con un parámetro y paréntesis []
+%token <String> REPITE SI ELEMENTO
+
+%left '+' '-'
+%left '*' '/'
+
+%type <Integer> int_number int_arithmetic_expr int_proc1 int_proc2 int_proc_p int_proc_1p int_proc_n
+%type <Float> float_number float_arithmetic_expr float_proc float_proc1 float_proc2 float_proc_p float_proc_1p float_proc_n
+%type <Boolean> logic_expr bool_proc2
+%type <String> color
+
+%%
+
+//Símbolo inicial
+prog
+    : expression ';' prog ';'
+    | expression
+    ;
+
+//Definición de expresión
+expression
+    : declaration_expr
+    | redeclaration_expr
+    | logic_expr
+    | int_arithmetic_expr
+    | float_arithmetic_expr
+    | int_proc1
+    | int_proc2
+    | int_proc_p
+    | int_proc_1p
+    | int_proc_n
+    | float_proc
+    | float_proc1
+    | float_proc2
+    | float_proc_p
+    | float_proc_1p
+    | float_proc_n
+    | bool_proc2
+    | void_proc
+    | void_proc1
+    | void_proc2
+    | void_proc_p
+    | void_proc_1p
+    ;
+
+//Lo que se evalúa a un número
+int_number
+    : INTEGER
+    | IDENTIFIER          { /* Obtener el valor de la variable */ }
+    | int_arithmetic_expr
+    | int_proc1
+    | int_proc2
+    | int_proc_p
+    | int_proc_1p
+    | int_proc_n
+    ;
+
+float_number
+    : FLOAT
+    | IDENTIFIER            { /* Obtener el valor de la variable */ }
+    | float_arithmetic_expr
+    | float_proc
+    | float_proc1
+    | float_proc2
+    | float_proc_p
+    | float_proc_1p
+    | float_proc_n
+    ;
+
+//Expresión para redeclarar una variable
+redeclaration_expr
+    : INIC IDENTIFIER '=' int_number   { /* Modificar el valor de la variable, verificando el tipo de dato */ }
+    | INIC IDENTIFIER '=' float_number { /* Modificar el valor de la variable, verificando el tipo de dato */ }
+    ;
+
+//Expresiones para declarar una variable
+declaration_expr
+    : VAR IDENTIFIER                  { /* Almacenar identificador */ }
+    | VAR IDENTIFIER '=' int_number   { /* Almacenar identificador con valor int dado, verificando que no exista */ }
+    | VAR IDENTIFIER '=' float_number { /* Almacenar identificador con valor float dado verificando que no exista */ }
+    ;
+
+//Expresiones con valor booleano
+logic_expr
+    : int_number   '<' int_number    { $$ = $1 < $3; }
+    | float_number '<' int_number    { $$ = $1 < $3; }
+    | int_number   '<' float_number  { $$ = $1 < $3; }
+    | float_number '<' float_number  { $$ = $1 < $3; }
+    | int_number   '>' int_number    { $$ = $1 > $3; }
+    | float_number '>' int_number    { $$ = $1 > $3; }
+    | int_number   '>' float_number  { $$ = $1 > $3; }
+    | float_number '>' float_number  { $$ = $1 > $3; }
+    | bool_proc2
+    ;
+
+//Expresiones aritméticas con valor numérico
+int_arithmetic_expr
+    : int_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
+    | int_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
+    | int_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
+    | '(' int_arithmetic_expr ')' { $$ = $2; }
+    ;
+
+float_arithmetic_expr
+    : float_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
+    | int_number   '+' float_number { $$ = $1 + $3; System.out.println($$); }
+    | float_number '+' float_number { $$ = $1 + $3; System.out.println($$); }
+    | float_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
+    | int_number   '-' float_number { $$ = $1 - $3; System.out.println($$); }
+    | float_number '-' float_number { $$ = $1 - $3; System.out.println($$); }
+    | float_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
+    | int_number   '*' float_number { $$ = $1 * $3; System.out.println($$); }
+    | float_number '*' float_number { $$ = $1 * $3; System.out.println($$); }
+    | int_number   '/' int_number   { $$ = $1 / $3; System.out.println($$); }
+    | float_number '/' int_number   { $$ = $1 / $3; System.out.println($$); }
+    | int_number   '/' float_number { $$ = $1 / $3; System.out.println($$); }
+    | float_number '/' float_number { $$ = $1 / $3; System.out.println($$); }
+    | '(' float_arithmetic_expr ')' { $$ = $2; }
+    ;
+
+//Colores permitidos
+color
+    : BLANCO
+    | AZUL
+    | MARRON
+    | CIAN
+    | GRIS
+    | AMARILLO
+    | NEGRO
+    | ROJO
+    | VERDE
+    ;
+
+//Procedimientos sin parámetros que devuelven un valor numérico
+float_proc
+    : RUMBO
+    ;
+
+//Procedimientos sin parámetros ni valor de retorno
+// TODO: Json de acciones
+void_proc
+    : OCULTATORTUGA
+    | OT
+    | APARECETORTUGA
+    | AT
+    | BAJALAPIZ
+    | BL
+    | SUBELAPIZ
+    | SB
+    | CENTRO
+    | BORRAPANTALLA
+    ;
+
+//Procedimientos con un parámetro que devuelven un valor numérico
+int_proc1
+    : REDONDEA float_number { $$ = Math.rint($2); }
+    | AZAR int_number       { Random ran = new Random(); $$ = ran.nextInt($2); }
+    | MENOS int_number      { $$ = $2 * -1; }
+    ;
+
+float_proc1
+    : COS int_number            { $$ = Math.cos($2); }
+    | COS float_number          { $$ = Math.cos($2); }
+    | MENOS float_number        { $$ = $2 * -1; }
+    | RAIZCUADRADA int_number   { $$ = Math.sqrt($2); }
+    | RAIZCUADRADA float_number { $$ = Math.sqrt($2); }
+    | RC int_number             { $$ = Math.sqrt($2); }
+    | RC float_number           { $$ = Math.sqrt($2); }
+    | SENO int_number           { $$ = Math.sin($2); }
+    | SENO float_number         { $$ = Math.sin($2); }
+    | SEN int_number            { $$ = Math.sin($2); }
+    | SEN float_number          { $$ = Math.sin($2); }
+    ;
+
+//Procedimientos con un parámetro que no tienen valor de retorno
+void_proc1
+    : AVANZA        int_number
+    | AV            int_number
+    | RETROCEDE     int_number
+    | RE            int_number
+    | GIRADERECHA   int_number
+    | GIRADERECHA   float_number
+    | GD            int_number
+    | GD            float_number
+    | GIRAIZQUIERDA int_number
+    | GIRAIZQUIERDA float_number
+    | GI            int_number
+    | GI            float_number
+    | PONRUMBO      int_number
+    | PONRUMBO      float_number
+    | PONX          int_number
+    | PONY          int_number
+    | PONCOLORLAPIZ color
+    | PONCL         color
+    | ESPERA        int_number
+    | ESPERA        float_number
+    ;
+
+//Procedimientos con 2 parámetros que devuelven un valor numérico
+int_proc2
+    : POTENCIA int_number int_number { $$ = Math.pow($2, $3); }
+    | RESTO    int_number int_number { $$ = $2 % $3; }
+    ;
+
+float_proc2
+    : POTENCIA float_number int_number   { $$ = Math.pow($2, $3); }
+    | POTENCIA int_number   float_number { $$ = Math.pow($2, $3); }
+    | POTENCIA float_number float_number { $$ = Math.pow($2, $3); }
+    | DIVISION int_number   int_number   { $$ = $2 / $3; }
+    | DIVISION float_number int_number   { $$ = $2 / $3; }
+    | DIVISION int_number   float_number { $$ = $2 / $3; }
+    | DIVISION float_number float_number { $$ = $2 / $3; }
+    ;
+
+//Procedimientos con 2 parámetros que devuelven un valor booleano
+bool_proc2
+    : IGUALES  int_number   int_number   { $$ = $2.equals($3); }
+    | IGUALES  float_number int_number   { $$ = $2.equals($3); }
+    | IGUALES  int_number   float_number { $$ = $2.equals($3); }
+    | IGUALES  float_number float_number { $$ = $2.equals($3); }
+    | Y        logic_expr   logic_expr   { $$ = $2 && $3; }
+    | O        logic_expr   logic_expr   { $$ = $2 || $3; }
+    | MAYORQUE int_number   int_number   { $$ = $2 > $3; }
+    | MAYORQUE float_number int_number   { $$ = $2 > $3; }
+    | MAYORQUE int_number   float_number { $$ = $2 > $3; }
+    | MAYORQUE float_number float_number { $$ = $2 > $3; }
+    | MENORQUE int_number   int_number   { $$ = $2 < $3; }
+    | MENORQUE float_number int_number   { $$ = $2 < $3; }
+    | MENORQUE int_number   float_number { $$ = $2 < $3; }
+    | MENORQUE float_number float_number { $$ = $2 < $3; }
+    ;
+
+//Procedimientos con 2 parámetros que no tienen valor de retorno
+void_proc2
+    : PONXY int_number int_number
+    ;
+
+//Regla para N cantidad de parámetros
+int_params_n
+    : int_number int_params_n
+    | int_number
+    ;
+
+float_params_n
+    : float_number float_params_n
+    | float_number
+    ;
+
+//Procedimientos con N parámetros que devuelven un valor numérico
+// TODO
+int_proc_n
+    : DIFERENCIA int_params_n
+    | PRODUCTO   int_params_n
+    | SUMA       int_params_n
+    ;
+
+float_proc_n
+    : DIFERENCIA float_params_n
+    | PRODUCTO   float_params_n
+    | SUMA       float_params_n
+    ;
+
+//Regla para definir cualquier cantidad de órdenes
+expr_procs_n
+    : expression expr_procs_n
+    | expression
+    ;
+
+//Procedimientos con paréntesis que devuelven un valor numérico
+int_proc_p
+    : ELEGIR  '[' int_params_n   ']'
+    | CUENTA  '[' int_params_n   ']'
+    | CUENTA  '[' float_params_n ']'
+    | ULTIMO  '[' int_params_n   ']'
+    | UL      '[' int_params_n   ']'
+    | PRIMERO '[' int_params_n   ']'
+    ;
+
+float_proc_p
+    : ELEGIR  '[' float_params_n ']'
+    | ULTIMO  '[' float_params_n ']'
+    | UL      '[' float_params_n ']'
+    | PRIMERO '[' float_params_n ']'
+    ;
+
+
+//Procedimientos con paréntesis que no tienen valor de retorno
+void_proc_p
+    : INC     '[' IDENTIFIER              ']'
+    | INC     '[' IDENTIFIER int_number   ']'
+    | INC     '[' IDENTIFIER float_number ']'
+    | PONPOS  '[' int_number int_number   ']'
+    | EJECUTA '[' expr_procs_n            ']'
+    ;
+
+int_proc_1p
+    : ELEMENTO int_number '[' int_params_n ']'
+    ;
+
+float_proc_1p
+    : ELEMENTO int_number '[' float_params_n ']'
+    ;
+
+void_proc_1p
+    : REPITE int_number '[' expr_procs_n ']'
+    | SI logic_expr     '[' expr_procs_n ']'
+    ;
+
+%%
+
+    public Lexer lexer;
+	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz
+// TODO: Guardar una version en texto plano de este array list en un documento
+
+
+    public void yyerror(String msg) {
+        int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
+        if (lastToken == 0) {
+            parseFinished();
+            return;
+        }
+
+        System.out.println(msg);
+        System.out.println("En " + lexer.getSemantic() + ", línea " + (lexer.getCurrentLine() + 1) + ". columna " + (lexer.getCurrentColumn() + 1));
+    }
+
+    public Parser(String ruta) {
+	    acciones = new ArrayList<jsonAction>();
+        try {
+            Reader reader = new BufferedReader(new FileReader(ruta));
+            lexer = new Lexer(reader);
+            lexer.getNextToken();
+        } catch (IOException ex) {
+            yyerror("Could not open file for parsing.");
+        }
+    }
+
+    /**
+     * Función para mostrar un mensaje del compilador en la interfaz.
+     */
+    public void showMessage(String msg, MessageType type) {
+        //TODO: mostrar mensaje del tipo correspondiente en la interfaz.
+    }
+
+    public void parseFinished() {
+        System.out.println("Compilación finalizada correctamente.");
+        //TODO: notificar interfaz que finalizó la compilación.
+    }
+
+    public static void main(String[] args) {
+        //TODO: recibir ruta desde args.
+        String path = "/src/Compiler/Lex/parse.txt";
+        String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+        Parser parser = new Parser(ruta);
+        parser.parse();
+    }
