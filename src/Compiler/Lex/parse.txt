@@ -1,5 +1,5 @@
-var myvar = 10;
-inic myvar = 20 + 5;
+//var myvar = 10;
+var myvar = 3<2;
 avanza myvar;
 giraderecha 90;
 var paola = 100000;
