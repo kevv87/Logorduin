@@ -56,12 +56,12 @@ import java.util.Stack;
 
 //Símbolo inicial
 prog
-    : expression ';' prog ';'{System.out.println("ha");}
-    | expression  {/*if($1 instanceof ArrayList){
+    : expression ';' prog {System.out.println("ha");}
+    | expression ';' {if($1 instanceof ArrayList){
                        acciones.addAll((ArrayList<jsonAction>)$1);
                    }else if($1 instanceof jsonAction){
                        acciones.add((jsonAction)$1);
-                   }*/System.out.println("hi");
+                   }
                   }
     ;
 
