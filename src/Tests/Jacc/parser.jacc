@@ -13,7 +13,7 @@ import Logic.MessageType;
 import Logic.jsonAction;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.HasMap;
+import java.util.HashMap;
 %}
 
 //Operadores y otros.
@@ -117,9 +117,9 @@ redeclaration_expr
 
 //Expresiones para declarar una variable
 declaration_expr
-    : VAR IDENTIFIER                  {(variables.get($2)==null)?variables.put($2,null);}
-    | VAR IDENTIFIER '=' int_number   { (variables.get($2)==null)?variables.put($2,$4);}
-    | VAR IDENTIFIER '=' float_number { (variables.get($2)==null)?variables.put($2,$4);}
+    : VAR IDENTIFIER                  {if(variables.get($2)==null){variables.put($2,null);}}
+    | VAR IDENTIFIER '=' int_number   {if(variables.get($2)==null){variables.put($2,$4);}}
+    | VAR IDENTIFIER '=' float_number {if(variables.get($2)==null){variables.put($2,$4);}}
     ;
 
 //Expresiones con valor booleano

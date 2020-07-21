@@ -1,9 +1,3 @@
-//var myvar = 10;
-var myvar = 3<2;
-avanza myvar;
-giraderecha 90;
-var paola = 100000;
-avanza 15;
-// ESTO ES UN COMENTARIO $
-//$
-iguales? 1 2;
+var myvar;
+var myvar2 = 10;
+var myvar3 = 10.1;
