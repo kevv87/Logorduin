@@ -13,9 +13,11 @@ import java.util.ArrayList;
  */
 public class jsonAction {
 
-    private String accion; // Accion a ejecutar
+    private String accion; // Accion a ejecutar, de ser el nombre de un procedimiento, ejecutarlo en la interfaz, de decir "conjunto" se refiere a que es son varios procedimientos, estos vienen en el ArrayList complejo
     private int repeticiones;  // Numero de veces a ejecutar dicha accion
     private ArrayList<Object> argumentos; // Argumentos para la accion a ejecutar
+
+    private ArrayList<jsonAction> complejo; // Complejo de acciones a ejecutar.
 
     public jsonAction(){}; // Dummy constructor necesario para jackson
 
@@ -23,9 +25,18 @@ public class jsonAction {
         this.accion = accion;
         this.repeticiones = repeticiones;
         this.argumentos = argumentos;
+        this.complejo = null;
     }
 
     // Getters & Setters
+    public ArrayList<jsonAction> getComplejo() {
+        return complejo;
+    }
+
+    public void setComplejo(ArrayList<jsonAction> complejo) {
+        this.complejo = complejo;
+    }
+
     public String getAccion() {
         return accion;
     }

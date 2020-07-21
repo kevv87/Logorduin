@@ -57,7 +57,7 @@ import java.util.Stack;
 //Símbolo inicial
 prog
     : expression ';' prog ';'
-    | expression
+    | expression  //TODO: Quaseacciones pendientes se vuelven acciones
     ;
 
 //Definición de expresión
@@ -116,6 +116,7 @@ redeclaration_expr
     | INIC IDENTIFIER '=' float_number { variables.replace($2,$4); }
     ;
 
+// TODO: Las variables tienen scope global
 //Expresiones para declarar una variable
 declaration_expr
     : VAR IDENTIFIER                  {if(variables.get($2)==null){variables.put($2,null);}}
@@ -400,15 +401,18 @@ float_proc_1p
     ;
 
 // Procedimientos con parentesis y un parametro que no devuelven un valor.
+// TODO: No agregar las acciones json de una vez al json, agregarlas aparte y luego hacer la verificacion de si se tienen que agregar o no.
+// TODO: Esto puede ayudar de una vez a guardar en el Hashmap los procedimientos especificados por el usuario.
 void_proc_1p
-    : REPITE int_number '[' expr_procs_n ']'
-    | SI logic_expr     '[' expr_procs_n ']'
+    : REPITE int_number '[' expr_procs_n ']'  //TODO: Quaseaccion se vuelve accion con n repeticiones
+    | SI logic_expr     '[' expr_procs_n ']'  //TODO: Quaseaccion se vuelve accion SI cumple la logica
     ;
 
 %%
 
     public Lexer lexer;
-	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz, TODO: Guardar una version en texto plano de este array list en un documento
+	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones definitivas a ejecutar en la interfaz, TODO: Guardar una version en texto plano de este array list en un documento
+	private Stack<ArrayList<jsonAction>> quaseAcciones; // Aqui se guardan las acciones que el compilador tiene por definir si se van a agregar al codigo de maquina
 	private HashMap<String, Object> variables; // Aqui se guardan las variables en tiempo de compilacion
 
 	// Variables para la ejecucion de procedimientos con n params
@@ -427,11 +431,12 @@ void_proc_1p
     }
 
     public Parser(String ruta) {
+        quaseAcciones = new Stack<ArrayList<jsonAction>>();
 	    acciones = new ArrayList<jsonAction>();
 	    variables = new HashMap<String, Object>();
 	    n_params = new Stack<ArrayList<Object>>();
 
-	    // Inicializacion de variable predefinidas
+	    // Inicializacion de variables predefinidas
 	    variables.put("rumbo",new Float(0.0));
 	    variables.put("colorlapiz","negro");
 	    variables.put("x",300.0);
