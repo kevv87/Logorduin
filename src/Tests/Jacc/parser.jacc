@@ -162,25 +162,24 @@ float_arithmetic_expr
 
 //Colores permitidos
 color
-// TODO: Esto tal vez haya que cambiarlo al string de cada color.
-    : BLANCO
-    | AZUL
-    | MARRON
-    | CIAN
-    | GRIS
-    | AMARILLO
-    | NEGRO
-    | ROJO
-    | VERDE
+    : BLANCO {$$="blanco";}
+    | AZUL{$$="azul";}
+    | MARRON{$$="marron";}
+    | CIAN{$$="cian";}
+    | GRIS{$$="gris";}
+    | AMARILLO{$$="amarillo";}
+    | NEGRO{$$="negro";}
+    | ROJO{$$="rojo";}
+    | VERDE{$$="verde";}
     ;
 
 //Procedimientos sin parámetros que devuelven un valor numérico
+// TODO: Esta es una informacion que tiene la interfaz, pero que se podria usar para computar algo del lado del compilador.
 float_proc
     : RUMBO
     ;
 
 //Procedimientos sin parámetros ni valor de retorno
-// TODO: Json de acciones
 void_proc
     : OCULTATORTUGA {acciones.add(new jsonAction("ocultatortuga",1,null));}
     | OT{acciones.add(new jsonAction("ocultatortuga",1,null));}
@@ -255,22 +254,28 @@ void_proc1
                                   acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
     | PONRUMBO      int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));}
+                                acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));
+                                variables.replace("rumbo",(double)$2);}
     | PONRUMBO      float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));}
+                                  acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));
+                                  variables.replace("rumbo",$2);}
     | PONX          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));}
+                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));
+                                variables.replace("x",(double)$2);}
     | PONY          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));}
+                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));
+                                variables.replace("y",$2);}
     | PONCOLORLAPIZ color {ArrayList<Object> argumentos = new ArrayList<Object>();
                            argumentos.add($2);
-                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));}
+                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));
+                           variables.replace("colorlapiz",$2);}
     | PONCL         color {ArrayList<Object> argumentos = new ArrayList<Object>();
                            argumentos.add($2);
-                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));}
+                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));
+                           variables.replace("colorlapiz",$2);}
     | ESPERA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
                                 acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
@@ -318,10 +323,13 @@ void_proc2
     : PONXY int_number int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                    argumentos.add($2);
                                    argumentos.add($3);
-                                   acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
+                                   acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));
+                                   variables.replace("x",$2);
+                                   variables.replace("y",$3);}
     ;
 
 //Regla para N cantidad de parámetros
+// TODO: Ir guardando los parametros en una lista y despues sacar todos los parametros de la lista para llamar al procedimiento y limpiar la lista.
 int_params_n
     : int_number int_params_n
     | int_number
@@ -333,7 +341,6 @@ float_params_n
     ;
 
 //Procedimientos con N parámetros que devuelven un valor numérico
-// TODO
 int_proc_n
     : DIFERENCIA int_params_n
     | PRODUCTO   int_params_n
@@ -354,7 +361,7 @@ expr_procs_n
 
 //Procedimientos con paréntesis que devuelven un valor numérico
 int_proc_p
-    : ELEGIR  '[' int_params_n   ']'
+    : ELEGIR  '[' int_params_n   ']'  {$$ = $3;}
     | CUENTA  '[' int_params_n   ']'
     | CUENTA  '[' float_params_n ']'
     | ULTIMO  '[' int_params_n   ']'
@@ -372,12 +379,15 @@ float_proc_p
 
 //Procedimientos con paréntesis que no tienen valor de retorno
 void_proc_p
-    : INC     '[' IDENTIFIER              ']'
-    | INC     '[' IDENTIFIER int_number   ']'
-    | INC     '[' IDENTIFIER float_number ']'
-    | PONPOS  '[' int_number int_number   ']'
+    : INC     '[' IDENTIFIER              ']' {variables.replace($3, variables.get($3)+1);}
+    | INC     '[' IDENTIFIER int_number   ']' {variables.replace($3, variables.get($3)+$4);}
+    | INC     '[' IDENTIFIER float_number ']' {variables.replace($3, variables.get($3)+$4);}
+    | PONPOS  '[' int_number int_number   ']' {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                                                                 argumentos.add($2);
+                                                                                 argumentos.add($3);
+                                                                                 acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
     | EJECUTA '[' expr_procs_n            ']'
-    ;
+    ;)
 
 int_proc_1p
     : ELEMENTO int_number '[' int_params_n ']'
@@ -413,6 +423,12 @@ void_proc_1p
     public Parser(String ruta) {
 	    acciones = new ArrayList<jsonAction>();
 	    variables = new HashMap<String, Object>();
+
+	    // Inicializacion de variable predefinidas
+	    variables.put("rumbo",0.0);
+	    variables.put("colorlapiz","negro");
+	    variables.put("x",300.0);
+	    variables.put("y",300.0);
         try {
             Reader reader = new BufferedReader(new FileReader(ruta));
             lexer = new Lexer(reader);
