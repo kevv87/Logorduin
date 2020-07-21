@@ -315,7 +315,10 @@ bool_proc2
 
 //Procedimientos con 2 parámetros que no tienen valor de retorno
 void_proc2
-    : PONXY int_number int_number
+    : PONXY int_number int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                   argumentos.add($2);
+                                   argumentos.add($3);
+                                   acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
     ;
 
 //Regla para N cantidad de parámetros
