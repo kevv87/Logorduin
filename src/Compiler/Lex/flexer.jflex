@@ -13,18 +13,14 @@ import java.io.*;
 %implements ParserTokens
 
 %{
-    public String lexeme;
-    public int line;
-    public int column;
-    public int intValue;
-    public float floatValue;
+    public Object lexeme; //Para almacenar tokens de tipo String, Boolean, Integer y Float
     public int currentToken; //Para obtener el token actual sin avanzar el parseo
 
     public int getCurrentToken() {
         return this.currentToken;
     }
 
-    public String getSemantic() {
+    public Object getSemantic() {
         return this.lexeme;
     }
 
@@ -43,27 +39,25 @@ import java.io.*;
     }
 
     public int getCurrentLine() {
-        return this.line;
+        return yyline;
     }
 
     public int getCurrentColumn() {
-        return this.column;
+        return yycolumn;
+    }
+
+    public int getLine() {
+        return yyline;
+    }
+
+    public int getColumn() {
+        return yycolumn;
     }
 
     public int prepare(int token) {
         lexeme = yytext();
-        line = yyline;
-        column = yycolumn;
         currentToken = token;
         return token;
-    }
-
-    public int getIntValue() {
-        return this.intValue;
-    }
-
-    public float getFloatValue() {
-        return this.floatValue;
     }
 
 %}
@@ -86,19 +80,17 @@ TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" 
 
 
 {Digit} { 
-    lexeme = yytext();
-    line = yyline;
-    column = yycolumn;
-    intValue = Integer.parseInt(lexeme);
+    String value = yytext();
+    Integer intValue = Integer.parseInt(value);
+    lexeme = intValue;
     currentToken = INTEGER;
     return currentToken; 
 }
 
 {Float} {
-    lexeme = yytext();
-    line = yyline;
-    column = yycolumn;
-    floatValue = Float.parseFloat(lexeme);
+    String value = yytext();
+    Float floatValue = Float.parseFloat(value);
+    lexeme = floatValue;
     currentToken = FLOAT;
     return currentToken;
 }
@@ -109,8 +101,6 @@ TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" 
 {TerminalChars} {
     String token = yytext();
     lexeme = token;
-    line = yyline;
-    column = yycolumn;
     char tokenValue = token.charAt(0);
     currentToken = tokenValue;
     return currentToken;
@@ -180,14 +170,10 @@ elemento {return prepare(ELEMENTO); }
 
 {IdeError} {
     lexeme = yytext();
-    line = yyline;
-    column = yycolumn;
     return error;} //TODO CAMBIAR POR ERROR DE IDENTIFICADOR MAL DEFINIDO
 
 [^] {// token desconocido
     lexeme = yytext();
-    line = yyline;
-    column = yycolumn;
     return error;} //TODO CAMBIAR POR ERROR DE SIMBOLO NO DEFINIDO EN LA GRAMATICA
 
 /* Error Fallback */
