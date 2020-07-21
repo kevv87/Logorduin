@@ -1,1 +1,1 @@
-var myvar = elemento 1 [1.1 2.2 3.3];
+var myvar = rumbo;

@@ -175,7 +175,7 @@ color
     ;
 //Procedimientos sin parámetros que devuelven un valor numérico
 float_proc
-    : RUMBO
+    : RUMBO {$$=variables.get("rumbo");}
     ;
 
 //Procedimientos sin parámetros ni valor de retorno
@@ -432,7 +432,7 @@ void_proc_1p
 	    n_params = new Stack<ArrayList<Object>>();
 
 	    // Inicializacion de variable predefinidas
-	    variables.put("rumbo",0.0);
+	    variables.put("rumbo",new Float(0.0));
 	    variables.put("colorlapiz","negro");
 	    variables.put("x",300.0);
 	    variables.put("y",300.0);
