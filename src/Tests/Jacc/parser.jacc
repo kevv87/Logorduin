@@ -379,13 +379,15 @@ float_proc_p
 
 //Procedimientos con paréntesis que no tienen valor de retorno
 void_proc_p
-    : INC     '[' IDENTIFIER              ']' {variables.replace($3, variables.get($3)+1);}
-    | INC     '[' IDENTIFIER int_number   ']' {variables.replace($3, variables.get($3)+$4);}
-    | INC     '[' IDENTIFIER float_number ']' {variables.replace($3, variables.get($3)+$4);}
+    : INC     '[' IDENTIFIER              ']' {variables.replace($3, (Integer)variables.get($3)+1);}
+    | INC     '[' IDENTIFIER int_number   ']' {variables.replace($3, (Integer)variables.get($3)+$4);}
+    | INC     '[' IDENTIFIER float_number ']' {variables.replace($3, (Double)variables.get($3)+$4);}
     | PONPOS  '[' int_number int_number   ']' {ArrayList<Object> argumentos = new ArrayList<Object>();
                                                                                  argumentos.add($2);
                                                                                  argumentos.add($3);
-                                                                                 acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
+                                                                                 acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));
+                                                                                 variables.replace("x",$3);
+                                                                                 variables.replace("y",$4);}
     | EJECUTA '[' expr_procs_n            ']'
     ;)
 
