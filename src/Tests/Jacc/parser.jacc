@@ -124,7 +124,7 @@ declaration_expr
 
 //Expresiones con valor booleano
 logic_expr
-    : int_number   '<' int_number    { $$ = $1 < $3; System.out.println($$);}
+    : int_number   '<' int_number    { $$ = $1 < $3; }
     | float_number '<' int_number    { $$ = $1 < $3; }
     | int_number   '<' float_number  { $$ = $1 < $3; }
     | float_number '<' float_number  { $$ = $1 < $3; }
@@ -132,31 +132,31 @@ logic_expr
     | float_number '>' int_number    { $$ = $1 > $3; }
     | int_number   '>' float_number  { $$ = $1 > $3; }
     | float_number '>' float_number  { $$ = $1 > $3; }
-    | bool_proc2
+    | bool_proc2 {$$ = $1;}
     ;
 
 //Expresiones aritméticas con valor numérico
 int_arithmetic_expr
-    : int_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
-    | int_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
-    | int_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
+    : int_number '+' int_number   { $$ = $1 + $3; }
+    | int_number '-' int_number   { $$ = $1 - $3; }
+    | int_number '*' int_number   { $$ = $1 * $3; }
     | '(' int_arithmetic_expr ')' { $$ = $2; }
     ;
 
 float_arithmetic_expr
-    : float_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
-    | int_number   '+' float_number { $$ = $1 + $3; System.out.println($$); }
-    | float_number '+' float_number { $$ = $1 + $3; System.out.println($$); }
-    | float_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
-    | int_number   '-' float_number { $$ = $1 - $3; System.out.println($$); }
-    | float_number '-' float_number { $$ = $1 - $3; System.out.println($$); }
-    | float_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
-    | int_number   '*' float_number { $$ = $1 * $3; System.out.println($$); }
-    | float_number '*' float_number { $$ = $1 * $3; System.out.println($$); }
-    | int_number   '/' int_number   { $$ = $1 / $3; System.out.println($$); }
-    | float_number '/' int_number   { $$ = $1 / $3; System.out.println($$); }
-    | int_number   '/' float_number { $$ = $1 / $3; System.out.println($$); }
-    | float_number '/' float_number { $$ = $1 / $3; System.out.println($$); }
+    : float_number '+' int_number   { $$ = $1 + $3; }
+    | int_number   '+' float_number { $$ = $1 + $3; }
+    | float_number '+' float_number { $$ = $1 + $3; }
+    | float_number '-' int_number   { $$ = $1 - $3; }
+    | int_number   '-' float_number { $$ = $1 - $3; }
+    | float_number '-' float_number { $$ = $1 - $3; }
+    | float_number '*' int_number   { $$ = $1 * $3; }
+    | int_number   '*' float_number { $$ = $1 * $3; }
+    | float_number '*' float_number { $$ = $1 * $3; }
+    | int_number   '/' int_number   { $$ = $1 / $3; }
+    | float_number '/' int_number   { $$ = $1 / $3; }
+    | int_number   '/' float_number { $$ = $1 / $3; }
+    | float_number '/' float_number { $$ = $1 / $3; }
     | '(' float_arithmetic_expr ')' { $$ = $2; }
     ;
 
