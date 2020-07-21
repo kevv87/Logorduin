@@ -1,3 +1,3 @@
-var myvar;
-var myvar2 = 10;
-var myvar3 = 10.1;
+ot;
+ot;
+at;

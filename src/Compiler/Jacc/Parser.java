@@ -1,4 +1,4 @@
-// Output created by jacc on Mon Jul 20 19:19:33 CST 2020
+// Output created by jacc on Mon Jul 20 19:30:19 CST 2020
 
 package Compiler.Jacc;
 
@@ -15251,52 +15251,62 @@ class Parser implements ParserTokens {
     }
 
     private int yyr84() { // void_proc : OCULTATORTUGA
-        yysp -= 1;
+        {acciones.add(new jsonAction("ocultatortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr85() { // void_proc : OT
-        yysp -= 1;
+        {acciones.add(new jsonAction("ocultatortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr86() { // void_proc : APARECETORTUGA
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr87() { // void_proc : AT
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr88() { // void_proc : BAJALAPIZ
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr89() { // void_proc : BL
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr90() { // void_proc : SUBELAPIZ
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr91() { // void_proc : SB
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr92() { // void_proc : CENTRO
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 
     private int yyr93() { // void_proc : BORRAPANTALLA
-        yysp -= 1;
+        {acciones.add(new jsonAction("aparecetortuga",1,null));}
+        yysv[yysp-=1] = yyrv;
         return 22;
     }
 

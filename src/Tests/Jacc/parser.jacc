@@ -162,6 +162,7 @@ float_arithmetic_expr
 
 //Colores permitidos
 color
+// TODO: Esto tal vez haya que cambiarlo al string de cada color.
     : BLANCO
     | AZUL
     | MARRON
@@ -181,16 +182,16 @@ float_proc
 //Procedimientos sin parámetros ni valor de retorno
 // TODO: Json de acciones
 void_proc
-    : OCULTATORTUGA
-    | OT
-    | APARECETORTUGA
-    | AT
-    | BAJALAPIZ
-    | BL
-    | SUBELAPIZ
-    | SB
-    | CENTRO
-    | BORRAPANTALLA
+    : OCULTATORTUGA {acciones.add(new jsonAction("ocultatortuga",1,null));}
+    | OT{acciones.add(new jsonAction("ocultatortuga",1,null));}
+    | APARECETORTUGA{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    | AT{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    | BAJALAPIZ{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    | BL{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    | SUBELAPIZ{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    | SB{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    | CENTRO{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    | BORRAPANTALLA{acciones.add(new jsonAction("aparecetortuga",1,null));}
     ;
 
 //Procedimientos con un parámetro que devuelven un valor numérico

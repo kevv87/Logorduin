@@ -19,6 +19,13 @@ public class jsonAction {
 
     public jsonAction(){}; // Dummy constructor necesario para jackson
 
+
+    public jsonAction(String accion, int repeticiones, String[] argumentos) {
+        this.accion = accion;
+        this.repeticiones = repeticiones;
+        this.argumentos = argumentos;
+    }
+
     // Getters & Setters
     public String getAccion() {
         return accion;
