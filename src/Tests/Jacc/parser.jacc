@@ -173,7 +173,6 @@ color
     | ROJO{$$="rojo";}
     | VERDE{$$="verde";}
     ;
-//TODO: Convertir todos los int a Integer y doubles a Float.
 //Procedimientos sin parámetros que devuelven un valor numérico
 float_proc
     : RUMBO
@@ -329,9 +328,7 @@ void_proc2
     ;
 
 //Regla para N cantidad de parámetros
-// TODO: Ir guardando los parametros en una lista y despues sacar todos los parametros de la lista para llamar al procedimiento y limpiar la lista.
 // Guardar el procedimiento en un string y borrarlo al ejecutar el procedimiento.
-// TODO: Esto no deberia ser una sola lista, deberia ser un stack de listas, donde cada procedimiento va a trabajar con el stack de mas afuera
 int_params_n
     : int_number int_params_n {n_params.peek().add($1);}
     | int_number {n_params.push(new ArrayList<Object>());n_params.peek().add($1);}
@@ -363,19 +360,19 @@ expr_procs_n
 
 //Procedimientos con paréntesis que devuelven un valor numérico
 int_proc_p
-    : ELEGIR  '[' int_params_n   ']'  {$$ = $3;}
-    | CUENTA  '[' int_params_n   ']'
-    | CUENTA  '[' float_params_n ']'
-    | ULTIMO  '[' int_params_n   ']'
-    | UL      '[' int_params_n   ']'
-    | PRIMERO '[' int_params_n   ']'
+    : ELEGIR  '[' int_params_n   ']'  {$$ = elegir_int();n_params.pop();}
+    | CUENTA  '[' int_params_n   ']'{$$ = cuenta();n_params.pop();}
+    | CUENTA  '[' float_params_n ']'{$$ = cuenta();n_params.pop();}
+    | ULTIMO  '[' int_params_n   ']'{$$ = ultimo_int();n_params.pop();}
+    | UL      '[' int_params_n   ']'{$$ = ultimo_int();n_params.pop();}
+    | PRIMERO '[' int_params_n   ']'{$$ = primero_int();n_params.pop();}
     ;
 
 float_proc_p
-    : ELEGIR  '[' float_params_n ']'
-    | ULTIMO  '[' float_params_n ']'
-    | UL      '[' float_params_n ']'
-    | PRIMERO '[' float_params_n ']'
+    : ELEGIR  '[' float_params_n ']'{$$ = elegir_float();n_params.pop();}
+    | ULTIMO  '[' float_params_n ']'{$$ = ultimo_float();n_params.pop();}
+    | UL      '[' float_params_n ']'{$$ = ultimo_float();n_params.pop();}
+    | PRIMERO '[' float_params_n ']'{$$ = primero_float();n_params.pop();}
     ;
 
 
@@ -500,6 +497,51 @@ void_proc_1p
                 return (Integer)n_params.peek().remove(n_params.peek().size()-1) * proc_producto_int();
             }
         }
+
+    /**
+     * Metodo que representa el procedimiento elegir.
+     * @return Un numero al azar entre los numeros en los parametros.
+     */
+    private Integer elegir_int(){
+        return (Integer)n_params.peek().get(new Random().nextInt(n_params.peek().size()));
+    }
+
+    private Float elegir_float(){
+        return (Float)n_params.peek().get(new Random().nextInt(n_params.peek().size()));
+    }
+
+    /**
+    * Metodo que representa el procedimiento cuenta
+    * @return Numero de parametros
+    */
+    private Integer cuenta(){
+        return n_params.peek().size();
+    }
+
+    /**
+    * Metodo que representa el procedimiento ultimo.
+    * @return Retorna el ultimo elemento de los parametros.
+     */
+    private Integer ultimo_int(){
+        return (Integer)n_params.peek().get(0);
+    }
+
+    private Float ultimo_float(){
+        return (Float)n_params.peek().get(0);
+    }
+
+    /**
+    * Metodo que representa el procedimiento primero.
+    * @return El primero de los parametros.
+     */
+    private Integer primero_int(){
+        return (Integer) n_params.peek().get(n_params.peek().size()-1);
+    }
+
+    private Float primero_float(){
+        return (Float) n_params.peek().get(n_params.peek().size()-1);
+    }
+
     /**
      * Función para mostrar un mensaje del compilador en la interfaz.
      */
