@@ -117,9 +117,9 @@ redeclaration_expr
 
 //Expresiones para declarar una variable
 declaration_expr
-    : VAR IDENTIFIER                  { /* Almacenar identificador */ }
-    | VAR IDENTIFIER '=' int_number   { /* Almacenar identificador con valor int dado, verificando que no exista */ }
-    | VAR IDENTIFIER '=' float_number { /* Almacenar identificador con valor float dado verificando que no exista */ }
+    : VAR IDENTIFIER                  {(variables.get($2)==null)?variables.put($2,null);}
+    | VAR IDENTIFIER '=' int_number   { (variables.get($2)==null)?variables.put($2,$4);}
+    | VAR IDENTIFIER '=' float_number { (variables.get($2)==null)?variables.put($2,$4);}
     ;
 
 //Expresiones con valor booleano
