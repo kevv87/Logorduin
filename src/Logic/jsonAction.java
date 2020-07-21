@@ -15,12 +15,12 @@ public class jsonAction {
 
     private String accion; // Accion a ejecutar
     private int repeticiones;  // Numero de veces a ejecutar dicha accion
-    private String[] argumentos; // Argumentos para la accion a ejecutar
+    private ArrayList<Object> argumentos; // Argumentos para la accion a ejecutar
 
     public jsonAction(){}; // Dummy constructor necesario para jackson
 
 
-    public jsonAction(String accion, int repeticiones, String[] argumentos) {
+    public jsonAction(String accion, int repeticiones, ArrayList<Object> argumentos) {
         this.accion = accion;
         this.repeticiones = repeticiones;
         this.argumentos = argumentos;
@@ -43,11 +43,11 @@ public class jsonAction {
         this.repeticiones = repeticiones;
     }
 
-    public String[] getArgumentos() {
+    public ArrayList<Object> getArgumentos() {
         return argumentos;
     }
 
-    public void setArgumentos(String[] argumentos) {
+    public void setArgumentos(ArrayList<Object> argumentos) {
         this.argumentos = argumentos;
     }
 }

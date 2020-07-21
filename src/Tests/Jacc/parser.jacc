@@ -217,26 +217,66 @@ float_proc1
 
 //Procedimientos con un parámetro que no tienen valor de retorno
 void_proc1
-    : AVANZA        int_number
-    | AV            int_number
-    | RETROCEDE     int_number
-    | RE            int_number
-    | GIRADERECHA   int_number
-    | GIRADERECHA   float_number
-    | GD            int_number
-    | GD            float_number
-    | GIRAIZQUIERDA int_number
-    | GIRAIZQUIERDA float_number
-    | GI            int_number
-    | GI            float_number
-    | PONRUMBO      int_number
-    | PONRUMBO      float_number
-    | PONX          int_number
-    | PONY          int_number
-    | PONCOLORLAPIZ color
-    | PONCL         color
-    | ESPERA        int_number
-    | ESPERA        float_number
+    : AVANZA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("avanza",1,(ArrayList<Object>)argumentos));}
+    | AV            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("avanza",1,(ArrayList<Object>)argumentos));}
+    | RETROCEDE     int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("retrocede",1,(ArrayList<Object>)argumentos));}
+    | RE            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("retrocede",1,(ArrayList<Object>)argumentos));}
+    | GIRADERECHA   int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+    | GIRADERECHA   float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                  argumentos.add($2);
+                                  acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+    | GD            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+    | GD            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                  argumentos.add($2);
+                                  acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+    | GIRAIZQUIERDA int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+    | GIRAIZQUIERDA float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                  argumentos.add($2);
+                                  acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+    | GI            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+    | GI            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                  argumentos.add($2);
+                                  acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+    | PONRUMBO      int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));}
+    | PONRUMBO      float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                  argumentos.add($2);
+                                  acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));}
+    | PONX          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));}
+    | PONY          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));}
+    | PONCOLORLAPIZ color {ArrayList<Object> argumentos = new ArrayList<Object>();
+                           argumentos.add($2);
+                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));}
+    | PONCL         color {ArrayList<Object> argumentos = new ArrayList<Object>();
+                           argumentos.add($2);
+                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));}
+    | ESPERA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                argumentos.add($2);
+                                acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
+    | ESPERA        float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
+                                  argumentos.add($2);
+                                  acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
     ;
 
 //Procedimientos con 2 parámetros que devuelven un valor numérico
