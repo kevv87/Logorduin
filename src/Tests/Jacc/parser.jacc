@@ -409,7 +409,7 @@ float_proc_1p
 // TODO: No agregar las acciones json de una vez al json, agregarlas aparte y luego hacer la verificacion de si se tienen que agregar o no.
 // TODO: Esto puede ayudar de una vez a guardar en el Hashmap los procedimientos especificados por el usuario.
 void_proc_1p
-    : REPITE int_number '[' expr_procs_n ']'{jsonAction result = new jsonAction();result.setComplejo((ArrayList<jsonAction>)$4);result.setRepeticiones((Integer)$2);$$=result;}  //TODO: Quaseaccion se vuelve accion con n repeticiones
+    : REPITE int_number '[' expr_procs_n ']'{jsonAction result = new jsonAction();result.setAccion("complejo");result.setComplejo((ArrayList<jsonAction>)$4);result.setRepeticiones((Integer)$2);$$=result;}  //TODO: Quaseaccion se vuelve accion con n repeticiones
     | SI logic_expr     '[' expr_procs_n ']'{if((boolean)$2){$$=$4;}else{$$=null;}}  //TODO: Quaseaccion se vuelve accion SI cumple la logica
     ;
 

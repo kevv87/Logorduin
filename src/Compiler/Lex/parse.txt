@@ -1,1 +1,0 @@
-ejecuta [av 10 ejecuta[av 10 av 10] av 10];
