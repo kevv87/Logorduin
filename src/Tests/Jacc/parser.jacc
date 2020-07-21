@@ -56,8 +56,13 @@ import java.util.Stack;
 
 //Símbolo inicial
 prog
-    : expression ';' prog ';'
-    | expression  //TODO: Quaseacciones pendientes se vuelven acciones
+    : expression ';' prog ';'{System.out.println("ha");}
+    | expression  {/*if($1 instanceof ArrayList){
+                       acciones.addAll((ArrayList<jsonAction>)$1);
+                   }else if($1 instanceof jsonAction){
+                       acciones.add((jsonAction)$1);
+                   }*/System.out.println("hi");
+                  }
     ;
 
 //Definición de expresión
@@ -79,11 +84,11 @@ expression
     | float_proc_1p
     | float_proc_n
     | bool_proc2
-    | void_proc
-    | void_proc1
-    | void_proc2
-    | void_proc_p
-    | void_proc_1p
+    | void_proc{if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
+    | void_proc1 {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
+    | void_proc2 {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
+    | void_proc_p {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
+    | void_proc_1p {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
     ;
 
 //Lo que se evalúa a un número
@@ -181,16 +186,16 @@ float_proc
 
 //Procedimientos sin parámetros ni valor de retorno
 void_proc
-    : OCULTATORTUGA {acciones.add(new jsonAction("ocultatortuga",1,null));}
-    | OT{acciones.add(new jsonAction("ocultatortuga",1,null));}
-    | APARECETORTUGA{acciones.add(new jsonAction("aparecetortuga",1,null));}
-    | AT{acciones.add(new jsonAction("aparecetortuga",1,null));}
-    | BAJALAPIZ{acciones.add(new jsonAction("aparecetortuga",1,null));}
-    | BL{acciones.add(new jsonAction("aparecetortuga",1,null));}
-    | SUBELAPIZ{acciones.add(new jsonAction("aparecetortuga",1,null));}
-    | SB{acciones.add(new jsonAction("aparecetortuga",1,null));}
-    | CENTRO{acciones.add(new jsonAction("aparecetortuga",1,null));}
-    | BORRAPANTALLA{acciones.add(new jsonAction("aparecetortuga",1,null));}
+    : OCULTATORTUGA {$$ =new jsonAction("ocultatortuga",1,null);}
+    | OT{$$ = new jsonAction("ocultatortuga",1,null);}
+    | APARECETORTUGA{$$ = new jsonAction("aparecetortuga",1,null);}
+    | AT{$$ = new jsonAction("aparecetortuga",1,null);}
+    | BAJALAPIZ{$$ = new jsonAction("aparecetortuga",1,null);}
+    | BL{ $$ = new jsonAction("aparecetortuga",1,null);}
+    | SUBELAPIZ{$$ = new jsonAction("aparecetortuga",1,null);}
+    | SB{$$ = new jsonAction("aparecetortuga",1,null);}
+    | CENTRO{ $$ = new jsonAction("aparecetortuga",1,null);}
+    | BORRAPANTALLA{ $$ = new jsonAction("aparecetortuga",1,null);}
     ;
 
 //Procedimientos con un parámetro que devuelven un valor numérico
@@ -218,70 +223,70 @@ float_proc1
 void_proc1
     : AVANZA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("avanza",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);}
     | AV            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("avanza",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);}
     | RETROCEDE     int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("retrocede",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("retrocede",1,(ArrayList<Object>)argumentos);}
     | RE            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("retrocede",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("retrocede",1,(ArrayList<Object>)argumentos);}
     | GIRADERECHA   int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
     | GIRADERECHA   float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+                                  $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
     | GD            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
     | GD            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  acciones.add(new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos));}
+                                  $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
     | GIRAIZQUIERDA int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
     | GIRAIZQUIERDA float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+                                  $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
     | GI            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
     | GI            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  acciones.add(new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos));}
+                                  $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
     | PONRUMBO      int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));
+                                $$ = new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos);
                                 variables.replace("rumbo",(Integer)$2);}
     | PONRUMBO      float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  acciones.add(new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos));
+                                  $$ = new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos);
                                   variables.replace("rumbo",$2);}
     | PONX          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));
+                                $$ = new jsonAction("ponx",1,(ArrayList<Object>)argumentos);
                                 variables.replace("x",(Integer)$2);}
     | PONY          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("ponx",1,(ArrayList<Object>)argumentos));
+                                $$ = new jsonAction("ponx",1,(ArrayList<Object>)argumentos);
                                 variables.replace("y",$2);}
     | PONCOLORLAPIZ color {ArrayList<Object> argumentos = new ArrayList<Object>();
                            argumentos.add($2);
-                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));
+                           $$ = new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos);
                            variables.replace("colorlapiz",$2);}
     | PONCL         color {ArrayList<Object> argumentos = new ArrayList<Object>();
                            argumentos.add($2);
-                           acciones.add(new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos));
+                           $$ = new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos);
                            variables.replace("colorlapiz",$2);}
     | ESPERA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
+                                $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);}
     | ESPERA        float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));}
+                                  $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);}
     ;
 
 //Procedimientos con 2 parámetros que devuelven un valor numérico
@@ -323,7 +328,7 @@ void_proc2
     : PONXY int_number int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                    argumentos.add($2);
                                    argumentos.add($3);
-                                   acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));
+                                   $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);
                                    variables.replace("x",$2);
                                    variables.replace("y",$3);}
     ;
@@ -355,8 +360,8 @@ float_proc_n
 
 //Regla para definir cualquier cantidad de órdenes
 expr_procs_n
-    : expression expr_procs_n
-    | expression
+    : expression expr_procs_n {ArrayList<jsonAction> quase = (ArrayList<jsonAction>)$2;quase.addAll((ArrayList<jsonAction>)$1);$$=quase;}
+    | expression {ArrayList<jsonAction> quase = new ArrayList<jsonAction>(); quase.addAll((ArrayList<jsonAction>)$1);$$=quase;}  // Crea una nueva lista de quaseacciones y le agrega la produccion.
     ;
 
 //Procedimientos con paréntesis que devuelven un valor numérico
@@ -385,7 +390,7 @@ void_proc_p
     | PONPOS  '[' int_number int_number   ']' {ArrayList<Object> argumentos = new ArrayList<Object>();
                                                                                  argumentos.add($2);
                                                                                  argumentos.add($3);
-                                                                                 acciones.add(new jsonAction("espera",1,(ArrayList<Object>)argumentos));
+                                                                                 $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);
                                                                                  variables.replace("x",$3);
                                                                                  variables.replace("y",$4);}
     | EJECUTA '[' expr_procs_n            ']' {$$=$3;} // TODO: Probar esto
@@ -404,8 +409,8 @@ float_proc_1p
 // TODO: No agregar las acciones json de una vez al json, agregarlas aparte y luego hacer la verificacion de si se tienen que agregar o no.
 // TODO: Esto puede ayudar de una vez a guardar en el Hashmap los procedimientos especificados por el usuario.
 void_proc_1p
-    : REPITE int_number '[' expr_procs_n ']'  //TODO: Quaseaccion se vuelve accion con n repeticiones
-    | SI logic_expr     '[' expr_procs_n ']'  //TODO: Quaseaccion se vuelve accion SI cumple la logica
+    : REPITE int_number '[' expr_procs_n ']'{jsonAction result = new jsonAction();result.setComplejo((ArrayList<jsonAction>)$4);result.setRepeticiones((Integer)$2);$$=result;}  //TODO: Quaseaccion se vuelve accion con n repeticiones
+    | SI logic_expr     '[' expr_procs_n ']'{if((boolean)$2){$$=$4;}else{$$=null;}}  //TODO: Quaseaccion se vuelve accion SI cumple la logica
     ;
 
 %%
