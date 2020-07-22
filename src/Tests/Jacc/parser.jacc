@@ -53,14 +53,25 @@ import java.util.Stack;
 %type <String> color
 
 %%
+progl: prog {parseFinished();}
+;
 
 //Símbolo inicial
 prog
-    : expression ';' prog {System.out.println("ha");}
+    : expression ';' prog {if($1 instanceof ArrayList){
+                                                 acciones.addAll((ArrayList<jsonAction>)$1);
+                                             }else if($1 instanceof jsonAction){
+                                                 acciones.add((jsonAction)$1);
+                                             }else if($1 instanceof HashMap){
+                                                 variables = mergeHash(variables,(HashMap<String,Object>)$1);
+                                             }
+                                            }
     | expression ';' {if($1 instanceof ArrayList){
                        acciones.addAll((ArrayList<jsonAction>)$1);
                    }else if($1 instanceof jsonAction){
                        acciones.add((jsonAction)$1);
+                   }else if($1 instanceof HashMap){
+                       variables = mergeHash(variables,(HashMap<String,Object>)$1);
                    }
                   }
     ;
