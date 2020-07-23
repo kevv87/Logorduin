@@ -1,6 +1,9 @@
 package Gui;
 
 import Logic.Cursor;
+import Logic.jsonAction;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -18,6 +21,7 @@ public class CanvasGui extends Application {
 
     private Cursor cursor;
     private ImageView imageCursor;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     private AnimationTimer update;
 
@@ -94,5 +98,26 @@ public class CanvasGui extends Application {
      */
     public static void show() {
         new CanvasGui().start(new Stage());
+    }
+
+    /**
+     * Metodo para llamar funciones del canvas segun codigo maquina
+     */
+    public void callFunction(String json, GraphicsContext graphicsContext) {
+        String action = "";
+        int length = 0;
+        int repeticion = 0;
+        try {
+            jsonAction jAction = objectMapper.readValue(json, jsonAction.class);
+            action = jAction.getAccion();
+            repeticion = jAction.getRepeticiones();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        switch (action){
+            case "avanza":
+                graphicsContext.fillRect(cursor.getPosX(), cursor.getPosY(), 1, length);
+        }
     }
 }
