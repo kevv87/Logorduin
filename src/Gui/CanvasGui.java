@@ -12,6 +12,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -97,6 +98,68 @@ public class CanvasGui extends Application {
     }
 
     /**
+     * Método para esconder el cursor.
+     */
+    public void hideCursor() {
+        imageCursor.setVisible(false);
+    }
+
+    /**
+     * Método para mostrar el cursor.
+     */
+    public void showCursor() {
+        imageCursor.setVisible(true);
+    }
+
+    /**
+     * Método para obtener el codigo hexadecimal del color.
+     * @param color nombre del color que se busca.
+     * @return objeto de clase Color
+     */
+    public Color convertColor(String color) {
+        Color result = Color.BLACK;
+        switch (color) {
+            case "Blanco":
+            case "blanco":
+                result = Color.WHITE;
+                break;
+            case "Azul":
+            case "azul":
+                result = Color.BLUE;
+                break;
+            case "Marron":
+            case "marron":
+                result = Color.BROWN;
+                break;
+            case "Cian":
+            case "cian":
+                result = Color.CYAN;
+                break;
+            case "Gris":
+            case "gris":
+                result = Color.GRAY;
+                break;
+            case "Amarillo":
+            case "amarillo":
+                result = Color.YELLOW;
+                break;
+            case "Negro":
+            case "negro":
+                result = Color.BLACK;
+                break;
+            case "Rojo":
+            case "rojo":
+                result = Color.RED;
+                break;
+            case "Verde":
+            case "verde":
+                result = Color.GREEN;
+                break;
+        }
+        return result;
+    }
+
+    /**
      * Método que lanza la aplicación
      */
     public static void show() {
@@ -135,19 +198,55 @@ public class CanvasGui extends Application {
                     angulo = (int) jAction.getArgumentos().get(0);
                     cursor.updateRotation(angulo, false);
                     break;
+                case "ocultatortuga":
+                case "ot":
+                    hideCursor();
+                    break;
+                case "aparecetortuga":
+                case "AT":
+                    showCursor();
                 case "ponpos":
                 case "ponxy":
                     Double posX = (Double) jAction.getArgumentos().get(0);
-                    Double posY = (Double) jAction.getArgumentos().get(0);
+                    Double posY = (Double) jAction.getArgumentos().get(1);
                     cursor.realocate(posX, posY);
+                    break;
+                case "ponrumbo":
+                    angulo = (int) jAction.getArgumentos().get(0);
+                    cursor.setRotation(angulo);
+                    break;
+                case "rumbo":   // TODO mostrar en consola la rotacion
+                    System.out.println(cursor.getRotation());
+                    break;
+                case "ponx":
+                    posX = (Double) jAction.getArgumentos().get(0);
+                    cursor.setPosX(posX);
+                    break;
+                case "pony":
+                    posY = (Double) jAction.getArgumentos().get(0);
+                    cursor.setPosY(posY);
+                    break;
+                case "bajalapiz":
+                case "bl":
+                    if(!cursor.isLapiz()) {
+                        cursor.setLapiz(true);
+                    }
+                    break;
+                case "subelapiz":
+                case "sb":
+                    if(cursor.isLapiz()) {
+                        cursor.setLapiz(false);
+                    }
+                    break;
+                case "poncolorlapiz":
+                case "poncl":
+                    String color = (String) jAction.getArgumentos().get(0);
+                    cursor.setCurrentColor(convertColor(color));
                     break;
                 case "centro":
                     Double centerX = (double) (Width/2);
                     Double centerY = (double) (Height/2);
                     cursor.realocate( centerX, centerY);
-                case "ponrumbo":
-                    angulo = (int) jAction.getArgumentos().get(0);
-                    cursor.setRotation(angulo);
                     break;
                 case "espera":
                     int tiempo = (int) jAction.getArgumentos().get(0);

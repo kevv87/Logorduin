@@ -140,6 +140,21 @@ public class  Cursor {
     }
 
     /**
+     * Método para determinar estado del lapiz.
+     */
+    public boolean isLapiz() {
+        return lapiz;
+    }
+
+    /**
+     * Método para establecer estado del lapiz.
+     * @param lapiz estado del lapiz
+     */
+    public void setLapiz(boolean lapiz) {
+        this.lapiz = lapiz;
+    }
+
+    /**
      * Método para obtener el ícono del cursor.
      * @return Ícono del cursor.
      */
