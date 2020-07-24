@@ -14,6 +14,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Clase de la interfaz para el canvas
  */
@@ -63,7 +66,7 @@ public class CanvasGui extends Application {
             public void handle(long l) {
 
                 //rotateCursor(1); //TODO obtener los grados a girar
-                cursor.move(1);
+                cursor.move(1, true);
 /*
                 try {
                     Thread.sleep(1000); //TODO cambiar según necesidades
@@ -90,7 +93,7 @@ public class CanvasGui extends Application {
      * @param rotation rotación a actualizar
      */
     private void rotateCursor(int rotation) {
-        cursor.updateRotation(rotation);
+        cursor.updateRotation(rotation, true);
     }
 
     /**
@@ -103,21 +106,64 @@ public class CanvasGui extends Application {
     /**
      * Metodo para llamar funciones del canvas segun codigo maquina
      */
-    public void callFunction(String json, GraphicsContext graphicsContext) {
+    public void callFunction(String json, GraphicsContext graphicsContext, int Height, int Width) {
         String action = "";
-        int length = 0;
         int repeticion = 0;
         try {
             jsonAction jAction = objectMapper.readValue(json, jsonAction.class);
             action = jAction.getAccion();
             repeticion = jAction.getRepeticiones();
+
+            switch (action) {
+                case "avanza":
+                case "av":
+                    int length = (int) jAction.getArgumentos().get(0);
+                    cursor.move(length, true);
+                    break;
+                case "retrocede":
+                case "re":
+                    length = (int) jAction.getArgumentos().get(0);
+                    cursor.move(length, false);
+                    break;
+                case "giraderecha":
+                case "gd":
+                    int angulo = (int) jAction.getArgumentos().get(0);
+                    cursor.updateRotation(angulo, true);
+                    break;
+                case "giraizquierda":
+                case "gi":
+                    angulo = (int) jAction.getArgumentos().get(0);
+                    cursor.updateRotation(angulo, false);
+                    break;
+                case "ponpos":
+                case "ponxy":
+                    Double posX = (Double) jAction.getArgumentos().get(0);
+                    Double posY = (Double) jAction.getArgumentos().get(0);
+                    cursor.realocate(posX, posY);
+                    break;
+                case "centro":
+                    Double centerX = (double) (Width/2);
+                    Double centerY = (double) (Height/2);
+                    cursor.realocate( centerX, centerY);
+                case "ponrumbo":
+                    angulo = (int) jAction.getArgumentos().get(0);
+                    cursor.setRotation(angulo);
+                    break;
+                case "espera":
+                    int tiempo = (int) jAction.getArgumentos().get(0);
+                    try {
+                        TimeUnit.SECONDS.sleep(tiempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case "borrapantalla":
+                    graphicsContext.clearRect(0, 0, Width, Height);
+                    break;
+            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        switch (action){
-            case "avanza":
-                graphicsContext.fillRect(cursor.getPosX(), cursor.getPosY(), 1, length);
-        }
     }
 }

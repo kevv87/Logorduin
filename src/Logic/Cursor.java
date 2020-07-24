@@ -37,13 +37,18 @@ public class  Cursor {
      * Mueve el cursor hacia adelante la cantidad especificada. Dibuja si el lapiz esta abajo
      * @param cantidad Cantidad de pixeles a mover el cursor.
      */
-    public void move(int cantidad){
+    public void move(int cantidad, boolean avanzar){
         Double oldX = this.posX;
         Double oldY = this.posY;
         posY = (oldY - (Math.cos(2*Math.PI*rotation/360)*cantidad));
         posX = (oldX + (Math.sin(2*Math.PI*rotation/360)*cantidad));
         if(lapiz){  // De tener el lapiz pintando, pintar
-            gc.strokeLine(oldX,oldY,posX,posY);
+            if(avanzar) {
+                gc.strokeLine(oldX,oldY,posX,posY);
+            }
+            else {
+                gc.strokeLine(oldX,oldY, -posX, -posY);
+            }
         }
     }
 
@@ -80,6 +85,16 @@ public class  Cursor {
     }
 
     /**
+     * Metodo para reubicar el cursor
+     * @param newPosX nueva posicion X.
+     * @param newPosY nueva posicion Y.
+     */
+    public void realocate(Double newPosX, Double newPosY) {
+        setPosX(newPosX);
+        setPosY(newPosY);
+    }
+
+    /**
      * Método para obtener la rotación actual del cursor.
      * @return Rotación actual del cursor.
      */
@@ -99,8 +114,13 @@ public class  Cursor {
      * Método para rotar el cursor
      * @param rotation Grados a rotar el cursor
      */
-    public void updateRotation(Integer rotation) {
-        this.rotation += rotation;
+    public void updateRotation(Integer rotation, boolean clockwise) {
+        if(clockwise) {
+            this.rotation += rotation;
+        }
+        else {
+            this.rotation -= rotation;
+        }
     }
 
     /**
