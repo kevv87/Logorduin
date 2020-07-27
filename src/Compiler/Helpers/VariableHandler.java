@@ -12,12 +12,37 @@ public class VariableHandler {
 
     private final HashMap<String, String> _vars;
     private final ObjectMapper _mapper;
+    private String _currentScope;
 
     public VariableHandler() {
         _vars = new HashMap<>();
         _mapper = new ObjectMapper();
+        _currentScope = "ALL";
 
         _mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    /**
+     * Método para establecer el alcance actual
+     * @param newScope Nuevo alcance
+     */
+    public void setScope(String newScope) {
+        this._currentScope = newScope;
+    }
+
+    /**
+     * Método para obtener el alcance actual
+     * @return Alcance actual
+     */
+    public String getScope() {
+        return this._currentScope;
+    }
+
+    /**
+     * Método para restablecer el alcance
+     */
+    public void resetScope() {
+        this._currentScope = "ALL";
     }
 
     /**
@@ -26,7 +51,7 @@ public class VariableHandler {
      * @param value Valor entero a asignar
      */
     public void add(String identifier, Integer value) {
-        createVar(identifier, NumberType.TYPE_INT, value.toString(), "ALL");
+        createVar(identifier, NumberType.TYPE_INT, value.toString(), _currentScope);
     }
 
     /**
@@ -35,9 +60,9 @@ public class VariableHandler {
      * @param value Valor entero a asignar
      * @param scope Alcance de la variable
      */
-    public void add(String identifier, Integer value, String scope) {
-        createVar(identifier, NumberType.TYPE_INT, value.toString(), scope);
-    }
+//    public void add(String identifier, Integer value, String scope) {
+//        createVar(identifier, NumberType.TYPE_INT, value.toString(), scope);
+//    }
 
     /**
      * Método para agregar una variable nueva con valor flotante
@@ -45,7 +70,7 @@ public class VariableHandler {
      * @param value Valor flotante a asignar
      */
     public void add(String identifier, Float value) {
-        createVar(identifier, NumberType.TYPE_FLOAT, value.toString(), "ALL");
+        createVar(identifier, NumberType.TYPE_FLOAT, value.toString(), _currentScope);
     }
 
     /**
@@ -54,16 +79,16 @@ public class VariableHandler {
      * @param value Valor flotante a asignar
      * @param scope Alcance de la variable
      */
-    public void add(String identifier, Float value, String scope) {
-        createVar(identifier, NumberType.TYPE_FLOAT, value.toString(), scope);
-    }
+//    public void add(String identifier, Float value, String scope) {
+//        createVar(identifier, NumberType.TYPE_FLOAT, value.toString(), scope);
+//    }
 
     /**
      * Método para agregar una variable nueva sin inicializarla
      * @param identifier Identificador de la variable
      */
     public void add(String identifier) {
-        createVar(identifier, NumberType.TYPE_NULL, null, "ALL");
+        createVar(identifier, NumberType.TYPE_NULL, null, _currentScope);
     }
 
     /**
@@ -71,9 +96,9 @@ public class VariableHandler {
      * @param identifier Identificador de la variable
      * @param scope Alcance de la variable
      */
-    public void add(String identifier, String scope) {
-        createVar(identifier, NumberType.TYPE_NULL, null, scope);
-    }
+//    public void add(String identifier, String scope) {
+//        createVar(identifier, NumberType.TYPE_NULL, null, scope);
+//    }
 
     /**
      * Método para crear el objeto JSON con la información de una variable
@@ -112,6 +137,10 @@ public class VariableHandler {
         }
     }
 
+    public Boolean exists(String identifier) {
+        return exists(identifier, _currentScope);
+    }
+
     /**
      * Método para verificar si una variable es del tipo dado
      * @param identifier Identificador de la variable a verificar
@@ -123,6 +152,10 @@ public class VariableHandler {
         if (var == null) return false;
 
         return (NumberType.valueOf(var.get("type").asText()) == type);
+    }
+
+    public Boolean isType(String identifier, NumberType type) {
+        return isType(identifier, type, _currentScope);
     }
 
     /**
@@ -137,18 +170,22 @@ public class VariableHandler {
         return (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_NULL);
     }
 
+    public Boolean isInitialized(String identifier) {
+        return isInitialized(identifier, _currentScope);
+    }
+
     /**
      * Método para modificar una variable con un valor de tipo entero
      * @param identifier Identificador de la variable a modificar
      * @param newValue Nuevo valor entero a asignar
      */
     public void modify(String identifier, Integer newValue) {
-        modifyVar(identifier, NumberType.TYPE_INT, newValue.toString(), "ALL");
+        modifyVar(identifier, NumberType.TYPE_INT, newValue.toString(), _currentScope);
     }
 
-    public void modify(String identifier, Integer newValue, String scope) {
-        modifyVar(identifier, NumberType.TYPE_INT, newValue.toString(), scope);
-    }
+//    public void modify(String identifier, Integer newValue, String scope) {
+//        modifyVar(identifier, NumberType.TYPE_INT, newValue.toString(), scope);
+//    }
 
     /**
      * Método para modificar una variable con un valor de tipo flotante
@@ -156,12 +193,12 @@ public class VariableHandler {
      * @param newValue Nuevo valor flotante a asignar
      */
     public void modify(String identifier, Float newValue) {
-        modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), "ALL");
+        modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), _currentScope);
     }
 
-    public void modify(String identifier, Float newValue, String scope) {
-        modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), scope);
-    }
+//    public void modify(String identifier, Float newValue, String scope) {
+//        modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), scope);
+//    }
 
     /**
      * Método para modificar el valor de una variable existente
@@ -198,7 +235,7 @@ public class VariableHandler {
     }
 
     public Integer getInt(String identifier) {
-        return getInt(identifier, "ALL");
+        return getInt(identifier, _currentScope);
     }
 
     /**
@@ -229,7 +266,7 @@ public class VariableHandler {
     }
 
     public Float getFloat(String identifier) {
-        return getFloat(identifier, "ALL");
+        return getFloat(identifier, _currentScope);
     }
 
     /**
@@ -315,7 +352,9 @@ public class VariableHandler {
         VariableHandler handler = new VariableHandler();
         handler.add("myvar", 10);
         handler.printVars();
-        handler.add("myvar", 10, "Espiral");
+        handler.setScope("Espiral");
+        handler.add("myvar", 10);
+        handler.resetScope();
         handler.printVars();
     }
 }
