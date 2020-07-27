@@ -405,7 +405,7 @@ void_proc_p
                                                                                  variables.replace("x",$3);
                                                                                  variables.replace("y",$4);}
     | EJECUTA '[' expr_procs_n            ']' {$$=$3;} // TODO: Probar esto
-    ;)
+    ;
 
 // Procedimientos con parentesis y un parametro que devuelven un valor.
 int_proc_1p
