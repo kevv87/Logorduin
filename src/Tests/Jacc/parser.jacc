@@ -395,9 +395,9 @@ void_proc_1p
     public String getRutaCompilado(String filePath) {
 
         String rutaCompilado = filePath.substring(0, filePath.lastIndexOf(".") + 1) + "cld";
-        System.out.println(rutaCompilado);
 
         String compilado = "Compilado 1"; // TODO obtener el string con el json de las acciones
+
         try {
             File file = new File(rutaCompilado);
             file.createNewFile();

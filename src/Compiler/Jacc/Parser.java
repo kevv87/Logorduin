@@ -15480,7 +15480,6 @@ class Parser implements ParserTokens {
     public String getRutaCompilado(String filePath) {
 
         String rutaCompilado = filePath.substring(0, filePath.lastIndexOf(".") + 1) + "cld";
-        System.out.println(rutaCompilado);
 
         String compilado = "Compilado 1"; // TODO obtener el string con el json de las acciones
         try {
@@ -15517,7 +15516,7 @@ class Parser implements ParserTokens {
            String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
            //Parser parser = new Parser(ruta);
            //parser.parse();
-        System.out.println(compile(System.getProperty("user.dir") + path));
+        compile(System.getProperty("user.dir") + path);
        }
 
 }
