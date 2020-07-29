@@ -1,4 +1,4 @@
-// Output created by jacc on Mon Jul 20 18:00:45 CST 2020
+// Output created by jacc on Wed Jul 29 13:13:36 CST 2020
 
 package Compiler.Jacc;
 
@@ -6,10 +6,7 @@ import Compiler.Lex.Lexer;
 import Logic.MessageType;
 import Logic.jsonAction;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15440,6 +15437,7 @@ class Parser implements ParserTokens {
     };
 
 
+
     public Lexer lexer;
         private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz
 // TODO: Guardar una version en texto plano de este array list en un documento
@@ -15479,12 +15477,47 @@ class Parser implements ParserTokens {
         //TODO: notificar interfaz que finalizó la compilación.
     }
 
-    public static void main(String[] args) {
-        //TODO: recibir ruta desde args.
-        String path = "/src/Compiler/Lex/parse.txt";
-        String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+    public String getRutaCompilado(String filePath) {
+
+        String rutaCompilado = filePath.substring(0, filePath.lastIndexOf(".") + 1) + "cld";
+        System.out.println(rutaCompilado);
+
+        String compilado = "Compilado 1"; // TODO obtener el string con el json de las acciones
+        try {
+            File file = new File(rutaCompilado);
+            file.createNewFile();
+            System.out.println("File compiled created: " + file.getName());
+            FileWriter writer = new FileWriter(rutaCompilado);
+            writer.write(compilado);
+            writer.close();
+            return rutaCompilado;
+        } catch (IOException ex) {
+            System.out.println("An error ocurred");
+        }
+
+        return "";
+    }
+
+    public static String compile(String filePath) {
+        String ruta = filePath.replaceAll("\\\\", "/");
         Parser parser = new Parser(ruta);
         parser.parse();
+        String rutaCompilado = parser.getRutaCompilado(filePath);
+
+        return rutaCompilado;
     }
+
+    /*
+    String nuevaRuta = Parser.compile("/home/villegas/archivo.ldr");
+    */
+
+    public static void main(String[] args) {
+           //TODO: recibir ruta desde args.
+           String path = "/src/Compiler/Lex/parse.txt";
+           String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+           //Parser parser = new Parser(ruta);
+           //parser.parse();
+        System.out.println(compile(System.getProperty("user.dir") + path));
+       }
 
 }
