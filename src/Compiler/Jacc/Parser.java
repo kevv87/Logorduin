@@ -10,7 +10,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-class Parser implements ParserTokens {
+public class Parser implements ParserTokens {
     private int yyss = 100;
     private int yytok;
     private int yysp = 0;
