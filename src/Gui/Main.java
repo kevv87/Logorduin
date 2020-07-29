@@ -327,14 +327,14 @@ public class Main extends Application {
     private String getJsonString() {
         String ruta = workingFile.getAbsolutePath();
         String rutaCompilado = Parser.compile(ruta);
-        String jsonCompiled = "";
+        String jsonCompiledString = "";
         try {
-            jsonCompiled = new String(Files.readAllBytes(Paths.get(rutaCompilado)));
-            System.out.println(jsonCompiled);
+            jsonCompiledString = new String(Files.readAllBytes(Paths.get(rutaCompilado)));
+            System.out.println(jsonCompiledString);
         } catch (IOException e) {
             System.out.println("Error en proceso de pasar de txt a string");
         }
-        return jsonCompiled;
+        return jsonCompiledString;
     }
 
 }
