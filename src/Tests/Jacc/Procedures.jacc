@@ -67,16 +67,12 @@ prog
                                                  acciones.addAll((ArrayList<jsonAction>)$1);
                                              }else if($1 instanceof jsonAction){
                                                  acciones.add((jsonAction)$1);
-                                             }else if($1 instanceof HashMap){
-                                                 variables = mergeHash(variables,(HashMap<String,Object>)$1);
                                              }
                                             }
     | expression ';' {if($1 instanceof ArrayList){
                        acciones.addAll((ArrayList<jsonAction>)$1);
                    }else if($1 instanceof jsonAction){
                        acciones.add((jsonAction)$1);
-                   }else if($1 instanceof HashMap){
-                       variables = mergeHash(variables,(HashMap<String,Object>)$1);
                    }
                   }
     ;
@@ -85,9 +81,9 @@ prog
 expression
     : declaration_expr
     | redeclaration_expr
-//    | logic_expr
-//    | int_arithmetic_expr
-//    | float_arithmetic_expr
+    | logic_expr
+    | int_arithmetic_expr
+    | float_arithmetic_expr
     | int_proc1
     | int_proc2
     | int_proc_p
@@ -115,8 +111,8 @@ parameters
     ;
 
 instructions
-    : expression instructions { procInstructions.add($1); }
-    | expression              { procInstructions.add($1); }
+    : expression instructions { procInstructions.add((String)$1); }  // TODO: Modificar a jsonAction
+    | expression              { procInstructions.add((String)$1); }
     ;
 
 //Procedimientos declarados por el usuario
@@ -140,7 +136,7 @@ user_procedure_head
 //Lo que se evalúa a un número
 int_number
     : INTEGER {$$ = $1;}
-    | IDENTIFIER          {$$=(Integer)variables.get($1);}
+    | IDENTIFIER          {$$=(Integer)varHandler.getInt($1);}
     | int_arithmetic_expr
     | int_proc1
     | int_proc2
@@ -151,7 +147,7 @@ int_number
 
 float_number
     : FLOAT {$$=$1;}
-    | IDENTIFIER            { $$=(Float)variables.get($1); }
+    | IDENTIFIER            { $$=(Float)varHandler.getFloat($1); }
     | float_arithmetic_expr
     | float_proc
     | float_proc1
@@ -163,16 +159,16 @@ float_number
 
 //Expresión para redeclarar una variable
 redeclaration_expr
-    : INIC IDENTIFIER '=' int_number   { variables.replace($2,$4); }
-    | INIC IDENTIFIER '=' float_number { variables.replace($2,$4); }
+    : INIC IDENTIFIER '=' int_number   { if(!varHandler.isIgnore()){varHandler.modify($2,$4);} }
+    | INIC IDENTIFIER '=' float_number { if(!varHandler.isIgnore()){varHandler.modify($2,$4);} }
     ;
 
 // TODO: Las variables tienen scope global
 //Expresiones para declarar una variable
 declaration_expr
-    : VAR IDENTIFIER                  {if(variables.get($2)==null){variables.put($2,null);}}
-    | VAR IDENTIFIER '=' int_number   {if(variables.get($2)==null){variables.put($2,$4);}}
-    | VAR IDENTIFIER '=' float_number {if(variables.get($2)==null){variables.put($2,$4);}}
+    : VAR IDENTIFIER                  {if(!varHandler.isIgnore()){varHandler.add($2);}}
+    | VAR IDENTIFIER '=' int_number   {if(!varHandler.isIgnore()){varHandler.add($2,$4);}}
+    | VAR IDENTIFIER '=' float_number {if(!varHandler.isignore()){varHandler.add($2,$4);}}
     ;
 
 //Expresiones con valor booleano
@@ -227,21 +223,21 @@ color
     ;
 //Procedimientos sin parámetros que devuelven un valor numérico
 float_proc
-    : RUMBO {$$=variables.get("rumbo");}
+    : RUMBO {$$=varHandler.getInt("rumbo");}
     ;
 
 //Procedimientos sin parámetros ni valor de retorno
 void_proc
-    : OCULTATORTUGA {$$ =new jsonAction("ocultatortuga",1,null);}
-    | OT{$$ = new jsonAction("ocultatortuga",1,null);}
-    | APARECETORTUGA{$$ = new jsonAction("aparecetortuga",1,null);}
-    | AT{$$ = new jsonAction("aparecetortuga",1,null);}
-    | BAJALAPIZ{$$ = new jsonAction("aparecetortuga",1,null);}
-    | BL{ $$ = new jsonAction("aparecetortuga",1,null);}
-    | SUBELAPIZ{$$ = new jsonAction("aparecetortuga",1,null);}
-    | SB{$$ = new jsonAction("aparecetortuga",1,null);}
-    | CENTRO{ $$ = new jsonAction("aparecetortuga",1,null);}
-    | BORRAPANTALLA{ $$ = new jsonAction("aparecetortuga",1,null);}
+    : OCULTATORTUGA {if(varHandler.isIgnore()){$$ =new jsonAction("ocultatortuga",1,null);}else{$$=null;}}
+    | OT{if(varHandler.isIgnore()){$$ = new jsonAction("ocultatortuga",1,null);}else{$$=null;}}
+    | APARECETORTUGA{if(varHandler.isIgnore()){$$ = new jsonAction("aparecetortuga",1,null);}else{$$=null;}}
+    | AT{if(varHandler.isIgnore()){$$ = new jsonAction("aparecetortuga",1,null);}else{$$=null;}}
+    | BAJALAPIZ{if(varHandler.isIgnore()){$$ = new jsonAction("bajalapiz",1,null);}else{$$=null;}}
+    | BL{if(varHandler.isIgnore()){$$ = new jsonAction("bajalapiz",1,null);}else{$$=null;}}
+    | SUBELAPIZ{if(varHandler.isIgnore()){$$ = new jsonAction("subelapiz",1,null);}else{$$=null;}}
+    | SB{if(varHandler.isIgnore()){$$ = new jsonAction("subelapiz",1,null);}else{$$=null;}}
+    | CENTRO{if(varHandler.isIgnore()){$$ = new jsonAction("centro",1,null);}else{$$=null;}}
+    | BORRAPANTALLA{if(varHandler.isIgnore()){$$ = new jsonAction("borrapantalla",1,null);}else{$$=null;}}
     ;
 
 //Procedimientos con un parámetro que devuelven un valor numérico
@@ -374,7 +370,8 @@ void_proc2
     : PONXY int_number int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                    argumentos.add($2);
                                    argumentos.add($3);
-                                   $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);
+                                   $$ = new jsonAction("ponxy",1,(ArrayList<Object>)argumentos);
+                                   //TODO: Cambiar estas variables globales de ser posible
                                    variables.replace("x",$2);
                                    variables.replace("y",$3);}
     ;
@@ -406,8 +403,8 @@ float_proc_n
 
 //Regla para definir cualquier cantidad de órdenes
 expr_procs_n
-    : expression expr_procs_n {ArrayList<jsonAction> quase = (ArrayList<jsonAction>)$2;quase.addAll((ArrayList<jsonAction>)$1);$$=quase;}
-    | expression {ArrayList<jsonAction> quase = new ArrayList<jsonAction>(); quase.addAll((ArrayList<jsonAction>)$1);$$=quase;}  // Crea una nueva lista de quaseacciones y le agrega la produccion.
+    : expression expr_procs_n
+    | expression   // Crea una nueva lista de quaseacciones y le agrega la produccion.
     ;
 
 //Procedimientos con paréntesis que devuelven un valor numérico
@@ -455,13 +452,12 @@ float_proc_1p
 // TODO: No agregar las acciones json de una vez al json, agregarlas aparte y luego hacer la verificacion de si se tienen que agregar o no.
 // TODO: Esto puede ayudar de una vez a guardar en el Hashmap los procedimientos especificados por el usuario.
 void_proc_1p
-    : proc_head '[' expr_procs_n ']' {jsonAction result = new jsonAction();result.setAccion("complejo");result.setComplejo((ArrayList<jsonAction>)$4);result.setRepeticiones((Integer)$2);$$=result;}  //TODO: Quaseaccion se vuelve accion con n repeticiones
-    | proc_head '[' expr_procs_n ']' {if((boolean)$2){$$=$4;}else{$$=null;}}  //TODO: Quaseaccion se vuelve accion SI cumple la logica
+    : proc_head '[' expr_procs_n ']' {varHandler.resetScope();}  //TODO: Quaseaccion se vuelve accion con n repeticiones
     ;
 
 proc_head
-    : REPITE int_number { /* Cambiar el scope actual por REPITE */ }
-    | SI logic_expr     { /* Verificar si se cumple la condición */ }
+    : REPITE int_number { varHandler.setScope("repite");}
+    | SI logic_expr     {if(!((boolean)$2)){varHandler.setScope("ignore");}}
     ;
 
 %%

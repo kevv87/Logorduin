@@ -7,17 +7,19 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 public class VariableHandler {
 
     private final HashMap<String, String> _vars;
     private final ObjectMapper _mapper;
-    private String _currentScope;
+    private Stack<String> _currentScope; // Es un stack para poder volver al scope anterior cuando se termine un scope
 
     public VariableHandler() {
         _vars = new HashMap<>();
         _mapper = new ObjectMapper();
-        _currentScope = "ALL";
+        _currentScope = new Stack<String>();
+        _currentScope.push("ALL");
 
         _mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
@@ -27,7 +29,7 @@ public class VariableHandler {
      * @param newScope Nuevo alcance
      */
     public void setScope(String newScope) {
-        this._currentScope = newScope;
+        this._currentScope.push(newScope);
     }
 
     /**
@@ -35,14 +37,17 @@ public class VariableHandler {
      * @return Alcance actual
      */
     public String getScope() {
-        return this._currentScope;
+        return this._currentScope.peek();
     }
 
     /**
-     * Método para restablecer el alcance
+     * Método para restablecer el alcance al alcance anterior. De no haber anterior restaura a ALL.
      */
     public void resetScope() {
-        this._currentScope = "ALL";
+        _currentScope.pop();
+        if(_currentScope.empty()){
+            _currentScope.push("ALL");
+        }
     }
 
     /**
@@ -51,7 +56,7 @@ public class VariableHandler {
      * @param value Valor entero a asignar
      */
     public void add(String identifier, Integer value) {
-        createVar(identifier, NumberType.TYPE_INT, value.toString(), _currentScope);
+        createVar(identifier, NumberType.TYPE_INT, value.toString(), _currentScope.peek());
     }
 
     /**
@@ -70,7 +75,7 @@ public class VariableHandler {
      * @param value Valor flotante a asignar
      */
     public void add(String identifier, Float value) {
-        createVar(identifier, NumberType.TYPE_FLOAT, value.toString(), _currentScope);
+        createVar(identifier, NumberType.TYPE_FLOAT, value.toString(), _currentScope.peek());
     }
 
     /**
@@ -88,7 +93,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable
      */
     public void add(String identifier) {
-        createVar(identifier, NumberType.TYPE_NULL, null, _currentScope);
+        createVar(identifier, NumberType.TYPE_NULL, null, _currentScope.peek());
     }
 
     /**
@@ -138,7 +143,7 @@ public class VariableHandler {
     }
 
     public Boolean exists(String identifier) {
-        return exists(identifier, _currentScope);
+        return exists(identifier, _currentScope.peek());
     }
 
     /**
@@ -155,7 +160,7 @@ public class VariableHandler {
     }
 
     public Boolean isType(String identifier, NumberType type) {
-        return isType(identifier, type, _currentScope);
+        return isType(identifier, type, _currentScope.peek());
     }
 
     /**
@@ -171,7 +176,7 @@ public class VariableHandler {
     }
 
     public Boolean isInitialized(String identifier) {
-        return isInitialized(identifier, _currentScope);
+        return isInitialized(identifier, _currentScope.peek());
     }
 
     /**
@@ -180,7 +185,7 @@ public class VariableHandler {
      * @param newValue Nuevo valor entero a asignar
      */
     public void modify(String identifier, Integer newValue) {
-        modifyVar(identifier, NumberType.TYPE_INT, newValue.toString(), _currentScope);
+        modifyVar(identifier, NumberType.TYPE_INT, newValue.toString(), _currentScope.peek());
     }
 
 //    public void modify(String identifier, Integer newValue, String scope) {
@@ -193,7 +198,7 @@ public class VariableHandler {
      * @param newValue Nuevo valor flotante a asignar
      */
     public void modify(String identifier, Float newValue) {
-        modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), _currentScope);
+        modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), _currentScope.peek());
     }
 
 //    public void modify(String identifier, Float newValue, String scope) {
@@ -235,7 +240,7 @@ public class VariableHandler {
     }
 
     public Integer getInt(String identifier) {
-        return getInt(identifier, _currentScope);
+        return getInt(identifier, _currentScope.peek());
     }
 
     /**
@@ -266,7 +271,7 @@ public class VariableHandler {
     }
 
     public Float getFloat(String identifier) {
-        return getFloat(identifier, _currentScope);
+        return getFloat(identifier, _currentScope.peek());
     }
 
     /**
@@ -337,6 +342,13 @@ public class VariableHandler {
     private void onError(String msg) {
         //TODO: mostrar error en la interfaz;
         System.err.println(msg);
+    }
+
+    /**
+     * Metodo para saber si hay que ignorar las instrucciones debido a un if con condicion falsa.
+     * */
+    public boolean isIgnore(){
+        return _currentScope.search("ignore")>0;
     }
 
     /**

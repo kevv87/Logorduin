@@ -1,9 +1,3 @@
-var myvar = 10;
-avanza 100;
-giraderecha 90;
-
-si (myvar > 9)
-[
-    avanza 50;
-    giraizquierda 90;
-];
+var myvar = 3;
+var tuvar = 3+myvar;
+si myvar<2 [inic tuvar=1]
