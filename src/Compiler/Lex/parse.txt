@@ -1,9 +1,14 @@
-var myvar = 10;
-inic myvar = 20 + 5;
-avanza myvar;
-giraderecha 90;
-var paola = 100000;
-avanza 15;
+var myvarmyvarmyvarmyvarmyvar = 10;
+var Myvar = 10;
+var 3md = 5;
+var my-var = 10;
+var my$jh;
+var &my;
+//inic myvar = 20 + 5;
+//avanza myvar;
+//giraderecha 90;
+//var paola = 100000;
+//avanza 15;
 // ESTO ES UN COMENTARIO $
 //$
-iguales? 1 2;
+//iguales? 1 2;
