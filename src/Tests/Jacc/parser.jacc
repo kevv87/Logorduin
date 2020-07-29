@@ -12,34 +12,46 @@ import java.io.*;
 import Logic.MessageType;
 import Logic.jsonAction;
 import java.util.ArrayList;
+import java.util.Random;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 %}
 
 //Operadores y otros.
-%token '+' '-' '*' '/' '(' ')' '[' ']' '<' '>' ';' '=' INTEGER FLOAT VAR IDENTIFIER INIC
+%token '+' '-' '*' '/' '(' ')' '[' ']' '<' '>' ';' '='
+%token <Integer> INTEGER
+%token <String> IDENTIFIER VAR INIC
+%token <Float> FLOAT
 
 //Colores permitidos
-%token BLANCO AZUL MARRON CIAN GRIS AMARILLO NEGRO ROJO VERDE
+%token <String> BLANCO AZUL MARRON CIAN GRIS AMARILLO NEGRO ROJO VERDE
 
 //Procedimientos sin parámetros.
-%token OCULTATORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
+%token <String> OCULTATORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
 
 //Procedimientos con un parámetro.
-%token AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERDA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
+%token <String> AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERDA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
 
 //Procedimientos con 2 parámetros.
-%token PONXY IGUALES Y O MAYORQUE MENORQUE POTENCIA DIVISION RESTO
+%token <String> PONXY IGUALES Y O MAYORQUE MENORQUE POTENCIA DIVISION RESTO
 
 //Procedimientos con N parámetros.
-%token DIFERENCIA PRODUCTO SUMA
+%token <String> DIFERENCIA PRODUCTO SUMA
 
 //Procedimientos con paréntesis []
-%token INC PONPOS EJECUTA ELEGIR CUENTA ULTIMO UL PRIMERO
+%token <String> INC PONPOS EJECUTA ELEGIR CUENTA ULTIMO UL PRIMERO
 
 //Procedimientos con un parámetro y paréntesis []
-%token REPITE SI ELEMENTO
+%token <String> REPITE SI ELEMENTO
 
 %left '+' '-'
 %left '*' '/'
+
+%type <Integer> int_number int_arithmetic_expr int_proc1 int_proc2 int_proc_p int_proc_1p int_proc_n
+%type <Float> float_number float_arithmetic_expr float_proc float_proc1 float_proc2 float_proc_p float_proc_1p float_proc_n
+%type <Boolean> logic_expr bool_proc2
+%type <String> color
 
 %%
 
@@ -54,58 +66,100 @@ expression
     : declaration_expr
     | redeclaration_expr
     | logic_expr
-    | arithmetic_expr
-    | procedure_val
-    | procedure1_val
-    | procedure2_val
-    | procedureN_val
-    | procedureP_val
-    | procedure1P_val
-    | procedure_noval
-    | procedure1_noval
-    | procedure2_noval
-    | procedureP_noval
-    | procedure1P_noval
+    | int_arithmetic_expr
+    | float_arithmetic_expr
+    | int_proc1
+    | int_proc2
+    | int_proc_p
+    | int_proc_1p
+    | int_proc_n
+    | float_proc
+    | float_proc1
+    | float_proc2
+    | float_proc_p
+    | float_proc_1p
+    | float_proc_n
+    | bool_proc2
+    | void_proc
+    | void_proc1
+    | void_proc2
+    | void_proc_p
+    | void_proc_1p
     ;
 
 //Lo que se evalúa a un número
-number
-    : INTEGER {$$=$1;}
-    | FLOAT {$$=$1;}
-    | IDENTIFIER {$$=$1;}
-    | arithmetic_expr
-    | procedure_val
-    | procedure1_val
-    | procedure2_val
-    | procedureN_val
-    | procedureP_val
-    | procedure1P_val
+int_number
+    : INTEGER
+    | IDENTIFIER          { /* Obtener el valor de la variable */ }
+    | int_arithmetic_expr
+    | int_proc1
+    | int_proc2
+    | int_proc_p
+    | int_proc_1p
+    | int_proc_n
+    ;
+
+float_number
+    : FLOAT
+    | IDENTIFIER            { /* Obtener el valor de la variable */ }
+    | float_arithmetic_expr
+    | float_proc
+    | float_proc1
+    | float_proc2
+    | float_proc_p
+    | float_proc_1p
+    | float_proc_n
     ;
 
 //Expresión para redeclarar una variable
 redeclaration_expr
-    : INIC IDENTIFIER '=' number
+    : INIC IDENTIFIER '=' int_number   { /* Modificar el valor de la variable, verificando el tipo de dato */ }
+    | INIC IDENTIFIER '=' float_number { /* Modificar el valor de la variable, verificando el tipo de dato */ }
     ;
 
 //Expresiones para declarar una variable
 declaration_expr
-    : VAR IDENTIFIER            { /* Almacenar identificador */ }
-    | VAR IDENTIFIER '=' number { System.out.println("Identificador " + $2 + " creado."); }
+    : VAR IDENTIFIER                  { /* Almacenar identificador */ }
+    | VAR IDENTIFIER '=' int_number   { /* Almacenar identificador con valor int dado, verificando que no exista */ }
+    | VAR IDENTIFIER '=' float_number { /* Almacenar identificador con valor float dado verificando que no exista */ }
     ;
 
 //Expresiones con valor booleano
 logic_expr
-    : number '<' number {System.out.println($1);}
-    | number '>' number //{$$=$1>$3;}
-    | procedure2_bool
+    : int_number   '<' int_number    { $$ = $1 < $3; }
+    | float_number '<' int_number    { $$ = $1 < $3; }
+    | int_number   '<' float_number  { $$ = $1 < $3; }
+    | float_number '<' float_number  { $$ = $1 < $3; }
+    | int_number   '>' int_number    { $$ = $1 > $3; }
+    | float_number '>' int_number    { $$ = $1 > $3; }
+    | int_number   '>' float_number  { $$ = $1 > $3; }
+    | float_number '>' float_number  { $$ = $1 > $3; }
+    | bool_proc2
     ;
 
 //Expresiones aritméticas con valor numérico
-arithmetic_expr
-    : number '+' number {$$=(int)$1+(int)$3;System.out.println($$);}
-    | number '-' number //{$$=$1-$3;}
-    | number '*' number //{$$=$1*$3;}
-    | number '/' number //{$$=$1/$3;}
+int_arithmetic_expr
+    : int_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
+    | int_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
+    | int_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
+    | '(' int_arithmetic_expr ')' { $$ = $2; }
+    ;
+
+float_arithmetic_expr
+    : float_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
+    | int_number   '+' float_number { $$ = $1 + $3; System.out.println($$); }
+    | float_number '+' float_number { $$ = $1 + $3; System.out.println($$); }
+    | float_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
+    | int_number   '-' float_number { $$ = $1 - $3; System.out.println($$); }
+    | float_number '-' float_number { $$ = $1 - $3; System.out.println($$); }
+    | float_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
+    | int_number   '*' float_number { $$ = $1 * $3; System.out.println($$); }
+    | float_number '*' float_number { $$ = $1 * $3; System.out.println($$); }
+    | int_number   '/' int_number   { $$ = $1 / $3; System.out.println($$); }
+    | float_number '/' int_number   { $$ = $1 / $3; System.out.println($$); }
+    | int_number   '/' float_number { $$ = $1 / $3; System.out.println($$); }
+    | float_number '/' float_number { $$ = $1 / $3; System.out.println($$); }
+    | '(' float_arithmetic_expr ')' { $$ = $2; }
     ;
 
 //Colores permitidos
@@ -121,16 +175,14 @@ color
     | VERDE
     ;
 
-
-
 //Procedimientos sin parámetros que devuelven un valor numérico
-procedure_val
+float_proc
     : RUMBO
     ;
 
 //Procedimientos sin parámetros ni valor de retorno
 // TODO: Json de acciones
-procedure_noval
+void_proc
     : OCULTATORTUGA
     | OT
     | APARECETORTUGA
@@ -144,125 +196,162 @@ procedure_noval
     ;
 
 //Procedimientos con un parámetro que devuelven un valor numérico
-procedure1_val
-    : REDONDEA     number //{Math.rint($2);}
-    | COS          number //{$$ = Math.cos($2);}
-    | AZAR         number //{$$ = Random.doubles($2);}
-    | MENOS        number //{$$ = $2*-1;}
-    | RAIZCUADRADA number //{$$ = Math.sqrt($2);}
-    | RC           number //{$$ = Math.sqrt($2);}
-    | SENO         number //{$$ = Math.sin($2);}
-    | SEN          number //{$$ = Math.sin($2);}
+int_proc1
+    : REDONDEA float_number { $$ = Math.rint($2); }
+    | AZAR int_number       { Random ran = new Random(); $$ = ran.nextInt($2); }
+    | MENOS int_number      { $$ = $2 * -1; }
+    ;
+
+float_proc1
+    : COS int_number            { $$ = Math.cos($2); }
+    | COS float_number          { $$ = Math.cos($2); }
+    | MENOS float_number        { $$ = $2 * -1; }
+    | RAIZCUADRADA int_number   { $$ = Math.sqrt($2); }
+    | RAIZCUADRADA float_number { $$ = Math.sqrt($2); }
+    | RC int_number             { $$ = Math.sqrt($2); }
+    | RC float_number           { $$ = Math.sqrt($2); }
+    | SENO int_number           { $$ = Math.sin($2); }
+    | SENO float_number         { $$ = Math.sin($2); }
+    | SEN int_number            { $$ = Math.sin($2); }
+    | SEN float_number          { $$ = Math.sin($2); }
     ;
 
 //Procedimientos con un parámetro que no tienen valor de retorno
-procedure1_noval
-    : AVANZA        number
-    | AV            number
-    | RETROCEDE     number
-    | RE            number
-    | GIRADERECHA   number
-    | GD            number
-    | GIRAIZQUIERDA number
-    | GI            number
-    | PONRUMBO      number
-    | PONX          number
-    | PONY          number
+void_proc1
+    : AVANZA        int_number
+    | AV            int_number
+    | RETROCEDE     int_number
+    | RE            int_number
+    | GIRADERECHA   int_number
+    | GIRADERECHA   float_number
+    | GD            int_number
+    | GD            float_number
+    | GIRAIZQUIERDA int_number
+    | GIRAIZQUIERDA float_number
+    | GI            int_number
+    | GI            float_number
+    | PONRUMBO      int_number
+    | PONRUMBO      float_number
+    | PONX          int_number
+    | PONY          int_number
     | PONCOLORLAPIZ color
     | PONCL         color
-    | ESPERA        number
+    | ESPERA        int_number
+    | ESPERA        float_number
     ;
 
 //Procedimientos con 2 parámetros que devuelven un valor numérico
-procedure2_val
-    : POTENCIA number number //{$$ = Math.pow($1,$2);}
-    | DIVISION number number //{$$ = $1/$2;}
-    | RESTO    number number //{$$=$1%$2;}
+int_proc2
+    : POTENCIA int_number int_number { $$ = Math.pow($2, $3); }
+    | RESTO    int_number int_number { $$ = $2 % $3; }
+    ;
+
+float_proc2
+    : POTENCIA float_number int_number   { $$ = Math.pow($2, $3); }
+    | POTENCIA int_number   float_number { $$ = Math.pow($2, $3); }
+    | POTENCIA float_number float_number { $$ = Math.pow($2, $3); }
+    | DIVISION int_number   int_number   { $$ = $2 / $3; }
+    | DIVISION float_number int_number   { $$ = $2 / $3; }
+    | DIVISION int_number   float_number { $$ = $2 / $3; }
+    | DIVISION float_number float_number { $$ = $2 / $3; }
     ;
 
 //Procedimientos con 2 parámetros que devuelven un valor booleano
-procedure2_bool
-    : IGUALES  number number //{$$=$1==$2;}
-    | Y        number number //{$$=($1 && $2);}
-    | O        number number //{$$=($1 || $2);}
-    | MAYORQUE number number //{$$= $1 > $2;}
-    | MENORQUE number number //{$$= $1 < $2;}
+bool_proc2
+    : IGUALES  int_number   int_number   { $$ = $2.equals($3); }
+    | IGUALES  float_number int_number   { $$ = $2.equals($3); }
+    | IGUALES  int_number   float_number { $$ = $2.equals($3); }
+    | IGUALES  float_number float_number { $$ = $2.equals($3); }
+    | Y        logic_expr   logic_expr   { $$ = $2 && $3; }
+    | O        logic_expr   logic_expr   { $$ = $2 || $3; }
+    | MAYORQUE int_number   int_number   { $$ = $2 > $3; }
+    | MAYORQUE float_number int_number   { $$ = $2 > $3; }
+    | MAYORQUE int_number   float_number { $$ = $2 > $3; }
+    | MAYORQUE float_number float_number { $$ = $2 > $3; }
+    | MENORQUE int_number   int_number   { $$ = $2 < $3; }
+    | MENORQUE float_number int_number   { $$ = $2 < $3; }
+    | MENORQUE int_number   float_number { $$ = $2 < $3; }
+    | MENORQUE float_number float_number { $$ = $2 < $3; }
     ;
 
 //Procedimientos con 2 parámetros que no tienen valor de retorno
-procedure2_noval
-    : PONXY number number
+void_proc2
+    : PONXY int_number int_number
     ;
 
 //Regla para N cantidad de parámetros
-N_params
-    : number N_params
-    | number
+int_params_n
+    : int_number int_params_n
+    | int_number
+    ;
+
+float_params_n
+    : float_number float_params_n
+    | float_number
     ;
 
 //Procedimientos con N parámetros que devuelven un valor numérico
 // TODO
-procedureN_val
-    : DIFERENCIA N_params
-    | PRODUCTO N_params
-    | SUMA N_params
+int_proc_n
+    : DIFERENCIA int_params_n
+    | PRODUCTO   int_params_n
+    | SUMA       int_params_n
+    ;
+
+float_proc_n
+    : DIFERENCIA float_params_n
+    | PRODUCTO   float_params_n
+    | SUMA       float_params_n
     ;
 
 //Regla para definir cualquier cantidad de órdenes
-N_ordenes
-    : expression N_ordenes
+expr_procs_n
+    : expression expr_procs_n
     | expression
     ;
 
-//N cantidad de valores enteros
-N_intvals
-    : INTEGER N_intvals
-    | INTEGER
-    ;
-
-//N cantidad de valores flotante
-N_floatvals
-    : FLOAT N_floatvals
-    | FLOAT
-    ;
-
 //Procedimientos con paréntesis que devuelven un valor numérico
-procedureP_val
-    : ELEGIR '[' N_intvals ']' //{$$=($3);}
-    | ELEGIR '[' N_floatvals ']'//{$$=($3);}
-    | CUENTA '[' N_intvals ']' //{$$=($3);}
-    | CUENTA '[' N_floatvals ']'//{$$=($3);}
-    | ULTIMO '[' N_intvals ']'//{$$=($3);}
-    | UL '[' N_intvals ']'//{$$=($3);}
-    | ULTIMO '[' N_floatvals ']'//{$$=($3);}
-    | UL '[' N_floatvals ']'//{$$=($3);}
-    | PRIMERO '[' N_intvals ']'//{$$=($3);}
-    | PRIMERO '[' N_floatvals ']'//{$$=($3);}
+int_proc_p
+    : ELEGIR  '[' int_params_n   ']'
+    | CUENTA  '[' int_params_n   ']'
+    | CUENTA  '[' float_params_n ']'
+    | ULTIMO  '[' int_params_n   ']'
+    | UL      '[' int_params_n   ']'
+    | PRIMERO '[' int_params_n   ']'
+    ;
+
+float_proc_p
+    : ELEGIR  '[' float_params_n ']'
+    | ULTIMO  '[' float_params_n ']'
+    | UL      '[' float_params_n ']'
+    | PRIMERO '[' float_params_n ']'
     ;
 
 
 //Procedimientos con paréntesis que no tienen valor de retorno
-procedureP_noval
-    : INC '[' IDENTIFIER ']'
-    | INC '[' IDENTIFIER number ']'
-    | PONPOS '[' number number ']'
-    | EJECUTA '[' N_ordenes ']' { /* Similar a un procedimiento anónimo */ }
+void_proc_p
+    : INC     '[' IDENTIFIER              ']'
+    | INC     '[' IDENTIFIER int_number   ']'
+    | INC     '[' IDENTIFIER float_number ']'
+    | PONPOS  '[' int_number int_number   ']'
+    | EJECUTA '[' expr_procs_n            ']'
     ;
 
-procedure1P_val
-    : ELEMENTO INTEGER '[' N_intvals ']'
-    | ELEMENTO INTEGER '[' N_floatvals ']'
-    | ELEMENTO IDENTIFIER '[' N_intvals ']'
-    | ELEMENTO IDENTIFIER '[' N_floatvals ']'
+int_proc_1p
+    : ELEMENTO int_number '[' int_params_n ']'
     ;
 
-procedure1P_noval
-    : REPITE INTEGER '[' N_ordenes ']'
-    | REPITE IDENTIFIER '[' N_ordenes ']'
-    | SI logic_expr '[' N_ordenes ']'
+float_proc_1p
+    : ELEMENTO int_number '[' float_params_n ']'
+    ;
+
+void_proc_1p
+    : REPITE int_number '[' expr_procs_n ']'
+    | SI logic_expr     '[' expr_procs_n ']'
     ;
 
 %%
+
 
     public Lexer lexer;
 	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz
@@ -277,7 +366,7 @@ procedure1P_noval
         }
 
         System.out.println(msg);
-        System.out.println("En " + lexer.getSemantic() + ", línea " + (lexer.line + 1) + ". columna " + (lexer.column + 1));
+        System.out.println("En " + lexer.getSemantic() + ", línea " + (lexer.getCurrentLine() + 1) + ". columna " + (lexer.getCurrentColumn() + 1));
     }
 
     public Parser(String ruta) {
@@ -303,10 +392,45 @@ procedure1P_noval
         //TODO: notificar interfaz que finalizó la compilación.
     }
 
-    public static void main(String[] args) {
-        //TODO: recibir ruta desde args.
-        String path = "/src/Compiler/NewLex/parse.txt";
-        String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+    public String getRutaCompilado(String filePath) {
+
+        String rutaCompilado = filePath.substring(0, filePath.lastIndexOf(".") + 1) + "cld";
+        System.out.println(rutaCompilado);
+
+        String compilado = "Compilado 1"; // TODO obtener el string con el json de las acciones
+        try {
+            File file = new File(rutaCompilado);
+            file.createNewFile();
+            System.out.println("File compiled created: " + file.getName());
+            FileWriter writer = new FileWriter(rutaCompilado);
+            writer.write(compilado);
+            writer.close();
+            return rutaCompilado;
+        } catch (IOException ex) {
+            System.out.println("An error ocurred");
+        }
+
+        return "";
+    }
+
+    public static String compile(String filePath) {
+        String ruta = filePath.replaceAll("\\\\", "/");
         Parser parser = new Parser(ruta);
         parser.parse();
+        String rutaCompilado = parser.getRutaCompilado(filePath);
+
+        return rutaCompilado;
     }
+
+    /*
+    String nuevaRuta = Parser.compile("/home/villegas/archivo.ldr");
+    */
+
+    public static void main(String[] args) {
+           //TODO: recibir ruta desde args.
+           String path = "/src/Compiler/Lex/parse.txt";
+           String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+           //Parser parser = new Parser(ruta);
+           //parser.parse();
+           compile(System.getProperty("user.dir") + path);
+       }
