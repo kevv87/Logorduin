@@ -96,11 +96,11 @@ expression
     | float_proc_1p
     | float_proc_n
     | bool_proc2
-    | void_proc{if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc1 {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc2 {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc_p {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc_1p {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
+    | void_proc
+    | void_proc1
+    | void_proc2
+    | void_proc_p
+    | void_proc_1p
     | user_procedure
     ;
 
