@@ -168,7 +168,7 @@ redeclaration_expr
 declaration_expr
     : VAR IDENTIFIER                  {if(!varHandler.isIgnore()){varHandler.add($2);}}
     | VAR IDENTIFIER '=' int_number   {if(!varHandler.isIgnore()){varHandler.add($2,$4);}}
-    | VAR IDENTIFIER '=' float_number {if(!varHandler.isignore()){varHandler.add($2,$4);}}
+    | VAR IDENTIFIER '=' float_number {if(!varHandler.isIgnore()){varHandler.add($2,$4);}}
     ;
 
 //Expresiones con valor booleano
@@ -228,16 +228,36 @@ float_proc
 
 //Procedimientos sin parámetros ni valor de retorno
 void_proc
-    : OCULTATORTUGA {if(varHandler.isIgnore()){$$ =new jsonAction("ocultatortuga",1,null);}else{$$=null;}}
-    | OT{if(varHandler.isIgnore()){$$ = new jsonAction("ocultatortuga",1,null);}else{$$=null;}}
-    | APARECETORTUGA{if(varHandler.isIgnore()){$$ = new jsonAction("aparecetortuga",1,null);}else{$$=null;}}
-    | AT{if(varHandler.isIgnore()){$$ = new jsonAction("aparecetortuga",1,null);}else{$$=null;}}
-    | BAJALAPIZ{if(varHandler.isIgnore()){$$ = new jsonAction("bajalapiz",1,null);}else{$$=null;}}
-    | BL{if(varHandler.isIgnore()){$$ = new jsonAction("bajalapiz",1,null);}else{$$=null;}}
-    | SUBELAPIZ{if(varHandler.isIgnore()){$$ = new jsonAction("subelapiz",1,null);}else{$$=null;}}
-    | SB{if(varHandler.isIgnore()){$$ = new jsonAction("subelapiz",1,null);}else{$$=null;}}
-    | CENTRO{if(varHandler.isIgnore()){$$ = new jsonAction("centro",1,null);}else{$$=null;}}
-    | BORRAPANTALLA{if(varHandler.isIgnore()){$$ = new jsonAction("borrapantalla",1,null);}else{$$=null;}}
+    : OCULTATORTUGA {jsonAction result=new jsonAction("ocultatortuga",1,null);
+                     if(anidados.empty()){$$ = result;}
+                     else{anidados.peek().addComplejo(result);}}
+    | OT{jsonAction result=new jsonAction("ocultatortuga",1,null);
+         if(anidados.empty()){$$ = result;}
+         else{anidados.peek().addComplejo(result);}}
+    | APARECETORTUGA{jsonAction result=new jsonAction("aparecetortuga",1,null);
+                     if(anidados.empty()){$$ = result;}
+                     else{anidados.peek().addComplejo(result);}}
+    | AT{jsonAction result=new jsonAction("aparecetortuga",1,null);
+         if(anidados.empty()){$$ = result;}
+         else{anidados.peek().addComplejo(result);}}
+    | BAJALAPIZ{jsonAction result=new jsonAction("bajalapiz",1,null);
+                if(anidados.empty()){$$ = result;}
+                else{anidados.peek().addComplejo(result);}}
+    | BL{jsonAction result=new jsonAction("bajalapiz",1,null);
+         if(anidados.empty()){$$ = result;}
+         else{anidados.peek().addComplejo(result);}}
+    | SUBELAPIZ{jsonAction result=new jsonAction("subelapiz",1,null);
+         if(anidados.empty()){$$ = result;}
+         else{anidados.peek().addComplejo(result);}}
+    | SB{jsonAction result=new jsonAction("subelapiz",1,null);
+         if(anidados.empty()){$$ = result;}
+         else{anidados.peek().addComplejo(result);}}
+    | CENTRO{jsonAction result=new jsonAction("centro",1,null);
+             if(anidados.empty()){$$ = result;}
+             else{anidados.peek().addComplejo(result);}}
+    | BORRAPANTALLA{jsonAction result=new jsonAction("borrapantalla",1,null);
+                    if(anidados.empty()){$$ = result;}
+                    else{anidados.peek().addComplejo(result);}}
     ;
 
 //Procedimientos con un parámetro que devuelven un valor numérico
@@ -265,70 +285,123 @@ float_proc1
 void_proc1
     : AVANZA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | AV            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | RETROCEDE     int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("retrocede",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | RE            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("retrocede",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | GIRADERECHA   int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | GIRADERECHA   float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
+                                  jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                  if(anidados.empty()){$$ = result;}
+                                  else{anidados.peek().addComplejo(result);}
+                                  }
     | GD            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | GD            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
+                                  jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                  if(anidados.empty()){$$ = result;}
+                                  else{anidados.peek().addComplejo(result);}
+                                  }
     | GIRAIZQUIERDA int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | GIRAIZQUIERDA float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
+                                  jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                  if(anidados.empty()){$$ = result;}
+                                  else{anidados.peek().addComplejo(result);}
+                                  }
     | GI            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+                                }
     | GI            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
+                                  jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                  if(anidados.empty()){$$ = result;}
+                                  else{anidados.peek().addComplejo(result);}
+                                  }
     | PONRUMBO      int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos);
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
+
                                 variables.replace("rumbo",(Integer)$2);}
     | PONRUMBO      float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  $$ = new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos);
+                                  jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                  if(anidados.empty()){$$ = result;}
+                                  else{anidados.peek().addComplejo(result);}
                                   variables.replace("rumbo",$2);}
     | PONX          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("ponx",1,(ArrayList<Object>)argumentos);
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
                                 variables.replace("x",(Integer)$2);}
     | PONY          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("ponx",1,(ArrayList<Object>)argumentos);
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}
                                 variables.replace("y",$2);}
     | PONCOLORLAPIZ color {ArrayList<Object> argumentos = new ArrayList<Object>();
                            argumentos.add($2);
-                           $$ = new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos);
+                           jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                           if(anidados.empty()){$$ = result;}
+                           else{anidados.peek().addComplejo(result);}
                            variables.replace("colorlapiz",$2);}
     | PONCL         color {ArrayList<Object> argumentos = new ArrayList<Object>();
                            argumentos.add($2);
-                           $$ = new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos);
+                           jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                           if(anidados.empty()){$$ = result;}
+                           else{anidados.peek().addComplejo(result);}
                            variables.replace("colorlapiz",$2);}
     | ESPERA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                 argumentos.add($2);
-                                $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);}
+                                jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                if(anidados.empty()){$$ = result;}
+                                else{anidados.peek().addComplejo(result);}}
     | ESPERA        float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                   argumentos.add($2);
-                                  $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);}
+                                  jsonAction result = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);
+                                  if(anidados.empty()){$$ = result;}
+                                  else{anidados.peek().addComplejo(result);}}
     ;
 
 //Procedimientos con 2 parámetros que devuelven un valor numérico
@@ -370,7 +443,9 @@ void_proc2
     : PONXY int_number int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
                                    argumentos.add($2);
                                    argumentos.add($3);
-                                   $$ = new jsonAction("ponxy",1,(ArrayList<Object>)argumentos);
+                                   jsonAction result = new jsonAction("ponxy",1,(ArrayList<Object>)argumentos);
+                                   if(anidados.empty()){$$ = result;}
+                                   else{anidados.peek().addComplejo(result);}
                                    //TODO: Cambiar estas variables globales de ser posible
                                    variables.replace("x",$2);
                                    variables.replace("y",$3);}
@@ -431,12 +506,14 @@ void_proc_p
     | INC     '[' IDENTIFIER int_number   ']' {variables.replace($3, (Integer)variables.get($3)+$4);}
     | INC     '[' IDENTIFIER float_number ']' {variables.replace($3, (Float)variables.get($3)+$4);}
     | PONPOS  '[' int_number int_number   ']' {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                                                                 argumentos.add($2);
-                                                                                 argumentos.add($3);
-                                                                                 $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);
-                                                                                 variables.replace("x",$3);
-                                                                                 variables.replace("y",$4);}
-    | EJECUTA '[' expr_procs_n ']' {$$=$3;} // TODO: Probar esto
+                                               argumentos.add($2);
+                                               argumentos.add($3);
+                                               $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);
+                                               variables.replace("x",$3);
+                                               variables.replace("y",$4);}
+    | proc_head '[' expr_procs_n ']' {jsonAction result = anidados.pop();
+                                                                           if(anidados.empty()){$$ = result;}
+                                                                           else{anidados.peek().addComplejo(result);}}
     ;
 
 // Procedimientos con parentesis y un parametro que devuelven un valor.
@@ -452,12 +529,15 @@ float_proc_1p
 // TODO: No agregar las acciones json de una vez al json, agregarlas aparte y luego hacer la verificacion de si se tienen que agregar o no.
 // TODO: Esto puede ayudar de una vez a guardar en el Hashmap los procedimientos especificados por el usuario.
 void_proc_1p
-    : proc_head '[' expr_procs_n ']' {varHandler.resetScope();}  //TODO: Quaseaccion se vuelve accion con n repeticiones
+    : proc_head '[' expr_procs_n ']' {jsonAction result = anidados.pop();
+                                      if(anidados.empty()){$$ = result;}
+                                      else{anidados.peek().addComplejo(result);}}  //TODO: Quaseaccion se vuelve accion con n repeticiones
     ;
 
 proc_head
-    : REPITE int_number { varHandler.setScope("repite");}
-    | SI logic_expr     {if(!((boolean)$2)){varHandler.setScope("ignore");}}
+    : REPITE int_number {anidados.push(new jsonAction("repite", (int)$2));}
+    | SI logic_expr     {anidados.push(new jsonAction("si", 1));}
+    | EJECUTA {anidados.push(new jsonAction("ejecuta",1));}
     ;
 
 %%
@@ -470,7 +550,7 @@ proc_head
     public ArrayList<String> procInstructions; //Para almacenar instrucciones de un procedimineto temporalmente
 
 	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones definitivas a ejecutar en la interfaz, TODO: Guardar una version en texto plano de este array list en un documento
-	private Stack<ArrayList<jsonAction>> quaseAcciones; // Aqui se guardan las acciones que el compilador tiene por definir si se van a agregar al codigo de maquina
+	private Stack<jsonAction> anidados; // Stack para manejar procesos anidados
 	private HashMap<String, Object> variables; // Aqui se guardan las variables en tiempo de compilacion
 
 	// Variables para la ejecucion de procedimientos con n params
@@ -489,7 +569,7 @@ proc_head
     }
 
     public Parser(String ruta) {
-        quaseAcciones = new Stack<ArrayList<jsonAction>>();
+        anidados = new Stack<jsonAction>();
 	    acciones = new ArrayList<jsonAction>();
 	    variables = new HashMap<String, Object>();
 	    n_params = new Stack<ArrayList<Object>>();

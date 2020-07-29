@@ -1,5 +1,7 @@
 package Logic;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.w3c.dom.ls.LSOutput;
 
 import java.util.ArrayList;
@@ -19,9 +21,15 @@ public class jsonAction {
     private int repeticiones;  // Numero de veces a ejecutar dicha accion
     private ArrayList<Object> argumentos; // Argumentos para la accion a ejecutar
 
-    private ArrayList<jsonAction> complejo; // Complejo de acciones a ejecutar.
-
+    private ArrayList<String> complejo; // Complejo de acciones a ejecutar.
     public jsonAction(){}; // Dummy constructor necesario para jackson
+
+    public jsonAction(String accion, int repeticiones) {
+        this.accion = accion;
+        this.repeticiones = repeticiones;
+        this.argumentos = null;
+        this.complejo = new ArrayList<>();
+    }
 
     public jsonAction(String accion, int repeticiones, ArrayList<Object> argumentos) {
         this.accion = accion;
@@ -30,13 +38,24 @@ public class jsonAction {
         this.complejo = null;
     }
 
-    // Getters & Setters
-    public ArrayList<jsonAction> getComplejo() {
-        return complejo;
+    /**
+     * Convierte un jsonAction a su forma de json y lo agrega a complejo
+     * @param accion jsonAction a agregar
+     * */
+    public void addComplejo(jsonAction accion){
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            complejo.add(objectMapper.writeValueAsString(accion));
+        }catch(JsonProcessingException e){
+            System.out.println(e);
+        }
+
     }
 
-    public void setComplejo(ArrayList<jsonAction> complejo) {
-        this.complejo = complejo;
+    // Getters & Setters
+    public ArrayList<String> getComplejo() {
+        return complejo;
     }
 
     public String getAccion() {
