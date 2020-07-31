@@ -22,14 +22,11 @@
     <jarDirectory url="file:///javafx/lib" recursive="false" />
     <jarDirectory url="file://$PROJECT_DIR$/../../../../javafx/lib" recursive="false" />
     <jarDirectory url="file://$JAVAFX_PATH$" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../../../javafx/lib" recursive="false" />
     <jarDirectory url="file://$USER_HOME$/javafx/lib" recursive="false" />
     <jarDirectory url="file://$USER_HOME$/sdks/JavaFx/lib" recursive="false" />
     <jarDirectory url="file:///javafx/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://$PROJECT_DIR$/../../../../javafx/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://$JAVAFX_PATH$" recursive="false" type="SOURCES" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../../../javafx/lib" recursive="false" type="SOURCES" />
     <jarDirectory url="file://$USER_HOME$/javafx/lib" recursive="false" type="SOURCES" />
-    <jarDirectory url="file:///javafx/lib" recursive="false" type="SOURCES" />
   </library>
 </component>
