@@ -6,5 +6,16 @@ giraderecha 90;
 
 ocultatortuga;
 elegir[ 10 20 15 12 ];
-repite 5 [avanza myvar];
+
+repite 5 [
+    avanza myvar
+    giraderecha 100
+];
+
+para Espirales
+    avanza 100;
+    giraderecha 15
+fin
+
+
 
