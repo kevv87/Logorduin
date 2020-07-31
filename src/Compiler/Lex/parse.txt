@@ -1,3 +1,13 @@
+para espirales
+    avanza myvar
+    giraderecha 15
+fin;
+
+para angulos angulo
+    avanza 100
+    giraderecha angulo
+fin;
+
 var myvar = 3;
 
 avanza 100;
@@ -12,10 +22,6 @@ repite 5 [
     giraderecha 100
 ];
 
-para Espirales
-    avanza 100;
-    giraderecha 15
-fin
 
 
 
