@@ -16,9 +16,14 @@ import java.io.*;
     public Object lexeme; //Para almacenar tokens de tipo String, Boolean, Integer y Float
     public int currentToken; //Para obtener el token actual sin avanzar el parseo
     public String errorMessage; //Para obtener los errores
+    public Boolean lexerError = false; //Para identificar si el error fue léxico
 
     public String getErrorMessage() {
         return this.errorMessage;
+    }
+
+    public Boolean isLexerError() {
+        return lexerError;
     }
 
     public int getCurrentToken() {
@@ -176,6 +181,8 @@ primero {return prepare(PRIMERO); }
 repite {return prepare(REPITE); }
 si {return prepare(SI); }
 elemento {return prepare(ELEMENTO); }
+para {return prepare(PARA); }
+fin {return prepare(FIN); }
 
 
 {Identifier} { return prepare(IDENTIFIER); }
@@ -183,31 +190,37 @@ elemento {return prepare(ELEMENTO); }
 {MayusError} {
     lexeme = yytext();
     errorMessage = "El identificador <" + lexeme + "> no puede iniciar con mayuscula";
+    lexerError = true;
     return error;}
 
 {SymbolError} {
     lexeme = yytext();
     errorMessage = "El identificador <" + lexeme + "> no puede iniciar con simbolos";
+    lexerError = true;
     return error;}
 
 {NumberError} {
     lexeme = yytext();
     errorMessage = "El identificador <" + lexeme + "> no puede iniciar con numeros";
+    lexerError = true;
     return error;}
 
 {LengthError} {
     lexeme = yytext();
     errorMessage = "El identificador <" + lexeme + "> supera el tamaño máximo de 10 carácteres" ;
+    lexerError = true;
     return error;} 
 
 {IdentifierError} {
     lexeme = yytext();
     errorMessage = "Identificador mal definido <" + lexeme + ">";
+    lexerError = true;
     return error;} 
 
 [^] {// token desconocido
     lexeme = yytext();
     errorMessage = "Simbolo desconocido <" + lexeme + ">";
+    lexerError = true;
     return error;} 
 
 /* Error Fallback */
