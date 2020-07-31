@@ -530,11 +530,13 @@ user_proc_call
         System.out.println(rutaCompilado);
 
         ObjectMapper mapper = new ObjectMapper();
+        instructions.reverse();
         CompiledFile cFile = new CompiledFile(instructions, procedures);
         
         try {
             File file = new File(rutaCompilado);
             file.createNewFile();
+
             String compilado = mapper.writeValueAsString(cFile);
             System.out.println("File compiled created: " + file.getName());
             FileWriter writer = new FileWriter(rutaCompilado);
@@ -544,8 +546,6 @@ user_proc_call
 
         } catch (IOException ex) {
             System.out.println("An error ocurred");
-        }catch (JsonProcessingException e){
-            System.out.println(e);
         }
 
         return null;

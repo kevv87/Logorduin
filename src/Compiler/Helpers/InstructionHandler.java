@@ -121,6 +121,25 @@ public class InstructionHandler {
         return _instr.poll();
     }
 
+    public void reverse()
+    {
+
+        Stack<String> s = new Stack<>();  //create a stack
+
+        //while the queue is not empty
+        while(!_instr.isEmpty())
+        {  //add the elements of the queue onto a stack
+            s.push(_instr.poll());
+        }
+
+        //while the stack is not empty
+        while(!s.isEmpty())
+        { //add the elements in the stack back to the queue
+            _instr.add(s.pop());
+        }
+
+    }
+
     /**
      * Método para obtener la siguiente instrucción de la cola de instrucciones, pero sin eliminarla de la misma
      * @return Json representando una instrucción
