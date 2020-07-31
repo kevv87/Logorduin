@@ -1,16 +1,18 @@
 // Output created by jacc on Wed Jul 29 13:13:36 CST 2020
 
-package Compiler.Jacc;
+package Tests.Jacc;
 
 import Compiler.Lex.Lexer;
+import java.io.*;
 import Logic.MessageType;
 import Logic.jsonAction;
-
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 
-public class Parser implements ParserTokens {
+class Parser implements ParserTokens {
     private int yyss = 100;
     private int yytok;
     private int yysp = 0;
@@ -15480,6 +15482,7 @@ public class Parser implements ParserTokens {
     public String getRutaCompilado(String filePath) {
 
         String rutaCompilado = filePath.substring(0, filePath.lastIndexOf(".") + 1) + "cld";
+        System.out.println(rutaCompilado);
 
         String compilado = "Compilado 1"; // TODO obtener el string con el json de las acciones
         try {
@@ -15516,7 +15519,7 @@ public class Parser implements ParserTokens {
            String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
            //Parser parser = new Parser(ruta);
            //parser.parse();
-        compile(System.getProperty("user.dir") + path);
+           compile(System.getProperty("user.dir") + path);
        }
 
 }

@@ -22,10 +22,12 @@ public class Analizador {
                     return;
                 }
                 if (token == 81) {
-                    System.out.println("Simbolo no definido " + lexer.getSemantic() + " en linea " + lexer.getCurrentLine() + " en columna " + lexer.getCurrentColumn());
-                } else {
-                    System.out.println(lexer.lexeme + ", código: " + token);
+                    System.out.println(lexer.getErrorMessage() + " en linea " + (lexer.getCurrentLine()+1) + " en columna " + lexer.getCurrentColumn());
+//                    System.out.println("Simbolo no definido " + lexer.getSemantic() + " en linea " + lexer.getCurrentLine() + " en columna " + lexer.getCurrentColumn());
                 }
+//                else {
+//                    System.out.println(lexer.lexeme + ", código: " + token);
+//                }
             }
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -48,6 +50,7 @@ public class Analizador {
         Analizador analizador = new Analizador();
 //        analizador.printTokens(ruta);
         analizador.printTokens2(ruta);
+
 
     }
 }

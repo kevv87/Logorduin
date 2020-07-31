@@ -13,8 +13,9 @@ import Logic.MessageType;
 import Logic.jsonAction;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.HashMap;
-import java.util.Stack;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
 %}
 
 //Operadores y otros.
@@ -53,27 +54,11 @@ import java.util.Stack;
 %type <String> color
 
 %%
-progl: prog {parseFinished();}
-;
 
 //Símbolo inicial
 prog
-    : expression ';' prog {if($1 instanceof ArrayList){
-                                                 acciones.addAll((ArrayList<jsonAction>)$1);
-                                             }else if($1 instanceof jsonAction){
-                                                 acciones.add((jsonAction)$1);
-                                             }else if($1 instanceof HashMap){
-                                                 variables = mergeHash(variables,(HashMap<String,Object>)$1);
-                                             }
-                                            }
-    | expression ';' {if($1 instanceof ArrayList){
-                       acciones.addAll((ArrayList<jsonAction>)$1);
-                   }else if($1 instanceof jsonAction){
-                       acciones.add((jsonAction)$1);
-                   }else if($1 instanceof HashMap){
-                       variables = mergeHash(variables,(HashMap<String,Object>)$1);
-                   }
-                  }
+    : expression ';' prog ';'
+    | expression
     ;
 
 //Definición de expresión
@@ -95,17 +80,17 @@ expression
     | float_proc_1p
     | float_proc_n
     | bool_proc2
-    | void_proc{if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc1 {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc2 {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc_p {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
-    | void_proc_1p {if(!($1 instanceof ArrayList)){ArrayList<jsonAction> result = new ArrayList<jsonAction>();result.add((jsonAction)$1);$$=result;}}
+    | void_proc
+    | void_proc1
+    | void_proc2
+    | void_proc_p
+    | void_proc_1p
     ;
 
 //Lo que se evalúa a un número
 int_number
-    : INTEGER {$$ = $1;}
-    | IDENTIFIER          {$$=(Integer)variables.get($1);}
+    : INTEGER
+    | IDENTIFIER          { /* Obtener el valor de la variable */ }
     | int_arithmetic_expr
     | int_proc1
     | int_proc2
@@ -115,8 +100,8 @@ int_number
     ;
 
 float_number
-    : FLOAT {$$=$1;}
-    | IDENTIFIER            { $$=(Float)variables.get($1); }
+    : FLOAT
+    | IDENTIFIER            { /* Obtener el valor de la variable */ }
     | float_arithmetic_expr
     | float_proc
     | float_proc1
@@ -128,16 +113,15 @@ float_number
 
 //Expresión para redeclarar una variable
 redeclaration_expr
-    : INIC IDENTIFIER '=' int_number   { variables.replace($2,$4); }
-    | INIC IDENTIFIER '=' float_number { variables.replace($2,$4); }
+    : INIC IDENTIFIER '=' int_number   { /* Modificar el valor de la variable, verificando el tipo de dato */ }
+    | INIC IDENTIFIER '=' float_number { /* Modificar el valor de la variable, verificando el tipo de dato */ }
     ;
 
-// TODO: Las variables tienen scope global
 //Expresiones para declarar una variable
 declaration_expr
-    : VAR IDENTIFIER                  {if(variables.get($2)==null){variables.put($2,null);}}
-    | VAR IDENTIFIER '=' int_number   {if(variables.get($2)==null){variables.put($2,$4);}}
-    | VAR IDENTIFIER '=' float_number {if(variables.get($2)==null){variables.put($2,$4);}}
+    : VAR IDENTIFIER                  { /* Almacenar identificador */ }
+    | VAR IDENTIFIER '=' int_number   { /* Almacenar identificador con valor int dado, verificando que no exista */ }
+    | VAR IDENTIFIER '=' float_number { /* Almacenar identificador con valor float dado verificando que no exista */ }
     ;
 
 //Expresiones con valor booleano
@@ -150,63 +134,65 @@ logic_expr
     | float_number '>' int_number    { $$ = $1 > $3; }
     | int_number   '>' float_number  { $$ = $1 > $3; }
     | float_number '>' float_number  { $$ = $1 > $3; }
-    | bool_proc2 {$$ = $1;}
+    | bool_proc2
     ;
 
 //Expresiones aritméticas con valor numérico
 int_arithmetic_expr
-    : int_number '+' int_number   { $$ = $1 + $3; }
-    | int_number '-' int_number   { $$ = $1 - $3; }
-    | int_number '*' int_number   { $$ = $1 * $3; }
+    : int_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
+    | int_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
+    | int_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
     | '(' int_arithmetic_expr ')' { $$ = $2; }
     ;
 
 float_arithmetic_expr
-    : float_number '+' int_number   { $$ = $1 + $3; }
-    | int_number   '+' float_number { $$ = $1 + $3; }
-    | float_number '+' float_number { $$ = $1 + $3; }
-    | float_number '-' int_number   { $$ = $1 - $3; }
-    | int_number   '-' float_number { $$ = $1 - $3; }
-    | float_number '-' float_number { $$ = $1 - $3; }
-    | float_number '*' int_number   { $$ = $1 * $3; }
-    | int_number   '*' float_number { $$ = $1 * $3; }
-    | float_number '*' float_number { $$ = $1 * $3; }
-    | int_number   '/' int_number   { $$ = $1 / $3; }
-    | float_number '/' int_number   { $$ = $1 / $3; }
-    | int_number   '/' float_number { $$ = $1 / $3; }
-    | float_number '/' float_number { $$ = $1 / $3; }
+    : float_number '+' int_number   { $$ = $1 + $3; System.out.println($$); }
+    | int_number   '+' float_number { $$ = $1 + $3; System.out.println($$); }
+    | float_number '+' float_number { $$ = $1 + $3; System.out.println($$); }
+    | float_number '-' int_number   { $$ = $1 - $3; System.out.println($$); }
+    | int_number   '-' float_number { $$ = $1 - $3; System.out.println($$); }
+    | float_number '-' float_number { $$ = $1 - $3; System.out.println($$); }
+    | float_number '*' int_number   { $$ = $1 * $3; System.out.println($$); }
+    | int_number   '*' float_number { $$ = $1 * $3; System.out.println($$); }
+    | float_number '*' float_number { $$ = $1 * $3; System.out.println($$); }
+    | int_number   '/' int_number   { $$ = $1 / $3; System.out.println($$); }
+    | float_number '/' int_number   { $$ = $1 / $3; System.out.println($$); }
+    | int_number   '/' float_number { $$ = $1 / $3; System.out.println($$); }
+    | float_number '/' float_number { $$ = $1 / $3; System.out.println($$); }
     | '(' float_arithmetic_expr ')' { $$ = $2; }
     ;
 
 //Colores permitidos
 color
-    : BLANCO {$$="blanco";}
-    | AZUL{$$="azul";}
-    | MARRON{$$="marron";}
-    | CIAN{$$="cian";}
-    | GRIS{$$="gris";}
-    | AMARILLO{$$="amarillo";}
-    | NEGRO{$$="negro";}
-    | ROJO{$$="rojo";}
-    | VERDE{$$="verde";}
+    : BLANCO
+    | AZUL
+    | MARRON
+    | CIAN
+    | GRIS
+    | AMARILLO
+    | NEGRO
+    | ROJO
+    | VERDE
     ;
+
 //Procedimientos sin parámetros que devuelven un valor numérico
 float_proc
-    : RUMBO {$$=variables.get("rumbo");}
+    : RUMBO
     ;
 
 //Procedimientos sin parámetros ni valor de retorno
+// TODO: Json de acciones
 void_proc
-    : OCULTATORTUGA {$$ =new jsonAction("ocultatortuga",1,null);}
-    | OT{$$ = new jsonAction("ocultatortuga",1,null);}
-    | APARECETORTUGA{$$ = new jsonAction("aparecetortuga",1,null);}
-    | AT{$$ = new jsonAction("aparecetortuga",1,null);}
-    | BAJALAPIZ{$$ = new jsonAction("aparecetortuga",1,null);}
-    | BL{ $$ = new jsonAction("aparecetortuga",1,null);}
-    | SUBELAPIZ{$$ = new jsonAction("aparecetortuga",1,null);}
-    | SB{$$ = new jsonAction("aparecetortuga",1,null);}
-    | CENTRO{ $$ = new jsonAction("aparecetortuga",1,null);}
-    | BORRAPANTALLA{ $$ = new jsonAction("aparecetortuga",1,null);}
+    : OCULTATORTUGA
+    | OT
+    | APARECETORTUGA
+    | AT
+    | BAJALAPIZ
+    | BL
+    | SUBELAPIZ
+    | SB
+    | CENTRO
+    | BORRAPANTALLA
     ;
 
 //Procedimientos con un parámetro que devuelven un valor numérico
@@ -232,72 +218,26 @@ float_proc1
 
 //Procedimientos con un parámetro que no tienen valor de retorno
 void_proc1
-    : AVANZA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);}
-    | AV            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("avanza",1,(ArrayList<Object>)argumentos);}
-    | RETROCEDE     int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("retrocede",1,(ArrayList<Object>)argumentos);}
-    | RE            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("retrocede",1,(ArrayList<Object>)argumentos);}
-    | GIRADERECHA   int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
-    | GIRADERECHA   float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                  argumentos.add($2);
-                                  $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
-    | GD            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
-    | GD            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                  argumentos.add($2);
-                                  $$ = new jsonAction("giraderecha",1,(ArrayList<Object>)argumentos);}
-    | GIRAIZQUIERDA int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
-    | GIRAIZQUIERDA float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                  argumentos.add($2);
-                                  $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
-    | GI            int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
-    | GI            float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                  argumentos.add($2);
-                                  $$ = new jsonAction("giraizquierda",1,(ArrayList<Object>)argumentos);}
-    | PONRUMBO      int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos);
-                                variables.replace("rumbo",(Integer)$2);}
-    | PONRUMBO      float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                  argumentos.add($2);
-                                  $$ = new jsonAction("ponrumbo",1,(ArrayList<Object>)argumentos);
-                                  variables.replace("rumbo",$2);}
-    | PONX          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("ponx",1,(ArrayList<Object>)argumentos);
-                                variables.replace("x",(Integer)$2);}
-    | PONY          int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("ponx",1,(ArrayList<Object>)argumentos);
-                                variables.replace("y",$2);}
-    | PONCOLORLAPIZ color {ArrayList<Object> argumentos = new ArrayList<Object>();
-                           argumentos.add($2);
-                           $$ = new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos);
-                           variables.replace("colorlapiz",$2);}
-    | PONCL         color {ArrayList<Object> argumentos = new ArrayList<Object>();
-                           argumentos.add($2);
-                           $$ = new jsonAction("poncolorlapiz",1,(ArrayList<Object>)argumentos);
-                           variables.replace("colorlapiz",$2);}
-    | ESPERA        int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                argumentos.add($2);
-                                $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);}
-    | ESPERA        float_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                  argumentos.add($2);
-                                  $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);}
+    : AVANZA        int_number
+    | AV            int_number
+    | RETROCEDE     int_number
+    | RE            int_number
+    | GIRADERECHA   int_number
+    | GIRADERECHA   float_number
+    | GD            int_number
+    | GD            float_number
+    | GIRAIZQUIERDA int_number
+    | GIRAIZQUIERDA float_number
+    | GI            int_number
+    | GI            float_number
+    | PONRUMBO      int_number
+    | PONRUMBO      float_number
+    | PONX          int_number
+    | PONY          int_number
+    | PONCOLORLAPIZ color
+    | PONCL         color
+    | ESPERA        int_number
+    | ESPERA        float_number
     ;
 
 //Procedimientos con 2 parámetros que devuelven un valor numérico
@@ -336,104 +276,87 @@ bool_proc2
 
 //Procedimientos con 2 parámetros que no tienen valor de retorno
 void_proc2
-    : PONXY int_number int_number {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                   argumentos.add($2);
-                                   argumentos.add($3);
-                                   $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);
-                                   variables.replace("x",$2);
-                                   variables.replace("y",$3);}
+    : PONXY int_number int_number
     ;
 
 //Regla para N cantidad de parámetros
-// Guardar el procedimiento en un string y borrarlo al ejecutar el procedimiento.
 int_params_n
-    : int_number int_params_n {n_params.peek().add($1);}
-    | int_number {n_params.push(new ArrayList<Object>());n_params.peek().add($1);}
+    : int_number int_params_n
+    | int_number
     ;
 
 float_params_n
-    : float_number float_params_n {n_params.peek().add($1);}
-    | float_number {n_params.push(new ArrayList<Object>());n_params.peek().add($1);}
+    : float_number float_params_n
+    | float_number
     ;
 
 //Procedimientos con N parámetros que devuelven un valor numérico
+// TODO
 int_proc_n
-    : DIFERENCIA int_params_n {$$=(Integer)proc_diferencia_int();n_params.pop();}
-    | PRODUCTO   int_params_n {$$=(Integer)proc_producto_int();n_params.pop();}
-    | SUMA       int_params_n {$$=(Integer)proc_suma_int();n_params.pop();}
+    : DIFERENCIA int_params_n
+    | PRODUCTO   int_params_n
+    | SUMA       int_params_n
     ;
 
 float_proc_n
-    : DIFERENCIA float_params_n{$$=(Float)proc_diferencia_Float();n_params.pop();}
-    | PRODUCTO   float_params_n{$$=(Float)proc_producto_Float();n_params.pop();}
-    | SUMA       float_params_n{$$=(Float)proc_suma_Float();n_params.pop();}
+    : DIFERENCIA float_params_n
+    | PRODUCTO   float_params_n
+    | SUMA       float_params_n
     ;
 
 //Regla para definir cualquier cantidad de órdenes
 expr_procs_n
-    : expression expr_procs_n {ArrayList<jsonAction> quase = (ArrayList<jsonAction>)$2;quase.addAll((ArrayList<jsonAction>)$1);$$=quase;}
-    | expression {ArrayList<jsonAction> quase = new ArrayList<jsonAction>(); quase.addAll((ArrayList<jsonAction>)$1);$$=quase;}  // Crea una nueva lista de quaseacciones y le agrega la produccion.
+    : expression expr_procs_n
+    | expression
     ;
 
 //Procedimientos con paréntesis que devuelven un valor numérico
 int_proc_p
-    : ELEGIR  '[' int_params_n   ']'  {$$ = elegir_int();n_params.pop();}
-    | CUENTA  '[' int_params_n   ']'{$$ = cuenta();n_params.pop();}
-    | CUENTA  '[' float_params_n ']'{$$ = cuenta();n_params.pop();}
-    | ULTIMO  '[' int_params_n   ']'{$$ = ultimo_int();n_params.pop();}
-    | UL      '[' int_params_n   ']'{$$ = ultimo_int();n_params.pop();}
-    | PRIMERO '[' int_params_n   ']'{$$ = primero_int();n_params.pop();}
+    : ELEGIR  '[' int_params_n   ']'
+    | CUENTA  '[' int_params_n   ']'
+    | CUENTA  '[' float_params_n ']'
+    | ULTIMO  '[' int_params_n   ']'
+    | UL      '[' int_params_n   ']'
+    | PRIMERO '[' int_params_n   ']'
     ;
 
 float_proc_p
-    : ELEGIR  '[' float_params_n ']'{$$ = elegir_float();n_params.pop();}
-    | ULTIMO  '[' float_params_n ']'{$$ = ultimo_float();n_params.pop();}
-    | UL      '[' float_params_n ']'{$$ = ultimo_float();n_params.pop();}
-    | PRIMERO '[' float_params_n ']'{$$ = primero_float();n_params.pop();}
+    : ELEGIR  '[' float_params_n ']'
+    | ULTIMO  '[' float_params_n ']'
+    | UL      '[' float_params_n ']'
+    | PRIMERO '[' float_params_n ']'
     ;
 
 
 //Procedimientos con paréntesis que no tienen valor de retorno
 void_proc_p
-    : INC     '[' IDENTIFIER              ']' {variables.replace($3, (Integer)variables.get($3)+1);}
-    | INC     '[' IDENTIFIER int_number   ']' {variables.replace($3, (Integer)variables.get($3)+$4);}
-    | INC     '[' IDENTIFIER float_number ']' {variables.replace($3, (Float)variables.get($3)+$4);}
-    | PONPOS  '[' int_number int_number   ']' {ArrayList<Object> argumentos = new ArrayList<Object>();
-                                                                                 argumentos.add($2);
-                                                                                 argumentos.add($3);
-                                                                                 $$ = new jsonAction("espera",1,(ArrayList<Object>)argumentos);
-                                                                                 variables.replace("x",$3);
-                                                                                 variables.replace("y",$4);}
-    | EJECUTA '[' expr_procs_n            ']' {$$=$3;} // TODO: Probar esto
+    : INC     '[' IDENTIFIER              ']'
+    | INC     '[' IDENTIFIER int_number   ']'
+    | INC     '[' IDENTIFIER float_number ']'
+    | PONPOS  '[' int_number int_number   ']'
+    | EJECUTA '[' expr_procs_n            ']'
     ;
 
-// Procedimientos con parentesis y un parametro que devuelven un valor.
 int_proc_1p
-    : ELEMENTO int_number '[' int_params_n ']' {$$=elemento_int($2);n_params.pop();}
+    : ELEMENTO int_number '[' int_params_n ']'
     ;
 
 float_proc_1p
-    : ELEMENTO int_number '[' float_params_n ']'{$$=elemento_float($2);n_params.pop();}
+    : ELEMENTO int_number '[' float_params_n ']'
     ;
 
-// Procedimientos con parentesis y un parametro que no devuelven un valor.
-// TODO: No agregar las acciones json de una vez al json, agregarlas aparte y luego hacer la verificacion de si se tienen que agregar o no.
-// TODO: Esto puede ayudar de una vez a guardar en el Hashmap los procedimientos especificados por el usuario.
 void_proc_1p
-    : REPITE int_number '[' expr_procs_n ']'{jsonAction result = new jsonAction();result.setAccion("complejo");result.setComplejo((ArrayList<jsonAction>)$4);result.setRepeticiones((Integer)$2);$$=result;}  //TODO: Quaseaccion se vuelve accion con n repeticiones
-    | SI logic_expr     '[' expr_procs_n ']'{if((boolean)$2){$$=$4;}else{$$=null;}}  //TODO: Quaseaccion se vuelve accion SI cumple la logica
+    : REPITE int_number '[' expr_procs_n ']'
+    | SI logic_expr     '[' expr_procs_n ']'
     ;
 
 %%
 
-    public Lexer lexer;
-	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones definitivas a ejecutar en la interfaz, TODO: Guardar una version en texto plano de este array list en un documento
-	private Stack<ArrayList<jsonAction>> quaseAcciones; // Aqui se guardan las acciones que el compilador tiene por definir si se van a agregar al codigo de maquina
-	private HashMap<String, Object> variables; // Aqui se guardan las variables en tiempo de compilacion
 
-	// Variables para la ejecucion de procedimientos con n params
-	private Stack<ArrayList<Object>> n_params; // Aqui se guardan los parametros de los procedimientos que tienen multiples parametros
-	private String proc; // Procedimiento a ejecutar
+    public Lexer lexer;
+	private ArrayList<jsonAction> acciones; // Aqui se guardan las acciones a ejecutar en la interfaz
+// TODO: Guardar una version en texto plano de este array list en un documento
+
 
     public void yyerror(String msg) {
         int lastToken = lexer.getCurrentToken(); //Para verificar si se llegó al final de línea.
@@ -447,16 +370,7 @@ void_proc_1p
     }
 
     public Parser(String ruta) {
-        quaseAcciones = new Stack<ArrayList<jsonAction>>();
 	    acciones = new ArrayList<jsonAction>();
-	    variables = new HashMap<String, Object>();
-	    n_params = new Stack<ArrayList<Object>>();
-
-	    // Inicializacion de variables predefinidas
-	    variables.put("rumbo",new Float(0.0));
-	    variables.put("colorlapiz","negro");
-	    variables.put("x",300.0);
-	    variables.put("y",300.0);
         try {
             Reader reader = new BufferedReader(new FileReader(ruta));
             lexer = new Lexer(reader);
@@ -464,117 +378,6 @@ void_proc_1p
         } catch (IOException ex) {
             yyerror("Could not open file for parsing.");
         }
-    }
-
-    /**
-    * Metodo que representa el procedimiento elemento
-    * @return El elemento en la posicion n-esima de los parametros.
-     */
-    private Integer elemento_int(Integer n){
-        return (Integer)n_params.peek().get(n);
-    }
-
-    private Float elemento_float(Integer n){
-        return (Float)n_params.peek().get(n);
-    }
-
-    /**
-    * Metodo que representa el proceso de suma con n parametros
-    * @return La suma de los n parametros.
-    */
-    private Float proc_suma_Float(){
-        if(n_params.peek().size()==0){
-            return new Float(0.0);
-        }else{
-            return (Float)n_params.peek().remove(n_params.peek().size()-1) + proc_suma_Float();
-        }
-    }
-    private Integer proc_suma_int(){
-            if(n_params.peek().size()==0){
-                return 0;
-            }else{
-                return (Integer)n_params.peek().remove(n_params.peek().size()-1) + proc_suma_int();
-            }
-        }
-    /**
-        * Metodo que representa el proceso de producto con n parametros
-        * @return La suma de los n parametros.
-        */
-        private Float proc_diferencia_Float(){
-            Float resultado = (Float)n_params.peek().get(n_params.peek().size()-1);
-            for(int i=n_params.peek().size()-2;i>=0;i--){
-                resultado -= (Float)n_params.peek().get(i);
-            }
-            return resultado;
-        }
-        private Integer proc_diferencia_int(){
-                    Integer resultado = (Integer)n_params.peek().get(n_params.peek().size()-1);
-                    for(int i=n_params.peek().size()-2;i>=0;i--){
-                        resultado -= (Integer)n_params.peek().get(i);
-                    }
-                    return resultado;
-                }
-        /**
-        * Metodo que representa el proceso de producto con n parametros
-        * @return La suma de los n parametros.
-        */
-        private Float proc_producto_Float(){
-            if(n_params.peek().size()==0){
-                return new Float(1.0);
-            }else{
-                return (Float)n_params.peek().remove(n_params.peek().size()-1) * proc_producto_Float();
-            }
-        }
-        private Integer proc_producto_int(){
-            if(n_params.peek().size()==0){
-                return 1;
-            }else{
-                return (Integer)n_params.peek().remove(n_params.peek().size()-1) * proc_producto_int();
-            }
-        }
-
-    /**
-     * Metodo que representa el procedimiento elegir.
-     * @return Un numero al azar entre los numeros en los parametros.
-     */
-    private Integer elegir_int(){
-        return (Integer)n_params.peek().get(new Random().nextInt(n_params.peek().size()));
-    }
-
-    private Float elegir_float(){
-        return (Float)n_params.peek().get(new Random().nextInt(n_params.peek().size()));
-    }
-
-    /**
-    * Metodo que representa el procedimiento cuenta
-    * @return Numero de parametros
-    */
-    private Integer cuenta(){
-        return n_params.peek().size();
-    }
-
-    /**
-    * Metodo que representa el procedimiento ultimo.
-    * @return Retorna el ultimo elemento de los parametros.
-     */
-    private Integer ultimo_int(){
-        return (Integer)n_params.peek().get(0);
-    }
-
-    private Float ultimo_float(){
-        return (Float)n_params.peek().get(0);
-    }
-
-    /**
-    * Metodo que representa el procedimiento primero.
-    * @return El primero de los parametros.
-     */
-    private Integer primero_int(){
-        return (Integer) n_params.peek().get(n_params.peek().size()-1);
-    }
-
-    private Float primero_float(){
-        return (Float) n_params.peek().get(n_params.peek().size()-1);
     }
 
     /**
@@ -589,10 +392,45 @@ void_proc_1p
         //TODO: notificar interfaz que finalizó la compilación.
     }
 
-    public static void main(String[] args) {
-        //TODO: recibir ruta desde args.
-        String path = "/src/Compiler/Lex/parse.txt";
-        String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+    public String getRutaCompilado(String filePath) {
+
+        String rutaCompilado = filePath.substring(0, filePath.lastIndexOf(".") + 1) + "cld";
+
+        String compilado = "Compilado 1"; // TODO obtener el string con el json de las acciones
+
+        try {
+            File file = new File(rutaCompilado);
+            file.createNewFile();
+            System.out.println("File compiled created: " + file.getName());
+            FileWriter writer = new FileWriter(rutaCompilado);
+            writer.write(compilado);
+            writer.close();
+            return rutaCompilado;
+        } catch (IOException ex) {
+            System.out.println("An error ocurred");
+        }
+
+        return "";
+    }
+
+    public static String compile(String filePath) {
+        String ruta = filePath.replaceAll("\\\\", "/");
         Parser parser = new Parser(ruta);
         parser.parse();
+        String rutaCompilado = parser.getRutaCompilado(filePath);
+
+        return rutaCompilado;
     }
+
+    /*
+    String nuevaRuta = Parser.compile("/home/villegas/archivo.ldr");
+    */
+
+    public static void main(String[] args) {
+           //TODO: recibir ruta desde args.
+           String path = "/src/Compiler/Lex/parse.txt";
+           String ruta  = System.getProperty("user.dir").replaceAll("\\\\", "/") + path;
+           //Parser parser = new Parser(ruta);
+           //parser.parse();
+           compile(System.getProperty("user.dir") + path);
+       }

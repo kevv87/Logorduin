@@ -8,6 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -16,7 +19,13 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
+
+import Compiler.Jacc.Parser;
 
 /**
  * Clase de interfaz principal.
@@ -120,11 +129,17 @@ public class Main extends Application {
         ImageView runButton = CommonMethods.loadImageView("/res/runButton.png", 20, 20);
         compileButton.setOnMouseClicked(mouseEvent -> {
             // TODO compilar el programa
+            boolean saved = saveAction(stage);
+            if (!saved) return;
+            String json = getJsonString();
             System.out.println("Compilando...");
         });
         runButton.setOnMouseClicked(mouseEvent -> {
             //TODO compilar y ejecutar el programa
+            boolean saved = saveAction(stage);
+            if (!saved) return;
             System.out.println("Compilando y ejecutando...");
+            String json = getJsonString();
             CanvasGui.show();
         });
 
@@ -151,21 +166,38 @@ public class Main extends Application {
     private MenuBar setMenuBarSection(Stage stage){
         // Menu de Archivo
         Menu menuArchivo = new Menu("Archivo");
-        FileChooser fileChooser = new FileChooser();
         MenuItem nuevoItem = new MenuItem("Nuevo");
         MenuItem cargarItem = new MenuItem("Cargar");
-        cargarItem.setOnAction(e -> {
-            workingFile = fileChooser.showOpenDialog(stage);
+        MenuItem guardarItem = new MenuItem("Guardar");
+        FileChooser fileChooser = new FileChooser();
+
+        KeyCombination newCombination = new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN);
+        nuevoItem.setAccelerator(newCombination);
+        nuevoItem.setOnAction(actionEvent -> {
+            fileChooser.setInitialFileName("untitled.ldr");
+            File newFile = fileChooser.showSaveDialog(stage);
             try {
-                Scanner s = new Scanner(workingFile).useDelimiter("");
-                while(s.hasNext()){
-                    code.appendText(s.next());
-                }
-            } catch (FileNotFoundException fileNotFoundException) {
-                fileNotFoundException.printStackTrace();
+                if ((newFile == null) || !newFile.createNewFile()) return;
+                workingFile = newFile;
+                loadCurrentFile();
+
+            } catch (IOException ex) {
+                System.err.println("No se pudo crear un nuevo archivo");
             }
         });
-        MenuItem guardarItem = new MenuItem("Guardar");
+
+        KeyCombination openCombination = new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN);
+        cargarItem.setAccelerator(openCombination);
+        cargarItem.setOnAction(e -> {
+            workingFile = fileChooser.showOpenDialog(stage);
+            if (workingFile == null) return; //Fix cuando no se selecciona archivo
+            loadCurrentFile();
+        });
+
+        KeyCombination saveCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+        guardarItem.setAccelerator(saveCombination);
+        guardarItem.setOnAction(actionEvent -> saveAction(stage));
+
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Codigo Logorduin", "*.ldr") //.ldr Es el tipo de archivo arbitrario para nuestros codigos
         );
@@ -179,6 +211,27 @@ public class Main extends Application {
         MenuItem cortarItem = new MenuItem("Cortar");
         MenuItem copiarItem = new MenuItem("Copiar");
         MenuItem pegarItem = new MenuItem("Pegar");
+
+        KeyCombination undoCombination = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+        deshacerItem.setAccelerator(undoCombination);
+        deshacerItem.setOnAction(actionEvent -> code.undo());
+
+        KeyCombination redoCombination = new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN);
+        rehacerItem.setAccelerator(redoCombination);
+        rehacerItem.setOnAction(actionEvent -> code.redo());
+
+        KeyCombination cutCombination = new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN);
+        cortarItem.setAccelerator(cutCombination);
+        cortarItem.setOnAction(actionEvent -> code.cut());
+
+        KeyCombination copyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
+        copiarItem.setAccelerator(copyCombination);
+        copiarItem.setOnAction(actionEvent -> code.copy());
+
+        KeyCombination pasteCombination = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
+        pegarItem.setAccelerator(pasteCombination);
+        pegarItem.setOnAction(actionEvent -> code.paste());
+
         menuEditar.getItems().addAll(deshacerItem, rehacerItem, cortarItem, copiarItem, pegarItem);
 
         MenuBar menuBar = new MenuBar();
@@ -189,6 +242,52 @@ public class Main extends Application {
 
         menuBar.getMenus().addAll(menuArchivo, menuEditar);
         return menuBar;
+    }
+
+    /**
+     * Método para cargar el archivo en WorkingFile.
+     */
+    private void loadCurrentFile() {
+        code.clear(); //Evita que deje residuos de código anterior
+        try {
+            Scanner s = new Scanner(workingFile).useDelimiter("");
+            while(s.hasNext()){
+                code.appendText(s.next());
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        }
+    }
+
+    /**
+     * Método que define la acción de guardar el archivo actual.
+     * @param parent Instancia de la ventana principal.
+     * @return Si el archivo se guardo o no.
+     */
+    private boolean saveAction(Stage parent) {
+        FileChooser fileChooser = new FileChooser();
+        if (workingFile == null) {
+            fileChooser.setInitialFileName("untitled.ldr");
+            workingFile = fileChooser.showSaveDialog(parent);
+        }
+
+        if (workingFile == null) return false;
+        saveCurrentFile();
+        return true;
+    }
+
+    /**
+     * Método para guardar el archivo en WorkingFile.
+     */
+    private void saveCurrentFile() {
+        try {
+            PrintWriter writer = new PrintWriter(workingFile);
+            writer.print(code.getText());
+            writer.close();
+            System.out.println("Archivo guardado correctamente");
+        } catch (IOException ex) {
+            System.err.println("No se pudo guardar el archivo");
+        }
     }
 
     /**
@@ -221,5 +320,21 @@ public class Main extends Application {
         messagesContainer.getChildren().add(lbl);
     }
 
+    /**
+     * Método para compilar el archivo y obtener la ruta
+     * @return la ruta del archivo compilado
+     */
+    private String getJsonString() {
+        String ruta = workingFile.getAbsolutePath();
+        String rutaCompilado = Parser.compile(ruta);
+        String jsonCompiledString = "";
+        try {
+            jsonCompiledString = new String(Files.readAllBytes(Paths.get(rutaCompilado)));
+            System.out.println(jsonCompiledString);
+        } catch (IOException e) {
+            System.out.println("Error en proceso de pasar de txt a string");
+        }
+        return jsonCompiledString;
+    }
 
 }
