@@ -293,8 +293,8 @@ public class VariableHandler {
         JsonNode var = getVar(identifier, scope);
         if (var == null) return null;
 
-        if (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_INT) {
-            onError("Identificador <" + identifier + "> no es de tipo int");
+        if (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_FLOAT) {
+            onError("Identificador <" + identifier + "> no es de tipo float");
             return null;
         }
 
