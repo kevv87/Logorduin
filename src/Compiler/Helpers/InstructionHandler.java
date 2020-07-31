@@ -1,5 +1,6 @@
 package Compiler.Helpers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import java.util.*;
 public class InstructionHandler {
 
     private final Queue<String> _instr;
+    @JsonIgnore
     private final ObjectMapper _mapper;
 
     public InstructionHandler() {
@@ -279,6 +281,15 @@ public class InstructionHandler {
             body = getNode(body.textValue());
         }
         return body;
+    }
+
+    // Getters for jackson
+    public Queue<String> get_instr() {
+        return _instr;
+    }
+
+    public ObjectMapper get_mapper() {
+        return _mapper;
     }
 
     public static void main(String[] args) {

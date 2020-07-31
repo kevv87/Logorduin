@@ -1,5 +1,6 @@
 package Compiler.Helpers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -12,7 +13,9 @@ import java.util.HashMap;
 public class ProcedureHandler {
 
     private final HashMap<String, String> _procs;
+    @JsonIgnore
     private final ObjectMapper _mapper;
+
 
     public ProcedureHandler() {
         _procs = new HashMap<>();
@@ -111,4 +114,11 @@ public class ProcedureHandler {
          */
     }
 
+    public ObjectMapper get_mapper() {
+        return _mapper;
+    }
+
+    public HashMap<String, String> get_procs() {
+        return _procs;
+    }
 }

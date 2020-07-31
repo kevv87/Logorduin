@@ -360,6 +360,23 @@ public class VariableHandler {
         _vars.forEach((key, value) -> System.out.println(value));
     }
 
+    // Getters & Setters for jackson
+    public HashMap<String, String> get_vars() {
+        return _vars;
+    }
+
+    public ObjectMapper get_mapper() {
+        return _mapper;
+    }
+
+    public Stack<String> get_currentScope() {
+        return _currentScope;
+    }
+
+    public void set_currentScope(Stack<String> _currentScope) {
+        this._currentScope = _currentScope;
+    }
+
     public static void main(String[] args) {
         VariableHandler handler = new VariableHandler();
         handler.add("myvar", 10);
