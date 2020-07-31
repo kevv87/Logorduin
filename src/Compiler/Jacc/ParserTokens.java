@@ -1,4 +1,4 @@
-// Output created by jacc on Thu Jul 30 23:12:54 CST 2020
+// Output created by jacc on Fri Jul 31 10:19:07 CST 2020
 
 package Compiler.Jacc;
 
@@ -46,39 +46,38 @@ public interface ParserTokens {
     int OCULTATORTUGA = 44;
     int OT = 46;
     int PARA = 48;
-    int PARAMETER = 49;
-    int PONCL = 50;
-    int PONCOLORLAPIZ = 51;
-    int PONPOS = 52;
-    int PONRUMBO = 53;
-    int PONX = 54;
-    int PONXY = 55;
-    int PONY = 56;
-    int POTENCIA = 57;
-    int PRIMERO = 58;
-    int PROCEDURE_NAME = 63;
-    int PRODUCTO = 64;
-    int RAIZCUADRADA = 65;
-    int RC = 66;
-    int RE = 67;
-    int REDONDEA = 68;
-    int REPITE = 69;
-    int RESTO = 70;
-    int RETROCEDE = 71;
-    int ROJO = 72;
-    int RUMBO = 73;
-    int SB = 74;
-    int SEN = 75;
-    int SENO = 76;
-    int SI = 77;
-    int SUBELAPIZ = 78;
-    int SUMA = 79;
-    int UL = 80;
-    int ULTIMO = 81;
-    int VAR = 82;
-    int VERDE = 83;
-    int Y = 84;
-    int error = 85;
+    int PONCL = 49;
+    int PONCOLORLAPIZ = 50;
+    int PONPOS = 51;
+    int PONRUMBO = 52;
+    int PONX = 53;
+    int PONXY = 54;
+    int PONY = 55;
+    int POTENCIA = 56;
+    int PRIMERO = 57;
+    int PROCEDURE_NAME = 58;
+    int PRODUCTO = 63;
+    int RAIZCUADRADA = 64;
+    int RC = 65;
+    int RE = 66;
+    int REDONDEA = 67;
+    int REPITE = 68;
+    int RESTO = 69;
+    int RETROCEDE = 70;
+    int ROJO = 71;
+    int RUMBO = 72;
+    int SB = 73;
+    int SEN = 74;
+    int SENO = 75;
+    int SI = 76;
+    int SUBELAPIZ = 77;
+    int SUMA = 78;
+    int UL = 79;
+    int ULTIMO = 80;
+    int VAR = 81;
+    int VERDE = 82;
+    int Y = 83;
+    int error = 84;
     // '(' (code=40)
     // ')' (code=41)
     // '*' (code=42)
