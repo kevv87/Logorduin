@@ -1,5 +1,9 @@
 package Logic;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
 
 /**
@@ -13,13 +17,47 @@ import java.util.ArrayList;
  */
 public class jsonAction {
 
-    private String accion; // Accion a ejecutar
+    private String accion; // Accion a ejecutar, de ser el nombre de un procedimiento, ejecutarlo en la interfaz, de decir "conjunto" se refiere a que es son varios procedimientos, estos vienen en el ArrayList complejo
     private int repeticiones;  // Numero de veces a ejecutar dicha accion
-    private String[] argumentos; // Argumentos para la accion a ejecutar
+    private ArrayList<Object> argumentos; // Argumentos para la accion a ejecutar
 
+    private ArrayList<String> complejo; // Complejo de acciones a ejecutar.
     public jsonAction(){}; // Dummy constructor necesario para jackson
 
+    public jsonAction(String accion, int repeticiones) {
+        this.accion = accion;
+        this.repeticiones = repeticiones;
+        this.argumentos = null;
+        this.complejo = new ArrayList<>();
+    }
+
+    public jsonAction(String accion, int repeticiones, ArrayList<Object> argumentos) {
+        this.accion = accion;
+        this.repeticiones = repeticiones;
+        this.argumentos = argumentos;
+        this.complejo = null;
+    }
+
+    /**
+     * Convierte un jsonAction a su forma de json y lo agrega a complejo
+     * @param accion jsonAction a agregar
+     * */
+    public void addComplejo(jsonAction accion){
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            complejo.add(objectMapper.writeValueAsString(accion));
+        }catch(JsonProcessingException e){
+            System.out.println(e);
+        }
+
+    }
+
     // Getters & Setters
+    public ArrayList<String> getComplejo() {
+        return complejo;
+    }
+
     public String getAccion() {
         return accion;
     }
@@ -36,11 +74,11 @@ public class jsonAction {
         this.repeticiones = repeticiones;
     }
 
-    public String[] getArgumentos() {
+    public ArrayList<Object> getArgumentos() {
         return argumentos;
     }
 
-    public void setArgumentos(String[] argumentos) {
+    public void setArgumentos(ArrayList<Object> argumentos) {
         this.argumentos = argumentos;
     }
 }
