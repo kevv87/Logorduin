@@ -15,6 +15,16 @@ import java.io.*;
 %{
     public Object lexeme; //Para almacenar tokens de tipo String, Boolean, Integer y Float
     public int currentToken; //Para obtener el token actual sin avanzar el parseo
+    public String errorMessage; //Para obtener los errores
+    public Boolean lexerError = false; //Para identificar si el error fue léxico
+
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
+
+    public Boolean isLexerError() {
+        return lexerError;
+    }
 
     public int getCurrentToken() {
         return this.currentToken;
@@ -70,8 +80,15 @@ Comment = {EndOfLineComment} //| {TraditionalComment}
 //TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment = "//" {InputCharacter}* {LineTerminator}?
 
-Identifier = [a-z][a-z|A-Z|_|&|@|0-9]{1,9}
-IdeError = [A-Za-z_&@0-9]* //TODO agregar error cuando hay mas de 10 caracteres en el identificador
+Identifier = [a-z][a-z|A-Z|_|&|@|0-9|-]{1,9}
+
+MayusError = [A-Z][a-z|A-Z|_|&|@|0-9|-]{1,9}
+SymbolError = [_|&|@|-][a-z|A-Z|_|&|@|0-9|-]{1,9}
+NumberError = [0-9][a-z|A-Z|_|&|@|0-9|-]{1,9}
+
+IdentifierError = [A-Z|a-z|_|&|@|0-9|-|\^]{1,10}
+LengthError = [a-z][a-z|A-Z|_|&|@|0-9|-]*
+
 Digit = 0 | [1-9][0-9]*
 Float = [0-9]+ "." [0-9]+
 TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" | "(" | ")"
@@ -164,17 +181,47 @@ primero {return prepare(PRIMERO); }
 repite {return prepare(REPITE); }
 si {return prepare(SI); }
 elemento {return prepare(ELEMENTO); }
+para {return prepare(PARA); }
+fin {return prepare(FIN); }
 
 
 {Identifier} { return prepare(IDENTIFIER); }
 
-{IdeError} {
+{MayusError} {
     lexeme = yytext();
-    return error;} //TODO CAMBIAR POR ERROR DE IDENTIFICADOR MAL DEFINIDO
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con mayuscula";
+    lexerError = true;
+    return error;}
+
+{SymbolError} {
+    lexeme = yytext();
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con simbolos";
+    lexerError = true;
+    return error;}
+
+{NumberError} {
+    lexeme = yytext();
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con numeros";
+    lexerError = true;
+    return error;}
+
+{LengthError} {
+    lexeme = yytext();
+    errorMessage = "El identificador <" + lexeme + "> supera el tamaño máximo de 10 carácteres" ;
+    lexerError = true;
+    return error;} 
+
+{IdentifierError} {
+    lexeme = yytext();
+    errorMessage = "Identificador mal definido <" + lexeme + ">";
+    lexerError = true;
+    return error;} 
 
 [^] {// token desconocido
     lexeme = yytext();
-    return error;} //TODO CAMBIAR POR ERROR DE SIMBOLO NO DEFINIDO EN LA GRAMATICA
+    errorMessage = "Simbolo desconocido <" + lexeme + ">";
+    lexerError = true;
+    return error;} 
 
 /* Error Fallback */
 //[^] { /* TODO: manejar errores */ }

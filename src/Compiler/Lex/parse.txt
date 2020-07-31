@@ -1,9 +1,27 @@
-var myvar = 10;
-inic myvar = 20 + 5;
-avanza myvar;
+para espirales
+    avanza myvar
+    giraderecha 15
+fin;
+
+para angulos angulo
+    avanza 100
+    giraderecha angulo
+fin;
+
+var myvar = 3;
+
+avanza 100;
+
 giraderecha 90;
-var paola = 100000;
-avanza 15;
-// ESTO ES UN COMENTARIO $
-//$
-iguales? 1 2;
+
+ocultatortuga;
+elegir[ 10 20 15 12 ];
+
+repite 5 [
+    avanza myvar
+    giraderecha 100
+];
+
+
+
+

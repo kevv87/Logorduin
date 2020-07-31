@@ -21,7 +21,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
+
+import Compiler.Jacc.Parser;
 
 /**
  * Clase de interfaz principal.
@@ -127,6 +131,7 @@ public class Main extends Application {
             // TODO compilar el programa
             boolean saved = saveAction(stage);
             if (!saved) return;
+            String json = getJsonString();
             System.out.println("Compilando...");
         });
         runButton.setOnMouseClicked(mouseEvent -> {
@@ -134,6 +139,7 @@ public class Main extends Application {
             boolean saved = saveAction(stage);
             if (!saved) return;
             System.out.println("Compilando y ejecutando...");
+            String json = getJsonString();
             CanvasGui.show();
         });
 
@@ -314,5 +320,21 @@ public class Main extends Application {
         messagesContainer.getChildren().add(lbl);
     }
 
+    /**
+     * Método para compilar el archivo y obtener la ruta
+     * @return la ruta del archivo compilado
+     */
+    private String getJsonString() {
+        String ruta = workingFile.getAbsolutePath();
+        String rutaCompilado = Parser.compile(ruta);
+        String jsonCompiledString = "";
+        try {
+            jsonCompiledString = new String(Files.readAllBytes(Paths.get(rutaCompilado)));
+            System.out.println(jsonCompiledString);
+        } catch (IOException e) {
+            System.out.println("Error en proceso de pasar de txt a string");
+        }
+        return jsonCompiledString;
+    }
 
 }
