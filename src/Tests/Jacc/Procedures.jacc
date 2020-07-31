@@ -58,23 +58,17 @@ import Compiler.Helpers.NumberType;
 
 %%
 progl: 
-    prog { parseFinished(); }
+    prog { acciones = anidados.pop();parseFinished(); }
     ;
 
 //Símbolo inicial
 prog
-    : expression ';' prog {if($1 instanceof ArrayList){
-                                                 acciones.addAll((ArrayList<jsonAction>)$1);
-                                             }else if($1 instanceof jsonAction){
-                                                 acciones.add((jsonAction)$1);
-                                             }
-                                            }
-    | expression ';' {if($1 instanceof ArrayList){
-                       acciones.addAll((ArrayList<jsonAction>)$1);
-                   }else if($1 instanceof jsonAction){
-                       acciones.add((jsonAction)$1);
-                   }
-                  }
+    : expression ';' prog
+    | expression puntocoma
+    ;
+
+puntocoma:
+   ';' {anidados.push(new jsonAction());}
     ;
 
 //Definición de expresión
@@ -135,8 +129,8 @@ user_procedure_head
 
 //Lo que se evalúa a un número
 int_number
-    : INTEGER {$$ = $1;}
-    | IDENTIFIER          {$$=(Integer)varHandler.getInt($1);}
+    : INTEGER {anidados.push(new jsonAction(Integer.parseInt((int)$1)), 1);}
+    | IDENTIFIER {anidados.push(new jsonAction((String)$1,1));$$=(Integer)varHandler.getInt($1);}
     | int_arithmetic_expr
     | int_proc1
     | int_proc2
@@ -166,10 +160,13 @@ redeclaration_expr
 // TODO: Las variables tienen scope global
 //Expresiones para declarar una variable
 declaration_expr
-    : VAR IDENTIFIER                  {if(!varHandler.isIgnore()){varHandler.add($2);}}
-    | VAR IDENTIFIER '=' int_number   {if(!varHandler.isIgnore()){varHandler.add($2,$4);}}
-    | VAR IDENTIFIER '=' float_number {if(!varHandler.isIgnore()){varHandler.add($2,$4);}}
+    : var IDENTIFIER                  {anidados.peek().addComplejo(new jsonAction((String)$2), 1);}
+    | var IDENTIFIER '=' int_number   {if(!varHandler.isIgnore()){varHandler.add($2,$4);}}
+    | var IDENTIFIER '=' float_number {if(!varHandler.isIgnore()){varHandler.add($2,$4);}}
     ;
+
+var: VAR {anidados.push(new jsonAction("var",1));}
+   ;
 
 //Expresiones con valor booleano
 logic_expr
@@ -479,7 +476,7 @@ float_proc_n
 //Regla para definir cualquier cantidad de órdenes
 expr_procs_n
     : expression expr_procs_n
-    | expression   // Crea una nueva lista de quaseacciones y le agrega la produccion.
+    | expression
     ;
 
 //Procedimientos con paréntesis que devuelven un valor numérico
