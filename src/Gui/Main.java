@@ -1,6 +1,8 @@
 package Gui;
 
 import Logic.MessageType;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,15 +18,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.util.Scanner; // Import the Scanner class to read text files
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Scanner;
 
+import Compiler.Helpers.*;
 import Compiler.Jacc.Parser;
 
 /**
@@ -128,18 +128,17 @@ public class Main extends Application {
         ImageView compileButton = CommonMethods.loadImageView("/res/compileButton.png", 20, 20);
         ImageView runButton = CommonMethods.loadImageView("/res/runButton.png", 20, 20);
         compileButton.setOnMouseClicked(mouseEvent -> {
-            // TODO compilar el programa
             boolean saved = saveAction(stage);
             if (!saved) return;
-            String json = getJsonString();
+            CompiledFile cFile = getCompiled();
             System.out.println("Compilando...");
         });
         runButton.setOnMouseClicked(mouseEvent -> {
-            //TODO compilar y ejecutar el programa
             boolean saved = saveAction(stage);
             if (!saved) return;
             System.out.println("Compilando y ejecutando...");
-            String json = getJsonString();
+            CompiledFile cFile = getCompiled();
+            CanvasGui.cFile = cFile;
             CanvasGui.show();
         });
 
@@ -324,17 +323,20 @@ public class Main extends Application {
      * Método para compilar el archivo y obtener la ruta
      * @return la ruta del archivo compilado
      */
-    private String getJsonString() {
+    private CompiledFile getCompiled() {
         String ruta = workingFile.getAbsolutePath();
         String rutaCompilado = Parser.compile(ruta);
         String jsonCompiledString = "";
+        CompiledFile cFile = null;
         try {
-            jsonCompiledString = new String(Files.readAllBytes(Paths.get(rutaCompilado)));
-            System.out.println(jsonCompiledString);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        cFile = mapper.readValue(new File(rutaCompilado), CompiledFile.class);
+        System.out.println(jsonCompiledString);
         } catch (IOException e) {
             System.out.println("Error en proceso de pasar de txt a string");
         }
-        return jsonCompiledString;
+        return cFile;
     }
 
 }
