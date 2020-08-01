@@ -117,6 +117,7 @@ public class CanvasGui extends Application {
           case NORMAL:
             return normalInstruction(action, tipoInstruction, tipoRetorno, args);
           case LOGIC:
+            return logicInstruction(action, tipoInstruction, tipoRetorno, args);
             break;
           case OPERATION:
               return operationInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
@@ -427,7 +428,7 @@ public class CanvasGui extends Application {
      * que se le pasa una lista de argumentos (args) y retorna una lista de hashmaps donde cada hashmap
      * representa un argumento. El key de cada hashmap es el tipo de argumento, que solo puede ser: string, boolean, int, float
      * el value de cada hashmap es el valor de cada argumento en clase Object, entonces hay que castearlo al tipo de key del
-     * hashmap
+     * hashmap.
      * @param args  Lista de argumentos a parsear
      * @param instrHandler Lo de siempre
      * @param procHandler Lo de siempre
@@ -452,12 +453,12 @@ public class CanvasGui extends Application {
                     if(argPars.get(1).get("int") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (int)argPars.get(0).get("int") + (int)argPars.get(0).get("int");
+                    return (int)argPars.get(0).get("int") + (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("float") != null){
                     if(argPars.get(1).get("float") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (float)argPars.get(0).get("float") + (float)argPars.get(0).get("float");
+                    return (float)argPars.get(0).get("float") + (float)argPars.get(1).get("float");
                 }else{
                     System.out.println("Solo puede ser int o float"); // TODO: Error
                     return null;
@@ -467,12 +468,12 @@ public class CanvasGui extends Application {
                     if(argPars.get(1).get("int") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (int)argPars.get(0).get("int") - (int)argPars.get(0).get("int");
+                    return (int)argPars.get(1).get("int") - (int)argPars.get(0).get("int");
                 }else if(argPars.get(0).get("float") != null){
                     if(argPars.get(1).get("float") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (float)argPars.get(0).get("float") - (float)argPars.get(0).get("float");
+                    return (float)argPars.get(1).get("float") - (float)argPars.get(0).get("float");
                 }else{
                     System.out.println("Solo puede ser int o float"); // TODO: Error
                     return null;
@@ -482,12 +483,12 @@ public class CanvasGui extends Application {
                     if(argPars.get(1).get("int") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (int)argPars.get(0).get("int") * (int)argPars.get(0).get("int");
+                    return (int)argPars.get(1).get("int") * (int)argPars.get(0).get("int");
                 }else if(argPars.get(0).get("float") != null){
                     if(argPars.get(1).get("float") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (float)argPars.get(0).get("float") * (float)argPars.get(0).get("float");
+                    return (float)argPars.get(1).get("float") * (float)argPars.get(0).get("float");
                 }else{
                     System.out.println("Solo puede ser int o float"); // TODO: Error
                     return null;
@@ -497,12 +498,12 @@ public class CanvasGui extends Application {
                     if(argPars.get(1).get("int") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (int)argPars.get(0).get("int") / (int)argPars.get(0).get("int");
+                    return (int)argPars.get(1).get("int") / (int)argPars.get(0).get("int");
                 }else if(argPars.get(0).get("float") != null){
                     if(argPars.get(1).get("float") == null){
                         System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
                     }
-                    return (float)argPars.get(0).get("float") / (float)argPars.get(0).get("float");
+                    return (float)argPars.get(1).get("float") / (float)argPars.get(0).get("float");
                 }else{
                     System.out.println("Solo puede ser int o float"); // TODO: Error
                     return null;
@@ -511,14 +512,58 @@ public class CanvasGui extends Application {
         return null;
     }
 
-    public Object normalInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args){
-      // Parsea los argumentos
-        int arg = 0;
-      
+    private Object logicInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+        // Parseando argumentos.
+        LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+        switch(action){
+            case "iguales":
+                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
+                    return (boolean)argPars.get(0).get("boolean") == (boolean)argPars.get(1).get("boolean");
+                }else{
+                    System.out.println("Solo puede ser boolean"); // TODO: Error
+                    return null;
+                }
+            case "mayorque":
+                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
+                    return (boolean)argPars.get(0).get("boolean") > (boolean)argPars.get(1).get("boolean");
+                }else{
+                    System.out.println("Solo puede ser boolean"); // TODO: Error
+                    return null;
+                }
+            case "menorque":
+                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
+                    return (boolean)argPars.get(0).get("boolean") < (boolean)argPars.get(1).get("boolean");
+                }else{
+                    System.out.println("Solo puede ser boolean"); // TODO: Error
+                    return null;
+                }
+            case "y":
+                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
+                    return (boolean)argPars.get(0).get("boolean") && (boolean)argPars.get(1).get("boolean");
+                }else{
+                    System.out.println("Solo puede ser boolean"); // TODO: Error
+                    return null;
+                }
+            case "o":
+                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
+                    return (boolean)argPars.get(0).get("boolean") || (boolean)argPars.get(1).get("boolean");
+                }else{
+                    System.out.println("Solo puede ser boolean"); // TODO: Error
+                    return null;
+                }
+        }
+        return null;
+    }
+
+
+    public Object normalInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler){
+      // Parseando argumentos.
+      LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler);
       switch(action) {
           case "avanza":
-              arg = args.get("type").asInt();
-              avanza(arg);
+              if(argPars.get(0).get("int") != null){
+                avanza((int)argPars.get(0).get("int"))
+              }
               break;
           case "retrocede":
               arg = args.get("type").asInt();
