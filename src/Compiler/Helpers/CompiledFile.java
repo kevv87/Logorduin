@@ -1,6 +1,8 @@
 package Compiler.Helpers;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Representa la estructura en el archivo compilado
  * */
@@ -8,8 +10,9 @@ public class CompiledFile {
     InstructionHandler instructions;  // Instrucciones
     ProcedureHandler procedures; // Procedimientos
 
-    // Dummy constructor fo jackson
+    // Dummy constructor for jackson
     public CompiledFile() {
+      
     }
 
     public CompiledFile(InstructionHandler instructions, ProcedureHandler procedures) {

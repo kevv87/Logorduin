@@ -117,12 +117,11 @@ public class InstructionHandler {
      * @return Json representando una instrucción
      */
     public String getNext() {
-//        return _instr.get(_current++);
+    //    _instr.get(_current++);
         return _instr.poll();
     }
 
-    public void reverse()
-    {
+    public void reverse() {
 
         Stack<String> s = new Stack<>();  //create a stack
 

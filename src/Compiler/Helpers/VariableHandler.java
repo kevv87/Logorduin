@@ -111,7 +111,7 @@ public class VariableHandler {
      * @param type Tipo de la variable
      * @param value Valor de la variable
      */
-    private void createVar(String id, NumberType type, String value, String scope) {
+    public void createVar(String id, NumberType type, String value, String scope) {
         if (exists(id, scope)) {
             onError("Variable <" + id + "> redeclarada");
         }
