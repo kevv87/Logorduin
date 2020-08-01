@@ -9,8 +9,8 @@ import javafx.scene.paint.Color;
  */
 public class  Cursor {
 
-    private Double posX;
-    private Double posY;
+    private int posX;
+    private int posY;
     private Integer rotation;
     private Color currentColor;
     private ImageView icon;
@@ -64,7 +64,7 @@ public class  Cursor {
      * Método para establecer la posición X del cursor.
      * @param posX Nueva posición X.
      */
-    public void setPosX(Double posX) {
+    public void setPosX(int posX) {
         this.posX = posX;
     }
 
@@ -72,7 +72,7 @@ public class  Cursor {
      * Método para obtener la posición Y del cursor.
      * @return Posición Y del cursor.
      */
-    public Double getPosY() {
+    public int getPosY() {
         return posY;
     }
 
@@ -80,7 +80,7 @@ public class  Cursor {
      * Método para establecer la posición Y del cursor.
      * @param posY Nueva posición Y.
      */
-    public void setPosY(Double posY) {
+    public void setPosY(int posY) {
         this.posY = posY;
     }
 
@@ -89,7 +89,7 @@ public class  Cursor {
      * @param newPosX nueva posicion X.
      * @param newPosY nueva posicion Y.
      */
-    public void realocate(Double newPosX, Double newPosY) {
+    public void realocate(int newPosX, int newPosY) {
         setPosX(newPosX);
         setPosY(newPosY);
     }

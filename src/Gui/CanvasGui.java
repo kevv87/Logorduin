@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 /**
  * Clase de la interfaz para el canvas
@@ -38,6 +39,7 @@ public class CanvasGui extends Application {
     private int width;
     private int height;
     private GraphicsContext graphicsContext;
+    private Random random;
 
     public static CompiledFile cFile;
 
@@ -55,6 +57,7 @@ public class CanvasGui extends Application {
         stage.setScene(scene);
         Canvas canvas = new Canvas(width, height);
         graphicsContext = canvas.getGraphicsContext2D();
+        random = new Random();
 
         //Creacion del cursor
         imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
@@ -123,140 +126,67 @@ public class CanvasGui extends Application {
               return operationInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
           case VARIABLE:
             // Validando Argumentos
-            String tipo = args.get(1).get("type").toString();
-            if(tipo == null && action == "var"){  // No inicializada
-              varHandler.add(args.get(0).get("value").toString());
-            }
-            switch(tipo) {  // Diferente para cada tipo
-                case "INT_CONSTANT":
-                    if (action == "var") {
-                        varHandler.add(args.get(0).get("value").asText(), Integer.parseInt(args.get(1).get("value").toString()));
-                    } else {
-                        varHandler.modify(args.get(0).get("value").asText(), Integer.parseInt(args.get(1).get("value").toString()));
-                    }
-                    break;
-                case "FLOAT_CONSTANT":
-                    if (action == "var") {
-                        varHandler.add(args.get(0).get("value").asText(), Float.parseFloat(args.get(1).get("value").toString()));
-                    } else {
-                        varHandler.modify(args.get(0).get("value").asText(), Float.parseFloat(args.get(1).get("value").toString()));
-                    }
-                    break;
-                case "INT_VARIABLE":
-                    if (action == "var") {
-                        varHandler.add(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                    } else {
-                        varHandler.modify(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                    }
-                    break;
-                case "FLOAT_VARIABLE":
-                    if (action == "var") {
-                        varHandler.add(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                    } else {
-                        varHandler.modify(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                    }
-                    break;
-                case "VARIABLE":
-                    Float floatValue = varHandler.getFloat(args.get("value").toString());
-                    Integer intValue = varHandler.getInt(args.get("value").toString());
-                    if (floatValue != null) {
-                        if (action == "var") {
-                            varHandler.add(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                        } else {
-                            varHandler.modify(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                        }
-                    } else if (intValue != null) {
-                        if (action == "var") {
-                            varHandler.add(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                        } else {
-                            varHandler.modify(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                        }
-                    } else {  // No existe la variable
-                        System.out.println("error"); // TODO: Error aca
-                        return null;
-                    }
-                    break;
-                case "INSTRUCTION": // Volvear a llamar y castear resultado al tipo de retorno
-                    JsonNode instruccionAnidadaJ = args.get("value");
-                    String tipoRetorno_aux = instruccionAnidadaJ.get("return").toString();
-                    switch (tipoRetorno_aux) {
-                        case "INTEGER":
-                        case "FLOAT":
-                            break;
-                        case "BOOLEAN":
-                            break;
-                        case "VOID":
-                            break;
-                    }
-                    break;
-            }
+              LinkedList<HashMap<String,Object>> argumentosParseados = parsearMultiplesArgumentos(args,instrHandler,procHandler);
+              if(argumentosParseados.get(0).get("string") == null){
+                  System.out.println("El nombre de la variable no es un string");
+                  return null;
+              }else if(argumentosParseados.get(1) == null){  // Solo definicion, agrega la variable con null.
+                  varHandler.add((String)argumentosParseados.get(0).get("string"));
+                  return null;
+              }
+
+              // Agrega o modifica la variable.
+              if(action == "var"){  // Definicion
+                  if(argumentosParseados.get(1).get("int") != null){
+                      varHandler.add((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
+                  }else if(argumentosParseados.get(1).get("float") != null){
+                      varHandler.add((String)argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("float"));
+                  }else{
+                      System.out.println("Tipo de valor no soportado para una variable"); // TODO: Error
+                      return null;
+                  }
+              }else if(action == "inic"){  //Modificacion
+                  // TODO: Error. Estas modificaciones si no existen lanzan la funcion onError, modificar esa para que tire una excepcion y manejarla aca
+                  if(argumentosParseados.get(1).get("int") != null){
+                      varHandler.modify((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
+                  }else if(argumentosParseados.get(1).get("float") != null){
+                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("float"));
+                  }else{
+                      System.out.println("Tipo de valor no soportado para una variable"); // TODO: Error
+                      return null;
+                  }
+              }else{
+                  System.out.println("Error en VARIABLE");
+              }
+
             break;
           case CYCLE:   //// Eu
-            int repeticiones = 0;     // CUIDADO
-            // Validando lsa repeticiones
+          // Parseo de argumentos
+            argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler);
 
-            String tipo_aux = args.get("type").toString();
-            switch(tipo_aux){  // Diferente para cada tipo
-                case "INT_CONSTANT":
-                  repeticiones = Integer.parseInt(args.get("value").toString());
-                  break;
-                case "FLOAT_CONSTANT":
-                  System.out.println("El input de repeticion no puede ser float"); //TODO: Error
-                  return null;
-                case "INT_VARIABLE":
-                  repeticiones = varHandler.getInt(args.get("value").toString());
-                  break;
-                case "FLOAT_VARIABLE":
-                  System.out.println("El input de repeticion no puede ser float"); //TODO: Error
-                  return null;
-                case "VARIABLE":
-                  Float floatValue = varHandler.getFloat(args.get("value").toString());
-                  Integer intValue = varHandler.getInt(args.get("value").toString());
-                  if(floatValue != null){
-                    System.out.println("El input de repeticion no puede ser float"); //TODO: Error
-                    return null;
-                  }else if(intValue != null){
-                    repeticiones = intValue;
-                  }else{  // No existe la variable
-                    System.out.println("error"); // TODO: Error aca
-                    return null;
-                  }
-                  break;
-                case "INSTRUCTION": // Volvear a llamar y castear resultado al tipo de retorno
-                  JsonNode instruccionAnidadaJ = args.get("value");
-                  String tipoRetorno_aux = instruccionAnidadaJ.get("return").toString();
-                  switch(tipoRetorno_aux){
-                    case "INTEGER":
-                      repeticiones = (int) manejoInstrucciones(instruccionAnidadaJ.toString(), instrHandler, procHandler);                      break;
-                    case "FLOAT":
-                      System.out.println("El input de repeticion no puede ser float"); // TODO:Error
-                      return null;
-                    case "BOOLEAN":
-                      System.out.println("El input de repeticion no puede ser bool");//TODO: Error
-                      return null;
-                    case "VOID":
-                      System.out.println("El input de repeticion no puede ser void");// TODO:Error
-                      return null;
-                  }
-                  break;
-              }
-
-
-            for(int i=0;i<repeticiones;i++){
-              int j =0;
-              String instruccionAnidada="";
-              if(body.get(j)==null){  // Si esto pasa es porque el body solo es una accion
-                instruccionAnidada = body.toString();
-                return manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
-              }else{
-                while(body.get(j)!=null){
-                  instruccionAnidada = body.get(j).toString();
-                  manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
-                  j++;
-                }
-              }
+            // Validando primer argumento
+            if(argumentosParseados.get(0).get("int") == null){
+                System.out.println("El numero de repeticiones debe ser un integer");
+                return null;
             }
-            break;
+
+            // Setteando el numero de repeticiones
+            int repeticiones = (int)argumentosParseados.get(0).get("int");
+
+            // Ejecutando el ciclo
+          for(int i=0;i<repeticiones;i++){
+            int j =0;
+            String instruccionAnidada="";
+              while(body.get(j)!=null){
+                instruccionAnidada = body.get(j).toString();
+
+                // Ejecutando cada instruccion
+                manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
+                j++;
+              }
+          }
+          break;
+
           case CONDITION:
             // Validando condicion
             if(args.get(0).get("type").toString() == "BOOL_CONSTANT"){     // TODO:ese args puede dar problemas
@@ -562,30 +492,81 @@ public class CanvasGui extends Application {
       switch(action) {
           case "avanza":
               if(argPars.get(0).get("int") != null){
-                avanza((int)argPars.get(0).get("int"))
+                avanza((int)argPars.get(0).get("int"), true)
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
               }
               break;
           case "retrocede":
-              arg = args.get("type").asInt();
-              retrocede(arg);
+              if(argPars.get(0).get("int") != null){
+                avanza((int)argPars.get(0).get("int"), false)
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
               break;
           case "giraderecha":
-              arg = args.get("type").asInt();
-              cursor.updateRotation(arg, true);
+              if(argPars.get(0).get("int") != null){
+                cursor.updateRotation((int)argPars.get(0).get("int"), true);
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
               break;
           case "giraizquierda":
-              arg = args.get("type").asInt();
-              cursor.updateRotation(arg, false);
+              if(argPars.get(0).get("int") != null){
+                cursor.updateRotation((int)argPars.get(0).get("int"), false);
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
               break;
           case "ponrumbo":
+              if(argPars.get(0).get("int") != null){
+                cursor.setRotation((int)argPars.get(0).get("int"));
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
               break;
           case "ponx":
+              if(argPars.get(0).get("int") != null){
+                cursor.setPosX((int)argPars.get(0).get("int"));
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
               break;
           case "pony":
+              if(argPars.get(0).get("int") != null){
+                cursor.setPosY((int)argPars.get(0).get("int"));
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
               break;
           case "poncl":
+              if(argPars.get(0).get("string") != null){
+                Color color = convertColor((String) argPars.get(0).get("string"));
+                cursor.setCurrentColor(color);
+              }
+              else{
+                System.out.println("Solo puede ser String"); // TODO: Error
+              }
               break;
           case "espera":
+              if(argPars.get(0).get("int") != null){
+                int tiempo = (int)argPars.get(0).get("int");
+                try {
+                  TimeUnit.SECONDS.sleep(tiempo);
+                } catch (InterruptedException e){
+                  e.printStackTrace();
+                }
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
               break;
           case "ocultatortuga":
               hideCursor();
@@ -600,15 +581,28 @@ public class CanvasGui extends Application {
               cursor.setLapiz(false);
               break;
           case "centro":
-              Double centerX = (double) (width / 2);
-              Double centerY = (double) (height / 2);
+              int centerX = (int) (width / 2);
+              int centerY = (int) (height / 2);
               cursor.realocate(centerX, centerY);
               break;
           case "borrapantalla":
               graphicsContext.clearRect(0, 0, width, height);
               break;
-          case "print":
+          case "redondea":
+              if(argPars.get(0).get("int") != null){
+                return (int)argPars.get(0).get("int");
+              }
+              else if(argPars.get(0).get("float") != null){
+                return (int)argPars.get(0).get("float");
+              }
+              else{
+                System.out.println("Solo puede ser int o float"); // TODO: Error
+              }
               break;
+          case "azar":
+            if(argPars.get(0).get("int") != null){
+              return random.ints(0, (int)argPars.get(0).get("int") + 1)
+            }
       }
       return null;
     }
