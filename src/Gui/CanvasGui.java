@@ -17,6 +17,8 @@ import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -113,85 +115,79 @@ public class CanvasGui extends Application {
 
         switch(tipoInstruction){
           case NORMAL:
-            normalInstruction(action, tipoInstruction, tipoRetorno, args);
-            break;
+            return normalInstruction(action, tipoInstruction, tipoRetorno, args);
           case LOGIC:
             break;
           case OPERATION:
-            break;
+              return operationInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
           case VARIABLE:
             // Validando Argumentos
             String tipo = args.get(1).get("type").toString();
             if(tipo == null && action == "var"){  // No inicializada
               varHandler.add(args.get(0).get("value").toString());
             }
-            switch(tipo){  // Diferente para cada tipo
+            switch(tipo) {  // Diferente para cada tipo
                 case "INT_CONSTANT":
-                  if(action == "var"){
-                    varHandler.add(args.get(0).get("value").asText(), Integer.parseInt(args.get(1).get("value").toString()));
-                  }else{
-                    varHandler.modify(args.get(0).get("value").asText(), Integer.parseInt(args.get(1).get("value").toString()));
-                  }
-                  break;
+                    if (action == "var") {
+                        varHandler.add(args.get(0).get("value").asText(), Integer.parseInt(args.get(1).get("value").toString()));
+                    } else {
+                        varHandler.modify(args.get(0).get("value").asText(), Integer.parseInt(args.get(1).get("value").toString()));
+                    }
+                    break;
                 case "FLOAT_CONSTANT":
-                  if(action == "var"){
-                    varHandler.add(args.get(0).get("value").asText(), Float.parseFloat(args.get(1).get("value").toString()));
-                  }else{
-                    varHandler.modify(args.get(0).get("value").asText(), Float.parseFloat(args.get(1).get("value").toString()));
-                  }
-                  break;
+                    if (action == "var") {
+                        varHandler.add(args.get(0).get("value").asText(), Float.parseFloat(args.get(1).get("value").toString()));
+                    } else {
+                        varHandler.modify(args.get(0).get("value").asText(), Float.parseFloat(args.get(1).get("value").toString()));
+                    }
+                    break;
                 case "INT_VARIABLE":
-                  if(action == "var"){
-                    varHandler.add(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                  }else{
-                    varHandler.modify(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                  }
-                  break;
+                    if (action == "var") {
+                        varHandler.add(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
+                    } else {
+                        varHandler.modify(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
+                    }
+                    break;
                 case "FLOAT_VARIABLE":
-                  if(action == "var"){
-                    varHandler.add(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                  }else{
-                    varHandler.modify(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                  }
-                  break;
+                    if (action == "var") {
+                        varHandler.add(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
+                    } else {
+                        varHandler.modify(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
+                    }
+                    break;
                 case "VARIABLE":
-                  Float floatValue = varHandler.getFloat(args.get("value").toString());
-                  Integer intValue = varHandler.getInt(args.get("value").toString());
-                  if(floatValue != null){
-                    if(action == "var"){
-                    varHandler.add(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                  }else{
-                    varHandler.modify(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
-                  }
-                  }else if(intValue != null){
-                    if(action == "var"){
-                    varHandler.add(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                  }else{
-                    varHandler.modify(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
-                  }
-                  }else{  // No existe la variable
-                    System.out.println("error"); // TODO: Error aca
-                    return null;
-                  }
-                  break;
+                    Float floatValue = varHandler.getFloat(args.get("value").toString());
+                    Integer intValue = varHandler.getInt(args.get("value").toString());
+                    if (floatValue != null) {
+                        if (action == "var") {
+                            varHandler.add(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
+                        } else {
+                            varHandler.modify(args.get(0).get("value").asText(), varHandler.getFloat(args.get(1).get("value").toString()));
+                        }
+                    } else if (intValue != null) {
+                        if (action == "var") {
+                            varHandler.add(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
+                        } else {
+                            varHandler.modify(args.get(0).get("value").asText(), varHandler.getInt(args.get(1).get("value").toString()));
+                        }
+                    } else {  // No existe la variable
+                        System.out.println("error"); // TODO: Error aca
+                        return null;
+                    }
+                    break;
                 case "INSTRUCTION": // Volvear a llamar y castear resultado al tipo de retorno
-                  JsonNode instruccionAnidadaJ = args.get("value");
-                  String tipoRetorno_aux = instruccionAnidadaJ.get("return").toString();
-                  switch(tipoRetorno_aux){
-                    case "INTEGER":
-                    case "FLOAT":
-                      break;
-                    case "BOOLEAN":
-                      break;
-                    case "VOID":
-                      break;
-                  }
-                  break;
-              }
-            if(action == "var"){
-
-            }else {
-
+                    JsonNode instruccionAnidadaJ = args.get("value");
+                    String tipoRetorno_aux = instruccionAnidadaJ.get("return").toString();
+                    switch (tipoRetorno_aux) {
+                        case "INTEGER":
+                        case "FLOAT":
+                            break;
+                        case "BOOLEAN":
+                            break;
+                        case "VOID":
+                            break;
+                    }
+                    break;
             }
             break;
           case CYCLE:   //// Eu
@@ -367,6 +363,152 @@ public class CanvasGui extends Application {
             break;
         }
         return null; // TODO: Asegurarse de que cada switch devuelve algo
+    }
+
+    /**
+     * Metodo para parsear argumentos. Retorna un Hashmap con un unico elemento cuyo key es el tipo de valor del dato
+     * y cuyo valor es el dato en su forma de Object.
+     * @param args JsonNode con el argumento a parsear. Solo puede ser uno.
+     * @param instrHandler Instruction handler de donde va a sacar las instrucciones.
+     * @param procHandler Procedure handler de donde saca los procedimientos.
+     * */
+    private HashMap<String,Object> parseoArgs(JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {  // Parsea UN argumento, no pasar multiples.
+        String tipo = args.get("type").asText();
+        HashMap<String, Object> retorno = new HashMap<>();
+        switch(tipo){
+            case "INT_CONSTANT":
+                retorno.put("int", args.get("value").asInt());
+                break;
+            case "FLOAT_CONSTANT":
+                retorno.put("float", Float.parseFloat(args.get("value").asText()));
+                break;
+            case "STRING_CONSTANT":
+                retorno.put("string", args.get("value").asText());
+                break;
+            case "BOOL_CONSTANT":
+                retorno.put("boolean",args.get("value").asBoolean());
+                break;
+            case "INT_VARIABLE":
+                retorno.put("int",varHandler.getInt(args.get("value").asText()));
+                break;
+            case "FLOAT_VARIABLE":
+                retorno.put("float",varHandler.getFloat(args.get("value").asText()));
+                break;
+            case "VARIABLE":
+                Float floatValue = varHandler.getFloat(args.get("value").asText());
+                Integer intValue = varHandler.getInt(args.get("value").asText());
+                if(floatValue != null){
+                    retorno.put("float", floatValue);
+                }else if(intValue != null){
+                    retorno.put( "int", intValue);
+                }else{
+                    System.out.println("error"); // TODO: Error aca
+                    return null;
+                }
+                break;
+            case "INSTRUCTION":
+            case "OPERATION":
+            case "LOGIC":
+                JsonNode instruccionJ = args.get("value");
+                String returnType = args.get("value").asText();
+                switch (returnType) {
+                    case "INTEGER" -> retorno.put("int", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "FLOAT" -> retorno.put("float", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "BOOLEAN" -> retorno.put("boolean", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "VOID" -> retorno.put("void", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                }
+                break;
+        }
+        return retorno;
+    }
+
+    /**
+     * Because Im dumb e hice la funcion de parsearArgumentos que trabajara con un solo argumento, hice esta otra
+     * que se le pasa una lista de argumentos (args) y retorna una lista de hashmaps donde cada hashmap
+     * representa un argumento. El key de cada hashmap es el tipo de argumento, que solo puede ser: string, boolean, int, float
+     * el value de cada hashmap es el valor de cada argumento en clase Object, entonces hay que castearlo al tipo de key del
+     * hashmap
+     * @param args  Lista de argumentos a parsear
+     * @param instrHandler Lo de siempre
+     * @param procHandler Lo de siempre
+     * @return Lista de argumentos parseados en forma de Hashmap.
+     * */
+    private LinkedList<HashMap<String, Object>> parsearMultiplesArgumentos(JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+        LinkedList<HashMap<String, Object>> argumentosParseados = new LinkedList<>();
+        int i =0;
+        while(args.get(i) !=null){
+            JsonNode argumento = args.get(i);
+            argumentosParseados.add(parseoArgs(argumento, instrHandler, procHandler));
+        }
+        return argumentosParseados;
+    }
+
+    private Object operationInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+        // Parseando argumentos.
+        LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+        switch(action){
+            case "+":
+                if(argPars.get(0).get("int") != null){
+                    if(argPars.get(1).get("int") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (int)argPars.get(0).get("int") + (int)argPars.get(0).get("int");
+                }else if(argPars.get(0).get("float") != null){
+                    if(argPars.get(1).get("float") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (float)argPars.get(0).get("float") + (float)argPars.get(0).get("float");
+                }else{
+                    System.out.println("Solo puede ser int o float"); // TODO: Error
+                    return null;
+                }
+            case "-":
+                if(argPars.get(0).get("int") != null){
+                    if(argPars.get(1).get("int") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (int)argPars.get(0).get("int") - (int)argPars.get(0).get("int");
+                }else if(argPars.get(0).get("float") != null){
+                    if(argPars.get(1).get("float") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (float)argPars.get(0).get("float") - (float)argPars.get(0).get("float");
+                }else{
+                    System.out.println("Solo puede ser int o float"); // TODO: Error
+                    return null;
+                }
+            case "*":
+                if(argPars.get(0).get("int") != null){
+                    if(argPars.get(1).get("int") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (int)argPars.get(0).get("int") * (int)argPars.get(0).get("int");
+                }else if(argPars.get(0).get("float") != null){
+                    if(argPars.get(1).get("float") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (float)argPars.get(0).get("float") * (float)argPars.get(0).get("float");
+                }else{
+                    System.out.println("Solo puede ser int o float"); // TODO: Error
+                    return null;
+                }
+            case "/":
+                if(argPars.get(0).get("int") != null){
+                    if(argPars.get(1).get("int") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (int)argPars.get(0).get("int") / (int)argPars.get(0).get("int");
+                }else if(argPars.get(0).get("float") != null){
+                    if(argPars.get(1).get("float") == null){
+                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    }
+                    return (float)argPars.get(0).get("float") / (float)argPars.get(0).get("float");
+                }else{
+                    System.out.println("Solo puede ser int o float"); // TODO: Error
+                    return null;
+                }
+        }
+        return null;
     }
 
     public Object normalInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args){
