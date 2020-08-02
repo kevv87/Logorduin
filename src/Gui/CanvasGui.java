@@ -2,7 +2,6 @@ package Gui;
 
 import Compiler.Helpers.*;
 import Logic.Cursor;
-import Logic.jsonAction;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,7 +56,6 @@ public class CanvasGui extends Application {
         stage.setScene(scene);
         Canvas canvas = new Canvas(width, height);
         graphicsContext = canvas.getGraphicsContext2D();
-        random = new Random();
 
         //Creacion del cursor
         imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
@@ -486,13 +484,14 @@ public class CanvasGui extends Application {
     }
 
 
-    public Object normalInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler){
+    public Object normalInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
       // Parseando argumentos.
       LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+      boolean iterationBoolean = true;
       switch(action) {
           case "avanza":
               if(argPars.get(0).get("int") != null){
-                avanza((int)argPars.get(0).get("int"), true)
+                avanza((int)argPars.get(0).get("int"));
               }
               else{
                 System.out.println("Solo puede ser int"); // TODO: Error
@@ -500,7 +499,7 @@ public class CanvasGui extends Application {
               break;
           case "retrocede":
               if(argPars.get(0).get("int") != null){
-                avanza((int)argPars.get(0).get("int"), false)
+                retrocede((int)argPars.get(0).get("int"));
               }
               else{
                 System.out.println("Solo puede ser int"); // TODO: Error
@@ -546,6 +545,18 @@ public class CanvasGui extends Application {
                 System.out.println("Solo puede ser int"); // TODO: Error
               }
               break;
+          case "ponpos":
+              if(argPars.get(0).get("int") != null){
+                  if(argPars.get(1).get("int") != null){
+                    ponpos((int)argPars.get(0).get("int"), (int)argPars.get(1).get("int"));
+                  }
+                  else {
+                      System.out.println("Solo puede ser int"); // TODO: Error
+                  }
+              }
+              else {
+                  System.out.println("Solo puede ser int"); // TODO: Error
+              }
           case "poncl":
               if(argPars.get(0).get("string") != null){
                 Color color = convertColor((String) argPars.get(0).get("string"));
@@ -589,20 +600,290 @@ public class CanvasGui extends Application {
               graphicsContext.clearRect(0, 0, width, height);
               break;
           case "redondea":
-              if(argPars.get(0).get("int") != null){
-                return (int)argPars.get(0).get("int");
-              }
-              else if(argPars.get(0).get("float") != null){
-                return (int)argPars.get(0).get("float");
+              if(argPars.get(0).get("float") != null){
+                return redondea((float)argPars.get(0).get("float"));
               }
               else{
-                System.out.println("Solo puede ser int o float"); // TODO: Error
+                System.out.println("Solo puede ser float"); // TODO: Error
               }
               break;
           case "azar":
             if(argPars.get(0).get("int") != null){
-              return random.ints(0, (int)argPars.get(0).get("int") + 1)
+              return azar((int)argPars.get(0).get("int"));
             }
+            else if(argPars.get(0).get("float") != null){
+              return azar((float)argPars.get(0).get("float"));
+            }
+            else{
+                System.out.println("Solo puede ser int o float"); // TODO: Error
+            }
+            break;
+          case "menos":
+            if(argPars.get(0).get("int") != null){
+              return ((int)argPars.get(0).get("int") * -1);
+            }
+            else if(argPars.get(0).get("float") != null){
+              return ((float)argPars.get(0).get("float") * -1);
+            }
+            else{
+                System.out.println("Solo puede ser int o float"); // TODO: Error
+            }
+            break;
+          case "cos":
+            if(argPars.get(0).get("int") != null){
+              return cos((int)argPars.get(0).get("int"));
+            }
+            else if(argPars.get(0).get("float") != null){
+              return cos((float)argPars.get(0).get("float"));
+            }
+            else{
+                System.out.println("Solo puede ser int o float"); // TODO: Error
+            }
+            break;
+          case "seno":
+            if(argPars.get(0).get("int") != null){
+              return sen((int)argPars.get(0).get("int"));
+            }
+            else if(argPars.get(0).get("float") != null){
+              return sen((float)argPars.get(0).get("float"));
+            }
+            else{
+                System.out.println("Solo puede ser int o float"); // TODO: Error
+            }
+            break;
+          case "raiz":
+            if(argPars.get(0).get("int") != null){
+              return raiz((int)argPars.get(0).get("int"));
+            }
+            else if(argPars.get(0).get("float") != null){
+              return raiz((float)argPars.get(0).get("float"));
+            }
+            else{
+                System.out.println("Solo puede ser int o float"); // TODO: Error
+            }
+            break;
+          case "potencia":
+            // Retorna int si base int
+            if(argPars.get(0).get("int") != null){
+              if(argPars.get(1).get("int") != null){
+                double exponent = (double) argPars.get(1).get("int");
+                return potencia((int) argPars.get(0).get("int"), exponent);
+              }
+              else if(argPars.get(1).get("float") != null){
+                double exponent = (double) argPars.get(1).get("float");
+                return potencia((int) argPars.get(0).get("int"), exponent);
+              }
+              else{
+                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+              }
+            }
+            // Retorna float si base float
+            else if(argPars.get(0).get("float") != null){
+              if(argPars.get(1).get("int") != null){
+                double exponent = (double) argPars.get(1).get("int");
+                return potencia((float) argPars.get(0).get("float"), exponent);
+              }
+              else if(argPars.get(1).get("float") != null){
+                double exponent = (double) argPars.get(1).get("float");
+                return potencia((float) argPars.get(0).get("float"), exponent);
+              }
+              else{
+                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+              }
+            }
+            else{
+                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+            }
+            break;
+          case "resto":
+            if(argPars.get(0).get("int") != null){
+              if(argPars.get(1).get("int") != null){
+                return resto((int)argPars.get(0).get("int"), (int)argPars.get(1).get("int"));
+              }
+              else{
+                System.out.println("Los argumentos solo pueden ser int"); // TODO: Error
+              }
+            }
+            else{
+                System.out.println("Los argumentos solo pueden ser int"); // TODO: Error
+            }
+            break;
+          case "division":
+            if(argPars.get(0).get("int") != null){
+              if(argPars.get(1).get("int") != null){
+                int dividend = (int) argPars.get(0).get("int");
+                double divisor = (double) argPars.get(1).get("int");
+                return potencia(dividend, divisor);
+              }
+              else if(argPars.get(1).get("float") != null){
+                float dividend = (float) argPars.get(0).get("int");
+                double divisor = (double) argPars.get(1).get("int");
+                return potencia(dividend, divisor);
+              }
+              else{
+                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+              }
+            }
+            else if(argPars.get(0).get("float") != null){
+              if(argPars.get(1).get("int") != null){
+                int dividend = (int) argPars.get(0).get("int");
+                double divisor = (double) argPars.get(1).get("int");
+                return potencia(dividend, divisor);
+              }
+              else if(argPars.get(1).get("float") != null){
+                float dividend = (float) argPars.get(0).get("int");
+                double divisor = (double) argPars.get(1).get("int");
+                return potencia(dividend, divisor);
+              }
+              else{
+                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+              }
+            }
+            else{
+                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+            }
+            break;
+          case "diferencia":
+            // Si deberia ser de ints
+            if(argPars.get(0).get("int") != null){
+              LinkedList<Integer> arguments = new LinkedList<>();
+              // Valida que todos los argumentos sean ints
+              for (int tmp=0; tmp<argPars.size(); tmp++){
+                if(argPars.get(tmp).get("int") == null){
+                  iterationBoolean = false;
+                  break;
+                }
+                else{
+                  Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
+                  arguments.add(intObj);
+                }
+              }
+              if(iterationBoolean){
+                return diferenciaInt(arguments);
+              }
+              else{
+                System.out.println("Todos los argumentos deben ser del mismo tipo");
+              }
+            }
+            // Si deberia ser de floats
+            else if(argPars.get(0).get("float") != null){
+              LinkedList<Float> arguments = new LinkedList<Float>();
+              // Valida que todos los argumentos sean ints
+              for (int tmp=0; tmp<argPars.size(); tmp++){
+                if(argPars.get(tmp).get("float") == null){
+                  iterationBoolean = false;
+                  break;
+                }
+                else{
+                  Float floatObj = new Float((float)argPars.get(tmp).get("float"));
+                  arguments.add(floatObj);
+                }
+              }
+              if(iterationBoolean){
+                return diferenciaFloat(arguments);
+              }
+              else{
+                System.out.println("Todos los argumentos deben ser del mismo tipo");
+              }
+            }
+            else{
+                System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+            }
+            break;
+          case "producto":
+              // Si deberia ser de ints
+              if(argPars.get(0).get("int") != null){
+                  LinkedList<Integer> arguments = new LinkedList<>();
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("int") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                      else{
+                          Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
+                          arguments.add(intObj);
+                      }
+                  }
+                  if(iterationBoolean){
+                      return productoInt(arguments);
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              // Si deberia ser de floats
+              else if(argPars.get(0).get("float") != null){
+                  LinkedList<Float> arguments = new LinkedList<Float>();
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("float") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                      else{
+                          Float floatObj = new Float((float)argPars.get(tmp).get("float"));
+                          arguments.add(floatObj);
+                      }
+                  }
+                  if(iterationBoolean){
+                      return productoFloat(arguments);
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              else{
+                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+              }
+              break;
+          case "suma":
+              // Si deberia ser de ints
+              if(argPars.get(0).get("int") != null){
+                  LinkedList<Integer> arguments = new LinkedList<>();
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("int") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                      else{
+                          Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
+                          arguments.add(intObj);
+                      }
+                  }
+                  if(iterationBoolean){
+                      return sumaInt(arguments);
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              // Si deberia ser de floats
+              else if(argPars.get(0).get("float") != null){
+                  LinkedList<Float> arguments = new LinkedList<Float>();
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("float") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                      else{
+                          Float floatObj = new Float((float)argPars.get(tmp).get("float"));
+                          arguments.add(floatObj);
+                      }
+                  }
+                  if(iterationBoolean){
+                      return sumaFloat(arguments);
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              else{
+                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+              }
+              break;
       }
       return null;
     }
@@ -657,6 +938,10 @@ public class CanvasGui extends Application {
         imageCursor.setVisible(true);
     }
 
+    public void ponpos(int posX, int posY){
+        cursor.realocate(posX, posY);
+    }
+
     /**
      * Método para obtener el codigo hexadecimal del color.
      * @param color nombre del color que se busca.
@@ -705,6 +990,136 @@ public class CanvasGui extends Application {
         return result;
     }
 
+    public int redondea(float arg){
+      int result = (int) arg;
+      return result;
+    }
+
+    public int azar(int arg){
+      int result = (int)(Math.random() * arg);
+      return result;
+    }
+
+    public float azar(float arg){
+      float result = (float)(Math.random() * arg);
+      return result;
+    }
+
+    public int cos(int arg){
+      double angulo = Math.toRadians((double)arg);
+      int result = (int)Math.cos(angulo);
+      return result;
+    }
+
+    public float cos(float arg){
+      double angulo = Math.toRadians((double)arg);
+      float result = (float)Math.cos(angulo);
+      return result;
+    }
+
+    public float sen(int arg){
+      double angulo = Math.toRadians((double)arg);
+      float result = (float)Math.sin(angulo);
+      return result;
+    }
+
+    public float sen(float arg){
+      double angulo = Math.toRadians((double)arg);
+      float result = (float)Math.sin(angulo);
+      return result;
+    }
+
+    public float raiz(int arg){
+      double number = (double)arg;
+      float result = (float)Math.sqrt(number);
+      return result;
+    }
+
+    public float raiz(float arg){
+      double number = (double)arg;
+      float result = (float)Math.sqrt(number);
+      return result;
+    }
+
+    public int potencia(int arg, double power){     // la base determina el resultado, 2 funciones
+      double base = (double)arg;
+      int result = (int)Math.pow(base, power);
+      return result;
+    }
+
+    public float potencia(float arg, double power){     // la base determina el resultado, 2 funciones
+      double base = (double)arg;
+      float result = (float)Math.pow(base, power);
+      return result;
+    }
+
+    public int resto(int dividend, int divisor){
+      int result = dividend%divisor;
+      return result;
+    }
+
+    public float division(double dividend, double divisor){
+      float result = (float) (dividend/divisor);
+      return result;
+    }
+
+    public int diferenciaInt(LinkedList<Integer> arguments){
+      int result = arguments.getFirst().intValue();
+      arguments.remove();
+      while(arguments.size()>0){
+          result -= arguments.getFirst().intValue();
+          arguments.remove();
+      }
+      return result;
+    }
+
+    public float diferenciaFloat(LinkedList<Float> arguments){
+        float result = arguments.getFirst().floatValue();
+        arguments.remove();
+        while(arguments.size()>0){
+            result -= arguments.getFirst().floatValue();
+            arguments.remove();
+        }
+        return result;
+    }
+
+    public int productoInt(LinkedList<Integer> arguments){
+        int result = 1;
+        while(arguments.size()>0){
+            result *= arguments.getFirst().intValue();
+            arguments.remove();
+        }
+        return result;
+    }
+
+    public float productoFloat(LinkedList<Float> arguments){
+        float result = 1;
+        while(arguments.size()>0){
+            result *= arguments.getFirst().floatValue();
+            arguments.remove();
+        }
+        return result;
+    }
+
+    public int sumaInt(LinkedList<Integer> arguments){
+        int result = 0;
+        while(arguments.size()>0){
+            result += arguments.getFirst().intValue();
+            arguments.remove();
+        }
+        return result;
+    }
+
+    public float sumaFloat(LinkedList<Float> arguments){
+        float result = 0;
+        while(arguments.size()>0){
+            result += arguments.getFirst().floatValue();
+            arguments.remove();
+        }
+        return result;
+    }
+
+    
     /**
      * Metodo para llamar funciones del canvas segun codigo maquina
      */
