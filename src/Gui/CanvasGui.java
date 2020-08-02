@@ -116,10 +116,9 @@ public class CanvasGui extends Application {
 
         switch(tipoInstruction){
           case NORMAL:
-            return normalInstruction(action, tipoInstruction, tipoRetorno, args);
+            return normalInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
           case LOGIC:
-            return logicInstruction(action, tipoInstruction, tipoRetorno, args);
-            break;
+            return logicInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
           case OPERATION:
               return operationInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
           case VARIABLE:
@@ -452,19 +451,31 @@ public class CanvasGui extends Application {
                     return null;
                 }
             case "mayorque":
-                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
-                    return (boolean)argPars.get(0).get("boolean") > (boolean)argPars.get(1).get("boolean");
-                }else{
+                if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
+                    return (int)argPars.get(0).get("int") > (int)argPars.get(1).get("int");
+                }else if(argPars.get(0).get("int") != null && argPars.get(1).get("float") != null){
+                    return (int)argPars.get(0).get("int") > (int)argPars.get(1).get("int");
+                }else if(argPars.get(0).get("float") != null && argPars.get(1).get("int") != null){
+                    return (int)argPars.get(0).get("float") > (int)argPars.get(1).get("int");
+                }else if(argPars.get(0).get("float") != null && argPars.get(1).get("float") != null){
+                    return (int)argPars.get(0).get("float") > (int)argPars.get(1).get("float");
+                }{
                     System.out.println("Solo puede ser boolean"); // TODO: Error
                     return null;
                 }
             case "menorque":
-                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
-                    return (boolean)argPars.get(0).get("boolean") < (boolean)argPars.get(1).get("boolean");
-                }else{
-                    System.out.println("Solo puede ser boolean"); // TODO: Error
-                    return null;
-                }
+                if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
+                    return (int)argPars.get(0).get("int") < (int)argPars.get(1).get("int");
+                }else if(argPars.get(0).get("int") != null && argPars.get(1).get("float") != null){
+                    return (int)argPars.get(0).get("int") < (int)argPars.get(1).get("int");
+                }else if(argPars.get(0).get("float") != null && argPars.get(1).get("int") != null){
+                    return (int)argPars.get(0).get("float") < (int)argPars.get(1).get("int");
+                }else if(argPars.get(0).get("float") != null && argPars.get(1).get("float") != null){
+                    return (int)argPars.get(0).get("float") < (int)argPars.get(1).get("float");
+                }{
+                System.out.println("Solo puede ser boolean"); // TODO: Error
+                return null;
+            }
             case "y":
                 if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
                     return (boolean)argPars.get(0).get("boolean") && (boolean)argPars.get(1).get("boolean");

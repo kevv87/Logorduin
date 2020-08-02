@@ -27,8 +27,8 @@ public class  Cursor {
         this.icon = icon;
         this.gc = gc;
         // Poner el cursor en el centro del canvas.
-        this.posX = (double)canvasWidth / 2;
-        this.posY = (double)canvasHeight /2;
+        this.posX = canvasWidth / 2;
+        this.posY = canvasHeight /2;
         this.rotation = 0;
         lapiz =true;
     }
@@ -38,10 +38,10 @@ public class  Cursor {
      * @param cantidad Cantidad de pixeles a mover el cursor.
      */
     public void move(int cantidad, boolean avanzar){
-        Double oldX = this.posX;
-        Double oldY = this.posY;
-        posY = (oldY - (Math.cos(2*Math.PI*rotation/360)*cantidad));
-        posX = (oldX + (Math.sin(2*Math.PI*rotation/360)*cantidad));
+        int oldX = this.posX;
+        int oldY = this.posY;
+        posY = (oldY - ((int)Math.cos(2*Math.PI*rotation/360)*cantidad));
+        posX = (oldX + ((int)Math.sin(2*Math.PI*rotation/360)*cantidad));
         if(lapiz){  // De tener el lapiz pintando, pintar
             if(avanzar) {
                 gc.strokeLine(oldX,oldY,posX,posY);
@@ -56,7 +56,7 @@ public class  Cursor {
      * Método para obtener la posición X del cursor.
      * @return Posición X del cursor.
      */
-    public Double getPosX() {
+    public int getPosX() {
         return posX;
     }
 
