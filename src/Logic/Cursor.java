@@ -40,8 +40,8 @@ public class  Cursor {
     public void move(int cantidad, boolean avanzar){
         int oldX = this.posX;
         int oldY = this.posY;
-        posY = (oldY - ((int)Math.cos(2*Math.PI*rotation/360)*cantidad));
-        posX = (oldX + ((int)Math.sin(2*Math.PI*rotation/360)*cantidad));
+        posY = (oldY - (int)((Math.cos(2*Math.PI*rotation/360)*cantidad)));
+        posX = (oldX + (int)((Math.sin(2*Math.PI*rotation/360)*cantidad)));
         if(lapiz){  // De tener el lapiz pintando, pintar
             if(avanzar) {
                 gc.strokeLine(oldX,oldY,posX,posY);

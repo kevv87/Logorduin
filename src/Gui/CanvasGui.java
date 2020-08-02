@@ -87,13 +87,13 @@ public class CanvasGui extends Application {
      * Método para actualizar el dibujo
      */
     private void configureUpdateLoop() {
-        rotateCursor(45);
+        //rotateCursor(45);
         update = new AnimationTimer() {
             @Override
             public void handle(long l) {
 
                 //rotateCursor(1); //TODO obtener los grados a girar
-                cursor.move(1, true);
+                //cursor.move(1, true);
 /*
                 try {
                     Thread.sleep(1000); //TODO cambiar según necesidades
@@ -101,7 +101,7 @@ public class CanvasGui extends Application {
                     e.printStackTrace();
                 }*/
                 // Despues de aplicar los cambios, update the image
-                updateCursor();
+                //updateCursor();
             }
         };
     }
@@ -337,8 +337,6 @@ public class CanvasGui extends Application {
                 }
                 break;
             case "INSTRUCTION":
-            case "OPERATION":
-            case "LOGIC":
                 JsonNode instruccionJ = args.get("value");
                 String returnType = args.get("value").asText();
                 switch (returnType) {
@@ -347,6 +345,34 @@ public class CanvasGui extends Application {
                     case "BOOLEAN" -> retorno.put("boolean", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
                     case "VOID" -> retorno.put("void", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
                 }
+                break;
+            case "OPERATION":
+                LinkedList<HashMap<String, Object>> parsArgs = parsearMultiplesArgumentos(args.get("args"), instrHandler, procHandler);
+                returnType = args.get("value").asText();
+                switch (returnType) {
+                    case "INTEGER":
+                        retorno.put("int", (int)parsArgs.get(0).get("int") + (int)parsArgs.get(1).get("int"));
+                        break;
+                    case "FLOAT":
+                        retorno.put("float", (float)parsArgs.get(0).get("float") + (int)parsArgs.get(1).get("float"));
+                        break;
+                    case "BOOLEAN":
+                        System.out.println("Error, una operacion no puede ser booleana");
+                        return null;
+                    case "VOID":
+                        System.out.println("Error, una operacion no puede ser void");
+                        return null;
+                }
+                break;
+            case "LOGIC":/*
+                JsonNode instruccionJ = args.get("value");
+                String returnType = args.get("value").asText();
+                switch (returnType) {
+                    case "INTEGER" -> retorno.put("int", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "FLOAT" -> retorno.put("float", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "BOOLEAN" -> retorno.put("boolean", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "VOID" -> retorno.put("void", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                }*/
                 break;
         }
         return retorno;
