@@ -884,6 +884,181 @@ public class CanvasGui extends Application {
                   System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
               }
               break;
+          case "elegir":
+              // Si deberia ser de ints
+              if(argPars.get(0).get("int") != null){
+                  LinkedList<Integer> arguments = new LinkedList<>();
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("int") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                      else{
+                          Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
+                          arguments.add(intObj);
+                      }
+                  }
+                  if(iterationBoolean){
+                      return elegirInt(arguments);
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              // Si deberia ser de floats
+              else if(argPars.get(0).get("float") != null){
+                  LinkedList<Float> arguments = new LinkedList<Float>();
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("float") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                      else{
+                          Float floatObj = new Float((float)argPars.get(tmp).get("float"));
+                          arguments.add(floatObj);
+                      }
+                  }
+                  if(iterationBoolean){
+                      return elegirFloat(arguments);
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              else{
+                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+              }
+              break;
+          case "cuenta":
+              return argPars.size();
+          case "ultimo":
+              // Si deberia ser de ints
+              if(argPars.get(0).get("int") != null){
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("int") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                  }
+                  if(iterationBoolean){
+                      return (int) argPars.getLast().get("int");
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              // Si deberia ser de floats
+              else if(argPars.get(0).get("float") != null){
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("float") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                  }
+                  if(iterationBoolean){
+                      return (float) argPars.getLast().get("float");
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              else{
+                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+              }
+              break;
+          case "primero":
+              // Si deberia ser de ints
+              if(argPars.get(0).get("int") != null){
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("int") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                  }
+                  if(iterationBoolean){
+                      return (int) argPars.getFirst().get("int");
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              // Si deberia ser de floats
+              else if(argPars.get(0).get("float") != null){
+                  // Valida que todos los argumentos sean ints
+                  for (int tmp=0; tmp<argPars.size(); tmp++){
+                      if(argPars.get(tmp).get("float") == null){
+                          iterationBoolean = false;
+                          break;
+                      }
+                  }
+                  if(iterationBoolean){
+                      return (float) argPars.getFirst().get("float");
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  }
+              }
+              else{
+                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+              }
+              break;
+          case "elemento":
+              // Si el indice es un entero
+              if(argPars.get(0).get("int") != null){
+                  // Si deberia ser de ints
+                  if(argPars.get(1).get("int") != null){
+                      LinkedList<Integer> arguments = new LinkedList<>();
+                      // Valida que todos los argumentos sean ints
+                      for (int tmp=1; tmp<argPars.size(); tmp++){
+                          if(argPars.get(tmp).get("int") == null){
+                              iterationBoolean = false;
+                              break;
+                          }
+                          else{
+                              Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
+                              arguments.add(intObj);
+                          }
+                      }
+                      if(iterationBoolean){
+                          return arguments.get((int)argPars.get(0).get("int")).intValue();
+                      }
+                      else{
+                          System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      }
+                  }
+                  // Si deberia ser de floats
+                  else if(argPars.get(0).get("float") != null){
+                      LinkedList<Float> arguments = new LinkedList<Float>();
+                      // Valida que todos los argumentos sean ints
+                      for (int tmp=1; tmp<argPars.size(); tmp++){
+                          if(argPars.get(tmp).get("float") == null){
+                              iterationBoolean = false;
+                              break;
+                          }
+                          else{
+                              Float floatObj = new Float((float)argPars.get(tmp).get("float"));
+                              arguments.add(floatObj);
+                          }
+                      }
+                      if(iterationBoolean){
+                          return arguments.get((int)argPars.get(0).get("int")).floatValue();
+                      }
+                      else{
+                          System.out.println("Todos los argumentos de la lista deben ser del mismo tipo");
+                      }
+                  }
+                  else{
+                      System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                  }
+              }
+              else{
+                  System.out.println("El indice debe ser un int"); // TODO: Error
+              }
       }
       return null;
     }
@@ -1119,7 +1294,18 @@ public class CanvasGui extends Application {
         return result;
     }
 
-    
+    public int elegirInt(LinkedList<Integer> arguments){
+        int index = (int) (Math.random() * (arguments.size() - 1));
+        int result = arguments.get(index).intValue();
+        return result;
+    }
+
+    public float elegirFloat(LinkedList<Float> arguments){
+        int index = (int) (Math.random() * (arguments.size() - 1));
+        float result = arguments.get(index).floatValue();
+        return result;
+    }
+
     /**
      * Metodo para llamar funciones del canvas segun codigo maquina
      */
