@@ -295,6 +295,9 @@ public class InstructionHandler {
         if (instrNode == null) return null;
 
         JsonNode body = instrNode.get("body");
+        if(body == null){
+            return null;
+        }
         if (!body.isArray()) {
             body = getNode(body.textValue());
         }

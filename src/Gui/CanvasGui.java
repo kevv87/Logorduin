@@ -133,7 +133,7 @@ public class CanvasGui extends Application {
               }
 
               // Agrega o modifica la variable.
-              if(action == "var"){  // Definicion
+              if(action.equals("var")){  // Definicion
                   if(argumentosParseados.get(1).get("int") != null){
                       varHandler.add((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
                   }else if(argumentosParseados.get(1).get("float") != null){
@@ -142,7 +142,7 @@ public class CanvasGui extends Application {
                       System.out.println("Tipo de valor no soportado para una variable"); // TODO: Error
                       return null;
                   }
-              }else if(action == "inic"){  //Modificacion
+              }else if(action.equals("inic")){  //Modificacion
                   // TODO: Error. Estas modificaciones si no existen lanzan la funcion onError, modificar esa para que tire una excepcion y manejarla aca
                   if(argumentosParseados.get(1).get("int") != null){
                       varHandler.modify((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
@@ -278,6 +278,7 @@ public class CanvasGui extends Application {
                   }
                   break;
               }
+              k++;
             }
             varHandler.setScope(action);
             // Cuerpo de la funcion
@@ -286,6 +287,7 @@ public class CanvasGui extends Application {
             while(instructions.get(j) != null){
               String instruccionAnidadaJ = instructions.get(j).toString();
               manejoInstrucciones(instruccionAnidadaJ, instrHandler, procHandler);
+              j++;
             }
             varHandler.resetScope();
             break;
@@ -367,6 +369,7 @@ public class CanvasGui extends Application {
         while(args.get(i) !=null){
             JsonNode argumento = args.get(i);
             argumentosParseados.add(parseoArgs(argumento, instrHandler, procHandler));
+            i++;
         }
         return argumentosParseados;
     }
