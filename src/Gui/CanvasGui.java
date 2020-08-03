@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.Random;
 
@@ -58,7 +59,8 @@ public class CanvasGui extends Application {
         Canvas canvas = new Canvas(width, height);
         graphicsContext = canvas.getGraphicsContext2D();
         instructionTail = new LinkedList<>();
-
+        PixelWriter pixelWriter = graphicsContext.getPixelWriter();
+        graphicsContext.fillRect(400, 300, 1, 1);
         //Creacion del cursor
         imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
         cursor = new Cursor(imageCursor, width, height, graphicsContext);
@@ -66,22 +68,26 @@ public class CanvasGui extends Application {
         imageCursor.setLayoutY(cursor.getPosY()-15);
 
 
-        PixelWriter pixelWriter = graphicsContext.getPixelWriter();
-        graphicsContext.fillRect(400, 300, 1, 1);
+
 //        drawLineCanvas(graphicsContext,400, 300, 70, 0);
-        canvasGroup.getChildren().addAll(imageCursor, canvas);
-        configureUpdateLoop();
-        update.start();
-
-        //exec();
-
-        stage.show();
-
         try {
+
+            canvasGroup.getChildren().addAll(imageCursor, canvas);
+            configureUpdateLoop();
+
+            //exec();
+
+            stage.show();
+            //updateCursor();
+            update.start();
             exec(CanvasGui.cFile);
+            //updateCursor();
         } catch (JsonProcessingException e) {  //TODO: Aqui se estarian agarrando los errores, tirarlos a la interfaz.
             e.printStackTrace();
         }
+
+
+
 
     }
 
@@ -93,17 +99,52 @@ public class CanvasGui extends Application {
         update = new AnimationTimer() {
             @Override
             public void handle(long l) {
-
-                //rotateCursor(1); //TODO obtener los grados a girar
+                //rotateCursor(1); //TODO Cerrar la hp ventana al darle x
                 //cursor.move(1, true);
-/*
-                try {
+                try{
+                    Thread.sleep(100);
+                    LinkedList<String> instruction;
+                    if(instructionTail.size() > 0){
+                        instruction = instructionTail.getFirst();
+                        switch (instruction.getFirst()){
+                            case "avanza":
+                                cursor.move(Integer.parseInt(instruction.get(1)), true);
+                                break;
+                            case "retrocede":
+                                cursor.move(Integer.parseInt(instruction.get(1)), false);
+                                break;
+                            case "update":
+                                imageCursor.setRotate(cursor.getRotation());
+                                imageCursor.setLayoutX(cursor.getPosX()-15);
+                                imageCursor.setLayoutY(cursor.getPosY()-15);
+                                break;
+                            case "rotate":
+                                cursor.updateRotation(Integer.parseInt(instruction.get(1)), true);
+                                break;
+                            case "hide":
+                                imageCursor.setVisible(false);
+                                break;
+                            case "show":
+                                imageCursor.setVisible(true);
+                                break;
+                            case "ponpos":
+                                cursor.realocate(Integer.parseInt(instruction.get(1)), Integer.parseInt(instruction.get(2)));
+                                break;
+                            default:
+                                break;
+                        }
+                        instructionTail.removeFirst();
+                        // Despues de aplicar los cambios, update the image
+                        updateCursor();
+                    }
+
+
+
                     Thread.sleep(1000); //TODO cambiar según necesidades
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }*/
-                // Despues de aplicar los cambios, update the image
-                //updateCursor();
+                }
+
             }
         };
     }
@@ -1122,9 +1163,9 @@ public class CanvasGui extends Application {
     private void updateCursor(){
         LinkedList<String> method = new LinkedList<>();
         method.add("update");
-        //imageCursor.setRotate(cursor.getRotation());
-        //imageCursor.setLayoutX(cursor.getPosX()-15);
-        //imageCursor.setLayoutY(cursor.getPosY()-15);
+        imageCursor.setRotate(cursor.getRotation());
+        imageCursor.setLayoutX(cursor.getPosX()-15);
+        imageCursor.setLayoutY(cursor.getPosY()-15);
     }
 
     /**
@@ -1164,37 +1205,7 @@ public class CanvasGui extends Application {
         //cursor.realocate(posX, posY);
     }
 
-    public void parseInstructionTail(){
-        while(instructionTail.size() > 0){
-            LinkedList<String> instruction = instructionTail.getFirst();
-            switch (instruction.getFirst()){
-                case "avanza":
-                    cursor.move(Integer.parseInt(instruction.get(1)), true);
-                    break;
-                case "retrocede":
-                    cursor.move(Integer.parseInt(instruction.get(1)), false);
-                    break;
-                case "update":
-                    imageCursor.setRotate(cursor.getRotation());
-                    imageCursor.setLayoutX(cursor.getPosX()-15);
-                    imageCursor.setLayoutY(cursor.getPosY()-15);
-                    break;
-                case "rotate":
-                    cursor.updateRotation(Integer.parseInt(instruction.get(1)), true);
-                    break;
-                case "hide":
-                    imageCursor.setVisible(false);
-                    break;
-                case "show":
-                    imageCursor.setVisible(true);
-                    break;
-                case "ponpos":
-                    cursor.realocate(Integer.parseInt(instruction.get(1)), Integer.parseInt(instruction.get(2)));
-                    break;
-            }
-            instruction.remove();
-        }
-    }
+
 
     /**
      * Método para obtener el codigo hexadecimal del color.
