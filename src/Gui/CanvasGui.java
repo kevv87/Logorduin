@@ -39,6 +39,7 @@ public class CanvasGui extends Application {
     private int height;
     private GraphicsContext graphicsContext;
     private Random random;
+    private LinkedList<LinkedList<String>> instructionTail;
 
     public static CompiledFile cFile;
 
@@ -56,6 +57,7 @@ public class CanvasGui extends Application {
         stage.setScene(scene);
         Canvas canvas = new Canvas(width, height);
         graphicsContext = canvas.getGraphicsContext2D();
+        instructionTail = new LinkedList<>();
 
         //Creacion del cursor
         imageCursor = CommonMethods.loadImageView("/res/turtle.png", 30, 30);
@@ -1103,12 +1105,21 @@ public class CanvasGui extends Application {
       return null;
     }
 
-    public void avanza(int length){
-      cursor.move(length, true);
+    public void avanza(int length) {
+      LinkedList<String> method = new LinkedList<>();
+      method.add("avanza");
+      method.add(Integer.toString(length));
+      instructionTail.add(method);
+      //cursor.move(length, true);
+
     }
 
     public void retrocede(int length){
-      cursor.move(length, false);
+        LinkedList<String> method = new LinkedList<>();
+        method.add("retrocede");
+        method.add(Integer.toString(length));
+        instructionTail.add(method);
+        //cursor.move(length, false);
     }
 
     private void exec(CompiledFile cFile) throws JsonProcessingException {
@@ -1126,9 +1137,11 @@ public class CanvasGui extends Application {
      * Pinta de nuevo el cursor aplicando sus atributos (posicion y rotacion) al ImageView.
      */
     private void updateCursor(){
-        imageCursor.setRotate(cursor.getRotation());
-        imageCursor.setLayoutX(cursor.getPosX()-15);
-        imageCursor.setLayoutY(cursor.getPosY()-15);
+        LinkedList<String> method = new LinkedList<>();
+        method.add("update");
+        //imageCursor.setRotate(cursor.getRotation());
+        //imageCursor.setLayoutX(cursor.getPosX()-15);
+        //imageCursor.setLayoutY(cursor.getPosY()-15);
     }
 
     /**
@@ -1136,25 +1149,52 @@ public class CanvasGui extends Application {
      * @param rotation rotación a actualizar
      */
     private void rotateCursor(int rotation) {
-        cursor.updateRotation(rotation, true);      // TODO validate boolean
+        LinkedList<String> method = new LinkedList<>();
+        method.add("rotate");
+        method.add(Integer.toString(rotation));
+        //cursor.updateRotation(rotation, true);      // TODO validate boolean
     }
 
     /**
      * Método para esconder el cursor.
      */
     public void hideCursor() {
-        imageCursor.setVisible(false);
+        LinkedList<String> method = new LinkedList<>();
+        method.add("hide");
+        //imageCursor.setVisible(false);
     }
 
     /**
      * Método para mostrar el cursor.
      */
     public void showCursor() {
-        imageCursor.setVisible(true);
+        LinkedList<String> method = new LinkedList<>();
+        method.add("show");
+        //imageCursor.setVisible(true);
     }
 
     public void ponpos(int posX, int posY){
-        cursor.realocate(posX, posY);
+        LinkedList<String> method = new LinkedList<>();
+        method.add("ponpos");
+        method.add(Integer.toString(posX));
+        method.add(Integer.toString(posY));
+        //cursor.realocate(posX, posY);
+    }
+
+    public void parseInstructionTail(){
+        while(instructionTail.size() > 0){
+            LinkedList<String> instruction = instructionTail.getFirst();
+            switch (instruction.getFirst()){
+                case "avanza":
+                    cursor.move(Integer.parseInt(instruction.get(1)), true);
+                    break;
+                case "retrocede":
+                    cursor.move(Integer.parseInt(instruction.get(1)), false);
+                    break;
+                case "update":
+
+            }
+        }
     }
 
     /**
@@ -1346,106 +1386,6 @@ public class CanvasGui extends Application {
         return result;
     }
 
-    /**
-     * Metodo para llamar funciones del canvas segun codigo maquina
-     */
-/*    public void callFunction(String json, GraphicsContext graphicsContext, int Height, int Width) {
-        String action = "";
-        int repeticion = 0;
-        try {
-            jsonAction jAction = objectMapper.readValue(json, jsonAction.class);
-            action = jAction.getAccion();
-            repeticion = jAction.getRepeticiones();
-
-            switch (action) {
-                case "avanza":
-                case "av":
-                    int length = (int) jAction.getArgumentos().get(0);
-                    cursor.move(length, true);
-                    break;
-                case "retrocede":
-                case "re":
-                    length = (int) jAction.getArgumentos().get(0);
-                    cursor.move(length, false);
-                    break;
-                case "giraderecha":
-                case "gd":
-                    int angulo = (int) jAction.getArgumentos().get(0);
-                    cursor.updateRotation(angulo, true);
-                    break;
-                case "giraizquierda":
-                case "gi":
-                    angulo = (int) jAction.getArgumentos().get(0);
-                    cursor.updateRotation(angulo, false);
-                    break;
-                case "ocultatortuga":
-                case "ot":
-                    hideCursor();
-                    break;
-                case "aparecetortuga":
-                case "AT":
-                    showCursor();
-                case "ponpos":
-                case "ponxy":
-                    Double posX = (Double) jAction.getArgumentos().get(0);
-                    Double posY = (Double) jAction.getArgumentos().get(1);
-                    cursor.realocate(posX, posY);
-                    break;
-                case "ponrumbo":
-                    angulo = (int) jAction.getArgumentos().get(0);
-                    cursor.setRotation(angulo);
-                    break;
-                case "rumbo":   // TODO mostrar en consola la rotacion
-                    System.out.println(cursor.getRotation());
-                    break;
-                case "ponx":
-                    posX = (Double) jAction.getArgumentos().get(0);
-                    cursor.setPosX(posX);
-                    break;
-                case "pony":
-                    posY = (Double) jAction.getArgumentos().get(0);
-                    cursor.setPosY(posY);
-                    break;
-                case "bajalapiz":
-                case "bl":
-                    if(!cursor.isLapiz()) {
-                        cursor.setLapiz(true);
-                    }
-                    break;
-                case "subelapiz":
-                case "sb":
-                    if(cursor.isLapiz()) {
-                        cursor.setLapiz(false);
-                    }
-                    break;
-                case "poncolorlapiz":
-                case "poncl":
-                    String color = (String) jAction.getArgumentos().get(0);
-                    cursor.setCurrentColor(convertColor(color));
-                    break;
-                case "centro":
-                    Double centerX = (double) (Width/2);
-                    Double centerY = (double) (Height/2);
-                    cursor.realocate( centerX, centerY);
-                    break;
-                case "espera":
-                    int tiempo = (int) jAction.getArgumentos().get(0);
-                    try {
-                        TimeUnit.SECONDS.sleep(tiempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case "borrapantalla":
-                    graphicsContext.clearRect(0, 0, Width, Height);
-                    break;
-            }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-    }
-*/
     /**
      * Método que lanza la aplicación
      */
