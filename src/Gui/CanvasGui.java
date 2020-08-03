@@ -347,32 +347,32 @@ public class CanvasGui extends Application {
                 }
                 break;
             case "OPERATION":
-                LinkedList<HashMap<String, Object>> parsArgs = parsearMultiplesArgumentos(args.get("args"), instrHandler, procHandler);
-                returnType = args.get("value").asText();
-                switch (returnType) {
-                    case "INTEGER":
-                        retorno.put("int", (int)parsArgs.get(0).get("int") + (int)parsArgs.get(1).get("int"));
+                //LinkedList<HashMap<String, Object>> parsArgs = parsearMultiplesArgumentos(args.get("args"), instrHandler, procHandler);
+                returnType = args.get("return").asText();
+                Object valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler);
+                switch(returnType){
+                    case"INTEGER":
+                        retorno.put("int", valor);
                         break;
                     case "FLOAT":
-                        retorno.put("float", (float)parsArgs.get(0).get("float") + (int)parsArgs.get(1).get("float"));
+                        retorno.put("float",valor);
                         break;
-                    case "BOOLEAN":
-                        System.out.println("Error, una operacion no puede ser booleana");
-                        return null;
-                    case "VOID":
-                        System.out.println("Error, una operacion no puede ser void");
-                        return null;
+                    default:
+                        System.out.println("El tipo de retorno solo puede ser integer o float para una operacion aritmetica");
+                        break;
                 }
                 break;
-            case "LOGIC":/*
-                JsonNode instruccionJ = args.get("value");
-                String returnType = args.get("value").asText();
-                switch (returnType) {
-                    case "INTEGER" -> retorno.put("int", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "FLOAT" -> retorno.put("float", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "BOOLEAN" -> retorno.put("boolean", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "VOID" -> retorno.put("void", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                }*/
+            case "LOGIC":
+                returnType = args.get("return").asText();
+                valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler);
+                switch(returnType){
+                    case"BOOLEAN":
+                        retorno.put("boolean", valor);
+                        break;
+                    default:
+                        System.out.println("El tipo de retorno no es valido para una operacion logica");
+                        break;
+                }
                 break;
         }
         return retorno;
