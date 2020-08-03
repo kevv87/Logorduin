@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -38,6 +41,7 @@ public class CanvasGui extends Application {
     private ObjectMapper mapper;
     private int width;
     private int height;
+    private int cont;
     private GraphicsContext graphicsContext;
     private Random random;
     private LinkedList<LinkedList<String>> instructionTail;
@@ -46,6 +50,7 @@ public class CanvasGui extends Application {
 
     @Override
     public void start(Stage stage) {
+        cont = 0;
         argHandler = new ArgumentHandler();
         instrHandler = new InstructionHandler();
         procHandler = new ProcedureHandler();
@@ -56,6 +61,13 @@ public class CanvasGui extends Application {
         Group canvasGroup = new Group();
         Scene scene = new Scene(canvasGroup);
         stage.setScene(scene);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                System.out.println( "Kill meee");
+                update.stop();
+            }
+        });
         Canvas canvas = new Canvas(width, height);
         graphicsContext = canvas.getGraphicsContext2D();
         instructionTail = new LinkedList<>();
@@ -79,8 +91,8 @@ public class CanvasGui extends Application {
 
             stage.show();
             //updateCursor();
-            update.start();
             exec(CanvasGui.cFile);
+            update.start();
             //updateCursor();
         } catch (JsonProcessingException e) {  //TODO: Aqui se estarian agarrando los errores, tirarlos a la interfaz.
             e.printStackTrace();
@@ -102,9 +114,10 @@ public class CanvasGui extends Application {
                 //rotateCursor(1); //TODO Cerrar la hp ventana al darle x
                 //cursor.move(1, true);
                 try{
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                     LinkedList<String> instruction;
-                    if(instructionTail.size() > 0){
+
+                    if(instructionTail.size() > 0 && cont >1 ){
                         instruction = instructionTail.getFirst();
                         switch (instruction.getFirst()){
                             case "avanza":
@@ -136,12 +149,16 @@ public class CanvasGui extends Application {
                         instructionTail.removeFirst();
                         // Despues de aplicar los cambios, update the image
                         updateCursor();
+                    }else if(cont==0 || cont==1){
+                        cursor.move(0, true);
+                        updateCursor();
+                        cont+=1;
                     }
 
 
 
-                    Thread.sleep(1000); //TODO cambiar según necesidades
-                } catch (InterruptedException e) {
+                    //Thread.sleep(1000); //TODO cambiar según necesidades
+               } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
