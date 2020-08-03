@@ -186,43 +186,26 @@ public class CanvasGui extends Application {
 
           case CONDITION:
             // Validando condicion
-            if(args.get(0).get("type").toString() == "BOOL_CONSTANT"){     // TODO:ese args puede dar problemas
-              if(args.get(0).get("value").toString() == "false"){
-                return null;
+              argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+
+              // Validando primer argumento
+              if(argumentosParseados.get(0).get("boolean") == null){
+                  System.out.println("La condicion solo puede ser boolean");
+                  return null;
               }
-            }else if(args.get(0).get("type").toString()  == "INSTRUCTION"){  // TODO: Hay que parsear el argumento
-                  JsonNode instruccionAnidadaJ = args.get(0).get("value");
-                  String tipoRetorno_aux = instruccionAnidadaJ.get("return").toString();
-                  switch(tipoRetorno_aux){
-                    case "INTEGER":
-                      System.out.println("debe devolver boolean"); //TODO:ERROR
-                      break;
-                    case "FLOAT":
-                      System.out.println("Debe devolver boolean"); // TODO:ERROR
-                      break;
-                    case "BOOLEAN":
-                      if(!((boolean) manejoInstrucciones(instruccionAnidadaJ.toString(), instrHandler, procHandler))){
-                        return null;
-                      }
-                      break;
-                    case "VOID":
-                      System.out.println("Error, la instruccion no puede devolver vacio");
-                      break;
-                  }
-                }
+
+              if(!((boolean) argumentosParseados.get(0).get("boolean"))){
+                  return null;
+              }
                 // Ejecutando las instrucciones, sorry por el indent xD
              int j =0;
               String instruccionAnidada="";
-              if(body.get(j)==null){  // Si esto pasa es porque el body solo es una accion
-                instruccionAnidada = body.get(j).textValue();
-                return manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
-              }else{
                 while(body.get(j)!=null){
                   instruccionAnidada = body.get(j).textValue();
                   manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
                   j++;
                 }
-              }
+
             break;
           case PROCEDURE:
             JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action).toString()); //TODO: Manejar error de que pasa si no se encuentra esto
