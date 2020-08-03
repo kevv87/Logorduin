@@ -1175,8 +1175,24 @@ public class CanvasGui extends Application {
                     cursor.move(Integer.parseInt(instruction.get(1)), false);
                     break;
                 case "update":
-
+                    imageCursor.setRotate(cursor.getRotation());
+                    imageCursor.setLayoutX(cursor.getPosX()-15);
+                    imageCursor.setLayoutY(cursor.getPosY()-15);
+                    break;
+                case "rotate":
+                    cursor.updateRotation(Integer.parseInt(instruction.get(1)), true);
+                    break;
+                case "hide":
+                    imageCursor.setVisible(false);
+                    break;
+                case "show":
+                    imageCursor.setVisible(true);
+                    break;
+                case "ponpos":
+                    cursor.realocate(Integer.parseInt(instruction.get(1)), Integer.parseInt(instruction.get(2)));
+                    break;
             }
+            instruction.remove();
         }
     }
 
