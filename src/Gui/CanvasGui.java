@@ -175,7 +175,7 @@ public class CanvasGui extends Application {
             int j =0;
             String instruccionAnidada="";
               while(body.get(j)!=null){
-                instruccionAnidada = body.get(j).toString();
+                instruccionAnidada = body.get(j).textValue();
 
                 // Ejecutando cada instruccion
                 manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
@@ -214,11 +214,11 @@ public class CanvasGui extends Application {
              int j =0;
               String instruccionAnidada="";
               if(body.get(j)==null){  // Si esto pasa es porque el body solo es una accion
-                instruccionAnidada = body.toString();
+                instruccionAnidada = body.get(j).textValue();
                 return manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
               }else{
                 while(body.get(j)!=null){
-                  instruccionAnidada = body.get(j).toString();
+                  instruccionAnidada = body.get(j).textValue();
                   manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
                   j++;
                 }
