@@ -177,7 +177,7 @@ public class CanvasGui extends Application {
             int j =0;
             String instruccionAnidada="";
               while(body.get(j)!=null){
-                instruccionAnidada = body.get(j).toString();
+                instruccionAnidada = body.get(j).textValue();
 
                 // Ejecutando cada instruccion
                 manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
@@ -188,43 +188,26 @@ public class CanvasGui extends Application {
 
           case CONDITION:
             // Validando condicion
-            if(args.get(0).get("type").toString() == "BOOL_CONSTANT"){     // TODO:ese args puede dar problemas
-              if(args.get(0).get("value").toString() == "false"){
-                return null;
+              argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+
+              // Validando primer argumento
+              if(argumentosParseados.get(0).get("boolean") == null){
+                  System.out.println("La condicion solo puede ser boolean");
+                  return null;
               }
-            }else if(args.get(0).get("type").toString()  == "INSTRUCTION"){  // TODO: Hay que parsear el argumento
-                  JsonNode instruccionAnidadaJ = args.get(0).get("value");
-                  String tipoRetorno_aux = instruccionAnidadaJ.get("return").toString();
-                  switch(tipoRetorno_aux){
-                    case "INTEGER":
-                      System.out.println("debe devolver boolean"); //TODO:ERROR
-                      break;
-                    case "FLOAT":
-                      System.out.println("Debe devolver boolean"); // TODO:ERROR
-                      break;
-                    case "BOOLEAN":
-                      if(!((boolean) manejoInstrucciones(instruccionAnidadaJ.toString(), instrHandler, procHandler))){
-                        return null;
-                      }
-                      break;
-                    case "VOID":
-                      System.out.println("Error, la instruccion no puede devolver vacio");
-                      break;
-                  }
-                }
+
+              if(!((boolean) argumentosParseados.get(0).get("boolean"))){
+                  return null;
+              }
                 // Ejecutando las instrucciones, sorry por el indent xD
              int j =0;
               String instruccionAnidada="";
-              if(body.get(j)==null){  // Si esto pasa es porque el body solo es una accion
-                instruccionAnidada = body.toString();
-                return manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
-              }else{
                 while(body.get(j)!=null){
-                  instruccionAnidada = body.get(j).toString();
+                  instruccionAnidada = body.get(j).textValue();
                   manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
                   j++;
                 }
-              }
+
             break;
           case PROCEDURE:
             JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action).toString()); //TODO: Manejar error de que pasa si no se encuentra esto
@@ -349,32 +332,32 @@ public class CanvasGui extends Application {
                 }
                 break;
             case "OPERATION":
-                LinkedList<HashMap<String, Object>> parsArgs = parsearMultiplesArgumentos(args.get("args"), instrHandler, procHandler);
-                returnType = args.get("value").asText();
-                switch (returnType) {
-                    case "INTEGER":
-                        retorno.put("int", (int)parsArgs.get(0).get("int") + (int)parsArgs.get(1).get("int"));
+                //LinkedList<HashMap<String, Object>> parsArgs = parsearMultiplesArgumentos(args.get("args"), instrHandler, procHandler);
+                returnType = args.get("return").asText();
+                Object valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler);
+                switch(returnType){
+                    case"INTEGER":
+                        retorno.put("int", valor);
                         break;
                     case "FLOAT":
-                        retorno.put("float", (float)parsArgs.get(0).get("float") + (int)parsArgs.get(1).get("float"));
+                        retorno.put("float",valor);
                         break;
-                    case "BOOLEAN":
-                        System.out.println("Error, una operacion no puede ser booleana");
-                        return null;
-                    case "VOID":
-                        System.out.println("Error, una operacion no puede ser void");
-                        return null;
+                    default:
+                        System.out.println("El tipo de retorno solo puede ser integer o float para una operacion aritmetica");
+                        break;
                 }
                 break;
-            case "LOGIC":/*
-                JsonNode instruccionJ = args.get("value");
-                String returnType = args.get("value").asText();
-                switch (returnType) {
-                    case "INTEGER" -> retorno.put("int", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "FLOAT" -> retorno.put("float", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "BOOLEAN" -> retorno.put("boolean", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "VOID" -> retorno.put("void", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                }*/
+            case "LOGIC":
+                returnType = args.get("return").asText();
+                valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler);
+                switch(returnType){
+                    case"BOOLEAN":
+                        retorno.put("boolean", valor);
+                        break;
+                    default:
+                        System.out.println("El tipo de retorno no es valido para una operacion logica");
+                        break;
+                }
                 break;
         }
         return retorno;

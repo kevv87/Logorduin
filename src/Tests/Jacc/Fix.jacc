@@ -10,6 +10,7 @@ import java.io.*;
 import Logic.MessageType;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Stack;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -424,7 +425,8 @@ proc_exec
 
 proc_loop
     : REPITE integer_arg '[' n_instr ']' { 
-        paramsList.add($2); 
+        paramsList.add($2);
+        instrList = reverse(instrList);
         $$ = instr("repite", InstructionType.CYCLE, ReturnType.VOID, paramsList, instrList); 
         paramsList.clear();
         instrList.clear(); 
@@ -434,6 +436,7 @@ proc_loop
 proc_cond
     : SI boolean_value '[' n_instr ']' {
         paramsList.add(arguments.boolArg($2));
+        instrList = reverse(instrList);
         $$ = instr("si", InstructionType.CONDITION, ReturnType.VOID, paramsList, instrList);
         paramsList.clear();
         instrList.clear();
@@ -448,11 +451,13 @@ n_params
 //Procedimientos del usuario
 user_proc
     : PARA IDENTIFIER n_params n_instr FIN    {
+        instrList = reverse(instrList);
         procedures.add($2, paramsList, instrList);
         paramsList.clear();
         instrList.clear();
     }
     | PARA IDENTIFIER n_instr FIN           {
+        instrList = reverse(instrList);
         procedures.add($2, instrList);
         instrList.clear();
     }
@@ -486,6 +491,25 @@ user_proc_call
     public String instr(String name, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> body) {
         return instructions.create(name, type, returnType, args, body);
     }
+
+    public ArrayList<String> reverse(ArrayList<String> _instr) {
+
+            Stack<String> s = new Stack<>();  //create a stack
+
+            //while the queue is not empty
+            while(!_instr.isEmpty())
+            {  //add the elements of the queue onto a stack
+                s.push(_instr.get(0));
+                _instr.remove(0);
+            }
+
+            //while the stack is not empty
+            while(!s.isEmpty())
+            { //add the elements in the stack back to the queue
+                _instr.add(s.pop());
+            }
+            return _instr;
+        }
 
     public void yyerror(String msg) {
         if (lexer.isLexerError()) {

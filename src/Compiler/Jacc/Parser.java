@@ -1,4 +1,4 @@
-// Output created by jacc on Fri Jul 31 14:55:48 CST 2020
+// Output created by jacc on Sun Aug 02 19:55:00 CST 2020
 
 package Compiler.Jacc;
 
@@ -7,6 +7,7 @@ import java.io.*;
 import Logic.MessageType;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Stack;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15154,6 +15155,7 @@ public class Parser implements ParserTokens {
     private int yyr203() { // proc_cond : SI boolean_value '[' n_instr ']'
         {
         paramsList.add(arguments.boolArg(((Boolean)yysv[yysp-4])));
+        instrList = reverse(instrList);
         yyrv = instr("si", InstructionType.CONDITION, ReturnType.VOID, paramsList, instrList);
         paramsList.clear();
         instrList.clear();
@@ -15170,7 +15172,8 @@ public class Parser implements ParserTokens {
 
     private int yyr202() { // proc_loop : REPITE integer_arg '[' n_instr ']'
         { 
-        paramsList.add(((String)yysv[yysp-4])); 
+        paramsList.add(((String)yysv[yysp-4]));
+        instrList = reverse(instrList);
         yyrv = instr("repite", InstructionType.CYCLE, ReturnType.VOID, paramsList, instrList); 
         paramsList.clear();
         instrList.clear(); 
@@ -15287,6 +15290,7 @@ public class Parser implements ParserTokens {
 
     private int yyr206() { // user_proc : PARA IDENTIFIER n_params n_instr FIN
         {
+        instrList = reverse(instrList);
         procedures.add(((String)yysv[yysp-4]), paramsList, instrList);
         paramsList.clear();
         instrList.clear();
@@ -15297,6 +15301,7 @@ public class Parser implements ParserTokens {
 
     private int yyr207() { // user_proc : PARA IDENTIFIER n_instr FIN
         {
+        instrList = reverse(instrList);
         procedures.add(((String)yysv[yysp-3]), instrList);
         instrList.clear();
     }
@@ -15637,6 +15642,25 @@ public class Parser implements ParserTokens {
     public String instr(String name, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> body) {
         return instructions.create(name, type, returnType, args, body);
     }
+
+    public ArrayList<String> reverse(ArrayList<String> _instr) {
+
+            Stack<String> s = new Stack<>();  //create a stack
+
+            //while the queue is not empty
+            while(!_instr.isEmpty())
+            {  //add the elements of the queue onto a stack
+                s.push(_instr.get(0));
+                _instr.remove(0);
+            }
+
+            //while the stack is not empty
+            while(!s.isEmpty())
+            { //add the elements in the stack back to the queue
+                _instr.add(s.pop());
+            }
+            return _instr;
+        }
 
     public void yyerror(String msg) {
         if (lexer.isLexerError()) {
