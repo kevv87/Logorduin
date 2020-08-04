@@ -19,7 +19,7 @@ public class InstructionHandler {
     public InstructionHandler() {
         _instr = new ArrayList<>();
         _mapper = new ObjectMapper();
-        _mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        //_mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
     /*

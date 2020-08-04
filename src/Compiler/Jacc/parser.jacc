@@ -149,7 +149,7 @@ declaration_expr
     : VAR IDENTIFIER                     { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2));}
     | VAR IDENTIFIER '=' number_argument { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
     | VAR IDENTIFIER '=' instr_arg       { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
-    | VAR IDENTIFIER '=' BOOLEAN         { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), arguments.boolArg($4))}
+    | VAR IDENTIFIER '=' BOOLEAN         { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), arguments.boolArg($4)); }
     ;
 
 redeclaration_expr
