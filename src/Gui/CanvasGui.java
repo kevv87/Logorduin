@@ -1,5 +1,6 @@
 package Gui;
 
+import Compiler.Exceptions.CompilerException;
 import Compiler.Helpers.*;
 import Logic.Cursor;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,7 +8,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -21,7 +21,6 @@ import javafx.stage.WindowEvent;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.Random;
 
@@ -96,6 +95,8 @@ public class CanvasGui extends Application {
             //updateCursor();
         } catch (JsonProcessingException e) {  //TODO: Aqui se estarian agarrando los errores, tirarlos a la interfaz.
             e.printStackTrace();
+        } catch(CompilerException err){
+            System.out.println(err.getMensaje());
         }
 
 
@@ -111,7 +112,7 @@ public class CanvasGui extends Application {
         update = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                //rotateCursor(1); //TODO Cerrar la hp ventana al darle x
+                //rotateCursor(1);
                 //cursor.move(1, true);
                 try{
                     Thread.sleep(1000);
@@ -151,7 +152,7 @@ public class CanvasGui extends Application {
                                 System.out.println("Debi haber ponrumbo");
                                 break;
                             case "rumbo":
-                                cursor.getRotation();   // TODO mostrar esto en algun lado
+                                cursor.getRotation();
                                 break;
                             case "hide":
                                 imageCursor.setVisible(false);
@@ -204,9 +205,6 @@ public class CanvasGui extends Application {
                         cont+=1;
                     }
 
-
-
-                    //Thread.sleep(1000); //TODO cambiar según necesidades
                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -216,7 +214,7 @@ public class CanvasGui extends Application {
     }
 
     // Retorna Object, cada lugar que llame lo castea a conveniencia
-    private Object manejoInstrucciones(String instruction, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+    private Object manejoInstrucciones(String instruction, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException, CompilerException {
       JsonNode args = instrHandler.getArgs(instruction);
         String action = instrHandler.getAction(instruction);
         ReturnType tipoRetorno = instrHandler.getReturnType(instruction);
@@ -225,14 +223,14 @@ public class CanvasGui extends Application {
 
         switch(tipoInstruction){
           case NORMAL:
-            return normalInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
+            return normalInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler, instruction);
           case LOGIC:
-            return logicInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
+            return logicInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler, instruction);
           case OPERATION:
-              return operationInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler);
+              return operationInstruction(action, tipoInstruction, tipoRetorno, args, instrHandler, procHandler, instruction);
           case VARIABLE:
             // Validando Argumentos
-              LinkedList<HashMap<String,Object>> argumentosParseados = parsearMultiplesArgumentos(args,instrHandler,procHandler);
+              LinkedList<HashMap<String,Object>> argumentosParseados = parsearMultiplesArgumentos(args,instrHandler,procHandler, instruction);
               if(argumentosParseados.get(0).get("string") == null){
                   System.out.println("El nombre de la variable no es un string");
                   return null;
@@ -246,7 +244,7 @@ public class CanvasGui extends Application {
                   if(argumentosParseados.get(1).get("int") != null){
                       varHandler.add((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
                   }else if(argumentosParseados.get(1).get("float") != null){
-                      varHandler.add((String)argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("float"));
+                      varHandler.add((String)argumentosParseados.get(0).get("string"), (float)argumentosParseados.get(1).get("float"));
                   }else{
                       System.out.println("Tipo de valor no soportado para una variable"); // TODO: Error
                       return null;
@@ -268,7 +266,7 @@ public class CanvasGui extends Application {
             break;
           case CYCLE:   //// Eu
           // Parseo de argumentos
-            argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+            argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
 
             // Validando primer argumento
             if(argumentosParseados.get(0).get("int") == null){
@@ -295,7 +293,7 @@ public class CanvasGui extends Application {
 
           case CONDITION:
             // Validando condicion
-              argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+              argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
 
               // Validando primer argumento
               if(argumentosParseados.get(0).get("boolean") == null){
@@ -394,7 +392,7 @@ public class CanvasGui extends Application {
      * @param instrHandler Instruction handler de donde va a sacar las instrucciones.
      * @param procHandler Procedure handler de donde saca los procedimientos.
      * */
-    private HashMap<String,Object> parseoArgs(JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {  // Parsea UN argumento, no pasar multiples.
+    private HashMap<String,Object> parseoArgs(JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler, String instruction) throws JsonProcessingException, CompilerException {  // Parsea UN argumento, no pasar multiples.
         String tipo = args.get("type").asText();
         HashMap<String, Object> retorno = new HashMap<>();
         switch(tipo){
@@ -441,7 +439,7 @@ public class CanvasGui extends Application {
             case "OPERATION":
                 //LinkedList<HashMap<String, Object>> parsArgs = parsearMultiplesArgumentos(args.get("args"), instrHandler, procHandler);
                 returnType = args.get("return").asText();
-                Object valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler);
+                Object valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler, instruction);
                 switch(returnType){
                     case"INTEGER":
                         retorno.put("int", valor);
@@ -456,7 +454,7 @@ public class CanvasGui extends Application {
                 break;
             case "LOGIC":
                 returnType = args.get("return").asText();
-                valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler);
+                valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler, instruction);
                 switch(returnType){
                     case"BOOLEAN":
                         retorno.put("boolean", valor);
@@ -481,25 +479,25 @@ public class CanvasGui extends Application {
      * @param procHandler Lo de siempre
      * @return Lista de argumentos parseados en forma de Hashmap.
      * */
-    private LinkedList<HashMap<String, Object>> parsearMultiplesArgumentos(JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+    private LinkedList<HashMap<String, Object>> parsearMultiplesArgumentos(JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler, String instruction) throws JsonProcessingException, CompilerException {
         LinkedList<HashMap<String, Object>> argumentosParseados = new LinkedList<>();
         int i =0;
         while(args.get(i) !=null){
             JsonNode argumento = args.get(i);
-            argumentosParseados.add(parseoArgs(argumento, instrHandler, procHandler));
+            argumentosParseados.add(parseoArgs(argumento, instrHandler, procHandler, instruction));
             i++;
         }
         return argumentosParseados;
     }
 
-    private Object operationInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+    private Object operationInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler, String instruction) throws JsonProcessingException, CompilerException {
         // Parseando argumentos.
-        LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+        LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
         switch(action){
             case "+":
                 if(argPars.get(0).get("int") != null){
                     if(argPars.get(1).get("int") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                        throw new CompilerException("No se pueden sumar dos valores diferentes",instruction);
                     }
                     return (int)argPars.get(0).get("int") + (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("float") != null){
@@ -560,9 +558,9 @@ public class CanvasGui extends Application {
         return null;
     }
 
-    private Object logicInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+    private Object logicInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler, String instruction) throws JsonProcessingException, CompilerException {
         // Parseando argumentos.
-        LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+        LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
         switch(action){
             case "iguales":
                 if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
@@ -616,9 +614,9 @@ public class CanvasGui extends Application {
     }
 
 
-    public Object normalInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler) throws JsonProcessingException {
+    public Object normalInstruction(String action, InstructionType tipoInstruction, ReturnType tipoRetorno, JsonNode args, InstructionHandler instrHandler, ProcedureHandler procHandler, String instruction) throws JsonProcessingException, CompilerException {
       // Parseando argumentos.
-      LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler);
+      LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
       boolean iterationBoolean = true;
       switch(action) {
           case "avanza":
@@ -1218,7 +1216,7 @@ public class CanvasGui extends Application {
         //cursor.move(length, false);
     }
 
-    private void exec(CompiledFile cFile) throws JsonProcessingException {
+    private void exec(CompiledFile cFile) throws JsonProcessingException, CompilerException {
       InstructionHandler instrHandler= cFile.getInstructions();
       ProcedureHandler procHandler = cFile.getProcedures();
       while(instrHandler.getInstructionCount() > 0){
