@@ -19265,13 +19265,13 @@ class Parser implements ParserTokens {
     }
 
     private int yyr82() { // proc : APARECETORTUGA
-        { yyrv = instr("aparecetoruga", InstructionType.NORMAL, ReturnType.VOID); }
+        { yyrv = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
         yysv[yysp-=1] = yyrv;
         return 14;
     }
 
     private int yyr83() { // proc : AT
-        { yyrv = instr("aparecetoruga", InstructionType.NORMAL, ReturnType.VOID); }
+        { yyrv = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
         yysv[yysp-=1] = yyrv;
         return 14;
     }

@@ -201,6 +201,16 @@ public class VariableHandler {
         modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), _currentScope.peek());
     }
 
+
+    /**
+     * Método para modificar una variable con un valor de tipo booleano
+     * @param identifier Identificador de la variable a modificar
+     * @param newValue Nuevo valor flotante a asignar
+     */
+    public void modify(String identifier, Boolean newValue) {
+        modifyVar(identifier, NumberType.TYPE_BOOL, newValue.toString(), _currentScope.peek());
+    }
+
 //    public void modify(String identifier, Float newValue, String scope) {
 //        modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), scope);
 //    }
@@ -268,6 +278,32 @@ public class VariableHandler {
         }
 
         return var.get("value").asInt();
+    }
+
+    public Boolean getBoolean(String identifier){
+        return getBoolean(identifier, _currentScope.peek());
+    }
+
+    public Boolean getBoolean(String identifier, String scope){
+        if (!exists(identifier, scope)) {
+            onError("Identificador <" + identifier + "> no está declarado");
+            return null;
+        }
+
+        if (!isInitialized(identifier, scope)) {
+            onError("Identificador <" + identifier + "> no está inicializado");
+            return null;
+        }
+
+        JsonNode var = getVar(identifier, scope);
+        if (var == null) return null;
+
+        if (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_BOOL) {
+            onError("Identificador <" + identifier + "> no es de tipo boolean");
+            return null;
+        }
+
+        return var.get("value").asBoolean();
     }
 
     public Float getFloat(String identifier) {

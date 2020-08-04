@@ -245,7 +245,7 @@ public class CanvasGui extends Application {
               if(argumentosParseados.get(0).get("string") == null){
                   System.out.println("El nombre de la variable no es un string");
                   return null;
-              }else if(argumentosParseados.get(1) == null){  // Solo definicion, agrega la variable con null.
+              }else if(argumentosParseados.size() == 1){  // Solo definicion, agrega la variable con null.
                   varHandler.add((String)argumentosParseados.get(0).get("string"));
                   return null;
               }
@@ -265,8 +265,10 @@ public class CanvasGui extends Application {
                   if(argumentosParseados.get(1).get("int") != null){
                       varHandler.modify((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
                   }else if(argumentosParseados.get(1).get("float") != null){
-                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("float"));
-                  }else{
+                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (float)argumentosParseados.get(1).get("float"));
+                  }else if(argumentosParseados.get(1).get("boolean") != null){
+                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (boolean)argumentosParseados.get(1).get("boolean"));
+                  }{
                       System.out.println("Tipo de valor no soportado para una variable"); // TODO: Error
                       return null;
                   }
@@ -326,61 +328,23 @@ public class CanvasGui extends Application {
 
             break;
           case PROCEDURE:
-            JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action)); //TODO: Manejar error de que pasa si no se encuentra esto
-            JsonNode parametros = mapper.readTree(procedure.get("params").toString());
-            int k =0;
-
-            // Creando los parametros como variables en varHandler con el scope de la funcion
-            while(parametros.get(k)!=null){
-              String parametro = parametros.get(k).textValue();
-              JsonNode parametroJson = mapper.readTree(args.get(k).toString());
-              String tipo_aux1 = parametroJson.get("type").textValue();
-              switch(tipo_aux1){  // Diferente para cada tipo
-                case "INT_CONSTANT":
-                  varHandler.createVar(parametro,NumberType.TYPE_INT, parametroJson.get("value").toString(), action);
-                  break;
-                case "FLOAT_CONSTANT":
-                  varHandler.createVar(parametro, NumberType.TYPE_FLOAT, parametroJson.get("value").toString(), action);
-                  break;
-                case "INT_VARIABLE":
-                  varHandler.createVar(parametro, NumberType.TYPE_INT, varHandler.getInt(parametroJson.get("value").toString()).toString(), action);
-                  break;
-                case "FLOAT_VARIABLE":
-                  varHandler.createVar(parametro, NumberType.TYPE_FLOAT, varHandler.getFloat(parametroJson.get("value").toString()).toString(), action);
-                  break;
-                case "VARIABLE":
-                  Float floatValue = varHandler.getFloat(parametro);
-                  Integer intValue = varHandler.getInt(parametro);
-                  if(floatValue != null){
-                    varHandler.createVar(parametro, NumberType.TYPE_FLOAT, floatValue.toString(), action);
-                  }else if(intValue != null){
-                    varHandler.createVar(parametro, NumberType.TYPE_INT, intValue.toString(), action);
+              JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action)); //TODO: Manejar error de que pasa si no se encuentra esto
+              JsonNode parametros = mapper.readTree(procedure.get("params").toString());
+              argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
+              int k =0;
+              while(k < argumentosParseados.size()){  // Creando los parametros como variables con el scope de la funcion
+                  String parametro = parametros.get(k).textValue();
+                  if(argumentosParseados.get(k).get("int") != null){
+                      varHandler.createVar(parametro,NumberType.TYPE_INT, String.valueOf((int)argumentosParseados.get(k).get("int")), action);
+                  }else if(argumentosParseados.get(k).get("float")!=null){
+                      varHandler.createVar(parametro,NumberType.TYPE_FLOAT, String.valueOf((float)argumentosParseados.get(k).get("float")), action);
+                  }else if(argumentosParseados.get(k).get("boolean")!=null){
+                      varHandler.createVar(parametro,NumberType.TYPE_BOOL, String.valueOf((boolean)argumentosParseados.get(k).get("boolean")), action);
                   }else{
-                    System.out.println("error"); // TODO: Error aca
-                    return null;
+                      System.out.println("Tipo de parametro no valido.");
                   }
-                  break;
-                case "INSTRUCTION": // Volvear a llamar y castear resultado al tipo de retorno
-                  JsonNode instruccionAnidadaJ = mapper.readTree(parametroJson.get("value").toString());
-                  String tipoRetorno_aux = instruccionAnidadaJ.get("return").toString();
-                  switch(tipoRetorno_aux){
-                    case "INTEGER":
-                      varHandler.createVar(parametro, NumberType.TYPE_INT, ((Integer)manejoInstrucciones(instruccionAnidadaJ.toString(), instrHandler, procHandler)).toString(),action);
-                      break;
-                    case "FLOAT":
-                      varHandler.createVar(parametro, NumberType.TYPE_FLOAT, ((Float)manejoInstrucciones(instruccionAnidadaJ.toString(), instrHandler, procHandler)).toString(),action);
-                      break;
-                    case "BOOLEAN":
-                      System.out.println("No se soportan booleanos como variables");  // TODO: This is wrong...
-                      break;
-                    case "VOID":
-                      System.out.println("Error, la instruccion no puede devolver vacio");
-                      break;
-                  }
-                  break;
+                  k++;
               }
-              k++;
-            }
             varHandler.setScope(action);
             // Cuerpo de la funcion
             j = 0;
@@ -428,10 +392,13 @@ public class CanvasGui extends Application {
             case "VARIABLE":
                 Float floatValue = varHandler.getFloat(args.get("value").asText());
                 Integer intValue = varHandler.getInt(args.get("value").asText());
+                Boolean boolValue = varHandler.getBoolean(args.get("value").asText());
                 if(floatValue != null){
                     retorno.put("float", floatValue);
                 }else if(intValue != null){
                     retorno.put( "int", intValue);
+                }else if(boolValue !=null){
+                    retorno.put("boolean", boolValue);
                 }else{
                     System.out.println("error"); // TODO: Error aca
                     return null;
