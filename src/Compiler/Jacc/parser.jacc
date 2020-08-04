@@ -173,8 +173,8 @@ color
 proc
     : OCULTATORTUGA     { $$ = instr("ocultatortuga", InstructionType.NORMAL, ReturnType.VOID); }
     | OT                { $$ = instr("ocultatortuga", InstructionType.NORMAL, ReturnType.VOID); }
-    | APARECETORTUGA    { $$ = instr("aparecetoruga", InstructionType.NORMAL, ReturnType.VOID); }
-    | AT                { $$ = instr("aparecetoruga", InstructionType.NORMAL, ReturnType.VOID); }
+    | APARECETORTUGA    { $$ = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
+    | AT                { $$ = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
     | BAJALAPIZ         { $$ = instr("bajalapiz", InstructionType.NORMAL, ReturnType.VOID); }
     | BL                { $$ = instr("bajalapiz", InstructionType.NORMAL, ReturnType.VOID); }
     | SUBELAPIZ         { $$ = instr("subelapiz", InstructionType.NORMAL, ReturnType.VOID); }
