@@ -170,6 +170,7 @@ public class InstructionHandler {
      * @param action Nombre o acción de la instrucción
      * @param type Tipo de instrucción
      * @param args Argumentos o instrucciones internas
+     * @param currentLine línea de la instrucción actual
      * @return Json que representa la instrucción
      */
     public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, Integer currentLine) {
@@ -183,6 +184,7 @@ public class InstructionHandler {
      * @param returnType Tipo de valor de retorno de la instrucción
      * @param args Argumentos de la instrucción
      * @param instr Intrucciones internas de la instrucción
+     * @param currentLine línea de la instrucción actual
      * @return Json representado la instrucción
      */
     public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> instr, Integer currentLine) {
