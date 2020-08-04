@@ -122,26 +122,75 @@ public class CanvasGui extends Application {
                         switch (instruction.getFirst()){
                             case "avanza":
                                 cursor.move(Integer.parseInt(instruction.get(1)), true);
+                                System.out.println("Debi haber avanzado");
                                 break;
                             case "retrocede":
                                 cursor.move(Integer.parseInt(instruction.get(1)), false);
+                                System.out.println("Debi haber retrocedido");
                                 break;
                             case "update":
                                 imageCursor.setRotate(cursor.getRotation());
                                 imageCursor.setLayoutX(cursor.getPosX()-15);
                                 imageCursor.setLayoutY(cursor.getPosY()-15);
+                                System.out.println("Debi haber actualizado?");
                                 break;
-                            case "rotate":
+                            case "giraderecha":
                                 cursor.updateRotation(Integer.parseInt(instruction.get(1)), true);
+                                System.out.println("Debi haber girado a la derecha");
                                 break;
-                            case "hide":
-                                imageCursor.setVisible(false);
-                                break;
-                            case "show":
-                                imageCursor.setVisible(true);
+                            case "giraizquierda":
+                                cursor.updateRotation(Integer.parseInt(instruction.get(1)), false);
+                                System.out.println("Debi haber girado a la izquierda");
                                 break;
                             case "ponpos":
                                 cursor.realocate(Integer.parseInt(instruction.get(1)), Integer.parseInt(instruction.get(2)));
+                                System.out.println("Debi haber puesto otra posicion");
+                                break;
+                            case "ponrumbo":
+                                cursor.setRotation(Integer.parseInt(instruction.get(1)));
+                                System.out.println("Debi haber ponrumbo");
+                                break;
+                            case "rumbo":
+                                cursor.getRotation();   // TODO mostrar esto en algun lado
+                                break;
+                            case "hide":
+                                imageCursor.setVisible(false);
+                                System.out.println("Debi haberme ocultado");
+                                break;
+                            case "show":
+                                imageCursor.setVisible(true);
+                                System.out.println("Debi haber aparecido");
+                                break;
+                            case "ponx":
+                                cursor.setPosX(Integer.parseInt(instruction.get(1)));
+                                break;
+                            case "pony":
+                                cursor.setPosY(Integer.parseInt(instruction.get(1)));
+                                break;
+                            case "bajalapiz":
+                                cursor.setLapiz(true);
+                                break;
+                            case "subelapiz":
+                                cursor.setLapiz(false);
+                                break;
+                            case "poncolor":
+                                Color color = convertColor(instruction.get(1));
+                                cursor.setCurrentColor(color);
+                                break;
+                            case "centro":
+                                int centerX = (int) (Integer.parseInt(instruction.get(1)) / 2);
+                                int centerY = (int) (Integer.parseInt(instruction.get(2)) / 2);
+                                cursor.realocate(centerX, centerY);
+                                break;
+                            case "espera":
+                                int tiempo = Integer.parseInt(instruction.get(1));
+                                try {
+                                    TimeUnit.SECONDS.sleep(tiempo);
+                                } catch (InterruptedException e){
+                                    e.printStackTrace();
+                                }
+                            case "borrapantalla":
+                                graphicsContext.clearRect(0, 0, width, height);
                                 break;
                             default:
                                 break;
@@ -590,7 +639,8 @@ public class CanvasGui extends Application {
               break;
           case "giraderecha":
               if(argPars.get(0).get("int") != null){
-                cursor.updateRotation((int)argPars.get(0).get("int"), true);
+                rotateCursor((int)argPars.get(0).get("int"), true);
+                //cursor.updateRotation((int)argPars.get(0).get("int"), true);
               }
               else{
                 System.out.println("Solo puede ser int"); // TODO: Error
@@ -598,31 +648,8 @@ public class CanvasGui extends Application {
               break;
           case "giraizquierda":
               if(argPars.get(0).get("int") != null){
-                cursor.updateRotation((int)argPars.get(0).get("int"), false);
-              }
-              else{
-                System.out.println("Solo puede ser int"); // TODO: Error
-              }
-              break;
-          case "ponrumbo":
-              if(argPars.get(0).get("int") != null){
-                cursor.setRotation((int)argPars.get(0).get("int"));
-              }
-              else{
-                System.out.println("Solo puede ser int"); // TODO: Error
-              }
-              break;
-          case "ponx":
-              if(argPars.get(0).get("int") != null){
-                cursor.setPosX((int)argPars.get(0).get("int"));
-              }
-              else{
-                System.out.println("Solo puede ser int"); // TODO: Error
-              }
-              break;
-          case "pony":
-              if(argPars.get(0).get("int") != null){
-                cursor.setPosY((int)argPars.get(0).get("int"));
+                  rotateCursor((int)argPars.get(0).get("int"), false);
+                //cursor.updateRotation((int)argPars.get(0).get("int"), false);
               }
               else{
                 System.out.println("Solo puede ser int"); // TODO: Error
@@ -631,7 +658,7 @@ public class CanvasGui extends Application {
           case "ponpos":
               if(argPars.get(0).get("int") != null){
                   if(argPars.get(1).get("int") != null){
-                    ponpos((int)argPars.get(0).get("int"), (int)argPars.get(1).get("int"));
+                      ponpos((int)argPars.get(0).get("int"), (int)argPars.get(1).get("int"));
                   }
                   else {
                       System.out.println("Solo puede ser int"); // TODO: Error
@@ -640,10 +667,41 @@ public class CanvasGui extends Application {
               else {
                   System.out.println("Solo puede ser int"); // TODO: Error
               }
+          case "ponrumbo":
+              if(argPars.get(0).get("int") != null){
+                ponRumbo((int)argPars.get(0).get("int"));
+                //cursor.setRotation((int)argPars.get(0).get("int"));
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
+              break;
+          case "rumbo":
+              rumbo();
+              break;
+          case "ponx":
+              if(argPars.get(0).get("int") != null){
+                ponX((int)argPars.get(0).get("int"));
+                //cursor.setPosX((int)argPars.get(0).get("int"));
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
+              break;
+          case "pony":
+              if(argPars.get(0).get("int") != null){
+                ponY((int)argPars.get(0).get("int"));
+                //cursor.setPosY((int)argPars.get(0).get("int"));
+              }
+              else{
+                System.out.println("Solo puede ser int"); // TODO: Error
+              }
+              break;
           case "poncl":
               if(argPars.get(0).get("string") != null){
-                Color color = convertColor((String) argPars.get(0).get("string"));
-                cursor.setCurrentColor(color);
+                ponColor((String) argPars.get(0).get("string"));
+                //Color color = convertColor((String) argPars.get(0).get("string"));
+                //cursor.setCurrentColor(color);
               }
               else{
                 System.out.println("Solo puede ser String"); // TODO: Error
@@ -651,12 +709,7 @@ public class CanvasGui extends Application {
               break;
           case "espera":
               if(argPars.get(0).get("int") != null){
-                int tiempo = (int)argPars.get(0).get("int");
-                try {
-                  TimeUnit.SECONDS.sleep(tiempo);
-                } catch (InterruptedException e){
-                  e.printStackTrace();
-                }
+                  espera((int)argPars.get(0).get("int"));
               }
               else{
                 System.out.println("Solo puede ser int"); // TODO: Error
@@ -669,18 +722,20 @@ public class CanvasGui extends Application {
               showCursor();
               break;
           case "bajalapiz":
-              cursor.setLapiz(true);
+              bajaLapiz();
+              //cursor.setLapiz(true);
               break;
           case "subelapiz":
-              cursor.setLapiz(false);
+              subeLapiz();
+              //cursor.setLapiz(false);
               break;
           case "centro":
-              int centerX = (int) (width / 2);
-              int centerY = (int) (height / 2);
-              cursor.realocate(centerX, centerY);
+              centro(width, height);
+              //cursor.realocate(centerX, centerY);
               break;
           case "borrapantalla":
-              graphicsContext.clearRect(0, 0, width, height);
+              borraPantalla();
+              //graphicsContext.clearRect(0, 0, width, height);
               break;
           case "redondea":
               if(argPars.get(0).get("float") != null){
@@ -1177,7 +1232,7 @@ public class CanvasGui extends Application {
     /**
      * Pinta de nuevo el cursor aplicando sus atributos (posicion y rotacion) al ImageView.
      */
-    private void updateCursor(){
+    public void updateCursor(){
         LinkedList<String> method = new LinkedList<>();
         method.add("update");
         imageCursor.setRotate(cursor.getRotation());
@@ -1185,15 +1240,83 @@ public class CanvasGui extends Application {
         imageCursor.setLayoutY(cursor.getPosY()-15);
     }
 
+
     /**
      * Método para girar el cursor
      * @param rotation rotación a actualizar
      */
-    private void rotateCursor(int rotation) {
+    public void rotateCursor(int rotation, boolean clockwise) {
         LinkedList<String> method = new LinkedList<>();
-        method.add("rotate");
+        if(clockwise){
+            method.add("giraderecha");
+        }
+        else{
+            method.add("giraizquierda");
+        }
         method.add(Integer.toString(rotation));
+        instructionTail.add(method);
         //cursor.updateRotation(rotation, true);      // TODO validate boolean
+    }
+
+    public void ponX(int position) {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("ponx");
+        method.add(Integer.toString(position));
+        instructionTail.add(method);
+    }
+
+    public void ponY(int position) {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("pony");
+        method.add(Integer.toString(position));
+        instructionTail.add(method);
+    }
+
+    public void bajaLapiz() {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("bajalapiz");
+        instructionTail.add(method);
+    }
+
+    public void subeLapiz() {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("subelapiz");
+        instructionTail.add(method);
+    }
+
+    public void ponColor(String color) {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("poncolor");
+        method.add(color);
+        instructionTail.add(method);
+    }
+
+    public void centro(int width, int height) {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("centro");
+        method.add(Integer.toString(width));
+        method.add(Integer.toString(height));
+        instructionTail.add(method);
+    }
+
+    public void espera(int segundos) {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("espera");
+        method.add(Integer.toString(segundos));
+        instructionTail.add(method);
+    }
+
+    public void borraPantalla() {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("borrapantalla");
+        instructionTail.add(method);
+    }
+
+    public void ponRumbo(int angulo) {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("ponrumbo");
+        method.add(Integer.toString(angulo));
+        instructionTail.add(method);
     }
 
     /**
@@ -1202,6 +1325,7 @@ public class CanvasGui extends Application {
     public void hideCursor() {
         LinkedList<String> method = new LinkedList<>();
         method.add("hide");
+        instructionTail.add(method);
         //imageCursor.setVisible(false);
     }
 
@@ -1211,6 +1335,7 @@ public class CanvasGui extends Application {
     public void showCursor() {
         LinkedList<String> method = new LinkedList<>();
         method.add("show");
+        instructionTail.add(method);
         //imageCursor.setVisible(true);
     }
 
@@ -1219,10 +1344,15 @@ public class CanvasGui extends Application {
         method.add("ponpos");
         method.add(Integer.toString(posX));
         method.add(Integer.toString(posY));
+        instructionTail.add(method);
         //cursor.realocate(posX, posY);
     }
 
-
+    public void rumbo() {
+        LinkedList<String> method = new LinkedList<>();
+        method.add("rumbo");
+        instructionTail.add(method);
+    }
 
     /**
      * Método para obtener el codigo hexadecimal del color.
