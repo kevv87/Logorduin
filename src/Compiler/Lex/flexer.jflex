@@ -184,8 +184,20 @@ amarillo {return prepare(AMARILLO); }
 negro {return prepare(NEGRO); }
 rojo {return prepare(ROJO); }
 verde {return prepare(VERDE); }
-true {return prepare(BOOLEAN); }
-false {return prepare(BOOLEAN); }
+true {
+    String boolString = yytext();
+    Boolean boolVal = Boolean.parseBoolean(boolString);
+    lexeme = boolVal;
+    currentToken = BOOLEAN;
+    return currentToken; 
+}
+false {
+    String boolString = yytext();
+    Boolean boolVal = Boolean.parseBoolean(boolString);
+    lexeme = boolVal;
+    currentToken = BOOLEAN;
+    return currentToken;
+}
 
 
 {Identifier} { return prepare(IDENTIFIER); }
