@@ -2,7 +2,7 @@
 
 package Compiler.Jacc;
 
-interface ParserTokens {
+public interface ParserTokens {
     int ENDINPUT = 0;
     int AMARILLO = 1;
     int APARECETORTUGA = 2;
