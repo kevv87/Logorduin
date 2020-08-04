@@ -1,8 +1,8 @@
-// Output created by jacc on Tue Aug 04 12:53:11 CST 2020
+// Output created by jacc on Tue Aug 04 14:52:31 CST 2020
 
 package Compiler.Jacc;
 
-public interface ParserTokens {
+interface ParserTokens {
     int ENDINPUT = 0;
     int AMARILLO = 1;
     int APARECETORTUGA = 2;
