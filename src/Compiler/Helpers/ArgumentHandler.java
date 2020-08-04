@@ -147,6 +147,16 @@ public class ArgumentHandler {
     }
 
     /**
+     * Método para obtener el tipo de un argumento dado
+     * @param arg Argumento del cual obtener el tipo
+     */
+    public ArgType getArgType(String arg) {
+        JsonNode argNode = getNode(arg);
+        if (argNode == null) return null;
+        return ArgType.valueOf(argNode.get("type").textValue());
+    }
+
+    /**
      * Método para obtener el valor entero del argumento en el índice dado
      * @param instr Json representado la instrucción de donde obtener el argumento
      * @param index Índice del argumento
@@ -183,6 +193,18 @@ public class ArgumentHandler {
         JsonNode args = getArgs(instr);
         if (args == null) return null;
         return getFloatArg(args, index);
+    }
+
+    public Float getFloatArg(String arg) {
+        JsonNode argNode = getNode(arg);
+        if (argNode == null) return null;
+        return Float.parseFloat(argNode.get("value").textValue());
+    }
+
+    public Integer getIntArg(String arg) {
+        JsonNode argNode = getNode(arg);
+        if (argNode == null) return null;
+        return argNode.get("value").asInt();
     }
 
     /**

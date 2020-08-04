@@ -1,5 +1,6 @@
 package Gui;
 
+import Logic.MessageHandler;
 import Logic.MessageType;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +37,7 @@ public class Main extends Application {
     private VBox messagesContainer;
     private TextArea code;
     private File workingFile;
+    private MessageHandler msgHandler;
 
     /**
      * Método para iniciar la aplicación.
@@ -57,7 +59,7 @@ public class Main extends Application {
          */
 
         mainPane = new BorderPane();
-
+        msgHandler = MessageHandler.getInstance();
         //Sección de mensajes de compilación
         setMessagesSection();
 
@@ -130,15 +132,18 @@ public class Main extends Application {
         compileButton.setOnMouseClicked(mouseEvent -> {
             boolean saved = saveAction(stage);
             if (!saved) return;
-            CompiledFile cFile = getCompiled();
             System.out.println("Compilando...");
+            msgHandler.add("Compilando archivo...", MessageType.INFO);
+            CompiledFile compiledFile = getCompiled();
         });
         runButton.setOnMouseClicked(mouseEvent -> {
             boolean saved = saveAction(stage);
             if (!saved) return;
             System.out.println("Compilando y ejecutando...");
-            CompiledFile cFile = getCompiled();
-            CanvasGui.cFile = cFile;
+            msgHandler.add("Compilando y ejecutando...", MessageType.INFO);
+            CompiledFile compiledFile = getCompiled();
+            if (compiledFile == null) return;
+            CanvasGui.cFile = compiledFile;
             CanvasGui.show();
         });
 
@@ -182,6 +187,7 @@ public class Main extends Application {
 
             } catch (IOException ex) {
                 System.err.println("No se pudo crear un nuevo archivo");
+                msgHandler.add("No se pudo crear un nuevo archivo", MessageType.ERROR);
             }
         });
 
@@ -284,8 +290,10 @@ public class Main extends Application {
             writer.print(code.getText());
             writer.close();
             System.out.println("Archivo guardado correctamente");
+            msgHandler.add("Archivo guardad correctamente", MessageType.INFO);
         } catch (IOException ex) {
             System.err.println("No se pudo guardar el archivo");
+            msgHandler.add("No se pudo guardar el archivo", MessageType.ERROR);
         }
     }
 
@@ -299,24 +307,8 @@ public class Main extends Application {
         messages.getStyleClass().add("msg-parent-container");
 
         mainPane.setBottom(messages);
-    }
 
-    /**
-     * Método para mostrar un nuevo mensaje en la sección de mensajes de compilación.
-     * @param text Texto del mensaje.
-     * @param type Tipo del mensaje, puede ser Info, Warning o Error.
-     */
-    private void addMessage(String text, MessageType type) {
-        Label lbl = new Label(text);
-        lbl.getStyleClass().add("msg-text");
-
-        switch (type) {
-            case INFO -> lbl.getStyleClass().add("info-text");
-            case WARNING -> lbl.getStyleClass().add("warning-text");
-            case ERROR -> lbl.getStyleClass().add("error-text");
-        }
-
-        messagesContainer.getChildren().add(lbl);
+        msgHandler.setMessageContainer(messagesContainer);
     }
 
     /**
@@ -326,15 +318,16 @@ public class Main extends Application {
     private CompiledFile getCompiled() {
         String ruta = workingFile.getAbsolutePath();
         String rutaCompilado = Parser.compile(ruta);
+        if (rutaCompilado == null) return null;
         String jsonCompiledString = "";
         CompiledFile cFile = null;
         try {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         cFile = mapper.readValue(new File(rutaCompilado), CompiledFile.class);
-        System.out.println(jsonCompiledString);
         } catch (IOException e) {
             System.out.println("Error en proceso de pasar de txt a string");
+            msgHandler.add("Error en proceso de parsear archivo compilado", MessageType.INFO);
         }
         return cFile;
     }
