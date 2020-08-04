@@ -1,3 +1,0 @@
-#!/bin/sh
-#java -jar $JACC_PATH/jacc.jar $*
-java -jar ./jacc.jar $*

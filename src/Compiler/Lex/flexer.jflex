@@ -48,14 +48,6 @@ import java.io.*;
         }
     }
 
-    public int getCurrentLine() {
-        return yyline;
-    }
-
-    public int getCurrentColumn() {
-        return yycolumn;
-    }
-
     public int getLine() {
         return yyline;
     }
@@ -183,43 +175,66 @@ si {return prepare(SI); }
 elemento {return prepare(ELEMENTO); }
 para {return prepare(PARA); }
 fin {return prepare(FIN); }
+blanco {return prepare(BLANCO); }
+azul {return prepare(AZUL); }
+marron {return prepare(MARRON); }
+cian {return prepare(CIAN); }
+gris {return prepare(GRIS); }
+amarillo {return prepare(AMARILLO); }
+negro {return prepare(NEGRO); }
+rojo {return prepare(ROJO); }
+verde {return prepare(VERDE); }
+true {
+    String boolString = yytext();
+    Boolean boolVal = Boolean.parseBoolean(boolString);
+    lexeme = boolVal;
+    currentToken = BOOLEAN;
+    return currentToken; 
+}
+false {
+    String boolString = yytext();
+    Boolean boolVal = Boolean.parseBoolean(boolString);
+    lexeme = boolVal;
+    currentToken = BOOLEAN;
+    return currentToken;
+}
 
 
 {Identifier} { return prepare(IDENTIFIER); }
 
 {MayusError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con mayuscula";
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con mayuscula, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;}
 
 {SymbolError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con simbolos";
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con simbolos, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;}
 
 {NumberError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con numeros";
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con numeros, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;}
 
 {LengthError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> supera el tamaño máximo de 10 carácteres" ;
+    errorMessage = "El identificador <" + lexeme + "> supera el tamaño máximo de 10 carácteres, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;} 
 
 {IdentifierError} {
     lexeme = yytext();
-    errorMessage = "Identificador mal definido <" + lexeme + ">";
+    errorMessage = "Identificador mal definido <" + lexeme + ">, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;} 
 
 [^] {// token desconocido
     lexeme = yytext();
-    errorMessage = "Simbolo desconocido <" + lexeme + ">";
+    errorMessage = "Simbolo desconocido <" + lexeme + ">, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;} 
 

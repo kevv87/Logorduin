@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -11,13 +12,14 @@ import java.util.*;
 
 public class InstructionHandler {
 
-    private final Queue<String> _instr;
+    private final ArrayList<String> _instr;
     @JsonIgnore
     private final ObjectMapper _mapper;
 
     public InstructionHandler() {
-        _instr = new LinkedList<>();
+        _instr = new ArrayList<>();
         _mapper = new ObjectMapper();
+        //_mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
     /*
@@ -67,7 +69,8 @@ public class InstructionHandler {
      * @param instr Json que representa la instrucción
      */
     public void add(String instr) {
-        _instr.add(instr);
+        //_instr.add(instr);
+        _instr.add(0, instr);
     }
 
     /**
@@ -106,7 +109,7 @@ public class InstructionHandler {
         }
 
         try {
-            _instr.add(_mapper.writeValueAsString(proc));
+            _instr.add(0, _mapper.writeValueAsString(proc));
         } catch (JsonProcessingException ex) {
             System.err.println("No se pudo almacenar la instrucción");
         }
@@ -118,9 +121,11 @@ public class InstructionHandler {
      */
     public String getNext() {
     //    _instr.get(_current++);
-        return _instr.poll();
+        String instr = _instr.get(0);
+        _instr.remove(0);
+        return instr;
     }
-
+/*
     public void reverse() {
 
         Stack<String> s = new Stack<>();  //create a stack
@@ -138,13 +143,14 @@ public class InstructionHandler {
         }
 
     }
+*/
 
     /**
      * Método para obtener la siguiente instrucción de la cola de instrucciones, pero sin eliminarla de la misma
      * @return Json representando una instrucción
      */
     public String seeNext() {
-        return _instr.peek();
+        return _instr.get(0);
     }
 
     /**
@@ -156,13 +162,16 @@ public class InstructionHandler {
     }
 
     public void print() {
-        System.out.println("\nInstruction Queue");
+        System.out.println("\nInstruction List");
         System.out.println("#################");
-        _instr.forEach(System.out::println);
+        for (String item: _instr) {
+            System.out.println(item + "\n");
+        }
+//        _instr.forEach(System.out::println);
     }
 
-    public String create(String action, InstructionType type, ArrayList<String> args) {
-        return create(action, type, ReturnType.VOID, args, null);
+    public String create(String action, InstructionType type, ArrayList<String> args, Integer currentLine) {
+        return create(action, type, ReturnType.VOID, args, null, currentLine);
     }
 
     /**
@@ -170,10 +179,11 @@ public class InstructionHandler {
      * @param action Nombre o acción de la instrucción
      * @param type Tipo de instrucción
      * @param args Argumentos o instrucciones internas
+     * @param currentLine línea de la instrucción actual
      * @return Json que representa la instrucción
      */
-    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args) {
-        return create(action, type, returnType, args, null);
+    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, Integer currentLine) {
+        return create(action, type, returnType, args, null, currentLine);
     }
 
     /**
@@ -183,13 +193,15 @@ public class InstructionHandler {
      * @param returnType Tipo de valor de retorno de la instrucción
      * @param args Argumentos de la instrucción
      * @param instr Intrucciones internas de la instrucción
+     * @param currentLine línea de la instrucción actual
      * @return Json representado la instrucción
      */
-    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> instr) {
+    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> instr, Integer currentLine) {
         ObjectNode proc = _mapper.createObjectNode();
         proc.put("action", action);
         proc.put("type", type.toString());
         proc.put("return", returnType.toString());
+        proc.put("line", currentLine);
 
         //Almacenar argumentos
         if (args != null) {
@@ -308,7 +320,13 @@ public class InstructionHandler {
     }
 
     // Getters for jackson
+    /*
     public Queue<String> get_instr() {
+        return _instr;
+    }
+    */
+
+    public ArrayList<String> get_instr() {
         return _instr;
     }
 
