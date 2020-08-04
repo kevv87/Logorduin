@@ -317,15 +317,15 @@ public class CanvasGui extends Application {
 
             break;
           case PROCEDURE:
-            JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action).toString()); //TODO: Manejar error de que pasa si no se encuentra esto
+            JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action)); //TODO: Manejar error de que pasa si no se encuentra esto
             JsonNode parametros = mapper.readTree(procedure.get("params").toString());
             int k =0;
 
             // Creando los parametros como variables en varHandler con el scope de la funcion
             while(parametros.get(k)!=null){
-              String parametro = parametros.get(k).toString();
+              String parametro = parametros.get(k).textValue();
               JsonNode parametroJson = mapper.readTree(args.get(k).toString());
-              String tipo_aux1 = parametroJson.get("type").toString();
+              String tipo_aux1 = parametroJson.get("type").textValue();
               switch(tipo_aux1){  // Diferente para cada tipo
                 case "INT_CONSTANT":
                   varHandler.createVar(parametro,NumberType.TYPE_INT, parametroJson.get("value").toString(), action);
@@ -340,8 +340,8 @@ public class CanvasGui extends Application {
                   varHandler.createVar(parametro, NumberType.TYPE_FLOAT, varHandler.getFloat(parametroJson.get("value").toString()).toString(), action);
                   break;
                 case "VARIABLE":
-                  Float floatValue = varHandler.getFloat(parametroJson.get("value").toString());
-                  Integer intValue = varHandler.getInt(parametroJson.get("value").toString());
+                  Float floatValue = varHandler.getFloat(parametro);
+                  Integer intValue = varHandler.getInt(parametro);
                   if(floatValue != null){
                     varHandler.createVar(parametro, NumberType.TYPE_FLOAT, floatValue.toString(), action);
                   }else if(intValue != null){
@@ -375,9 +375,9 @@ public class CanvasGui extends Application {
             varHandler.setScope(action);
             // Cuerpo de la funcion
             j = 0;
-            JsonNode instructions = mapper.readTree(procedure.get("instructions").toString());
+            JsonNode instructions = procedure.get("instructions");
             while(instructions.get(j) != null){
-              String instruccionAnidadaJ = instructions.get(j).toString();
+              String instruccionAnidadaJ = instructions.get(j).textValue();
               manejoInstrucciones(instruccionAnidadaJ, instrHandler, procHandler);
               j++;
             }
