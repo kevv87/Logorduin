@@ -1,5 +1,5 @@
 %package Tests.Jacc
-%class Parser
+%class Parser;
 %interface ParserTokens
 %get lexer.getCurrentToken()
 %next lexer.getNextToken()
@@ -481,15 +481,17 @@ user_proc_call
     private ArrayList<String> instrList; // Para almacenar instrucciones de un procedimiento
 
     public String instr(String name, InstructionType type, ReturnType returnType, String... args) {
-        return instructions.create(name, type, returnType, new ArrayList<>(Arrays.asList(args)));
+      //  return instructions.create(name, type, returnType, new ArrayList<>(Arrays.asList(args)));
+        return instr(name, type, returnType, new ArrayList<>(Arrays.asList(args)), null);
     }
 
     public String instr(String name, InstructionType type, ReturnType returnType, ArrayList<String> args) {
-        return instructions.create(name, type, returnType, args);
+        //return instructions.create(name, type, returnType, args);
+        return instr(name, type, returnType, args, null);
     }
 
     public String instr(String name, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> body) {
-        return instructions.create(name, type, returnType, args, body);
+        return instructions.create(name, type, returnType, args, body, lexer.getLine()+1);
     }
 
     public ArrayList<String> reverse(ArrayList<String> _instr) {
@@ -518,7 +520,7 @@ user_proc_call
             System.err.println(msg);
         }
 
-        System.out.println("En " + lexer.getSemantic() + ", línea " + (lexer.getCurrentLine() + 1) + ". columna " + (lexer.getCurrentColumn() + 1));
+        System.out.println("En " + lexer.getSemantic() + ", línea " + (lexer.getLine() + 1) + ". columna " + (lexer.getColumn() + 1));
         //TODO: mostrar los errores en la interfaz
     }
 

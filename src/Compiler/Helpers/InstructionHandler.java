@@ -161,8 +161,8 @@ public class InstructionHandler {
         _instr.forEach(System.out::println);
     }
 
-    public String create(String action, InstructionType type, ArrayList<String> args) {
-        return create(action, type, ReturnType.VOID, args, null);
+    public String create(String action, InstructionType type, ArrayList<String> args, Integer currentLine) {
+        return create(action, type, ReturnType.VOID, args, null, currentLine);
     }
 
     /**
@@ -172,8 +172,8 @@ public class InstructionHandler {
      * @param args Argumentos o instrucciones internas
      * @return Json que representa la instrucción
      */
-    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args) {
-        return create(action, type, returnType, args, null);
+    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, Integer currentLine) {
+        return create(action, type, returnType, args, null, currentLine);
     }
 
     /**
@@ -185,11 +185,12 @@ public class InstructionHandler {
      * @param instr Intrucciones internas de la instrucción
      * @return Json representado la instrucción
      */
-    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> instr) {
+    public String create(String action, InstructionType type, ReturnType returnType, ArrayList<String> args, ArrayList<String> instr, Integer currentLine) {
         ObjectNode proc = _mapper.createObjectNode();
         proc.put("action", action);
         proc.put("type", type.toString());
         proc.put("return", returnType.toString());
+        proc.put("line", currentLine);
 
         //Almacenar argumentos
         if (args != null) {
