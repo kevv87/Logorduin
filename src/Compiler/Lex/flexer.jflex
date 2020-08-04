@@ -184,43 +184,45 @@ amarillo {return prepare(AMARILLO); }
 negro {return prepare(NEGRO); }
 rojo {return prepare(ROJO); }
 verde {return prepare(VERDE); }
+true {return prepare(BOOLEAN); }
+false {return prepare(BOOLEAN); }
 
 
 {Identifier} { return prepare(IDENTIFIER); }
 
 {MayusError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con mayuscula, linea " + yyline + ", columna " + yycolumn;
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con mayuscula, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;}
 
 {SymbolError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con simbolos, linea " + yyline + ", columna " + yycolumn;
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con simbolos, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;}
 
 {NumberError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con numeros, linea " + yyline + ", columna " + yycolumn;
+    errorMessage = "El identificador <" + lexeme + "> no puede iniciar con numeros, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;}
 
 {LengthError} {
     lexeme = yytext();
-    errorMessage = "El identificador <" + lexeme + "> supera el tamaño máximo de 10 carácteres, linea " + yyline + ", columna " + yycolumn;
+    errorMessage = "El identificador <" + lexeme + "> supera el tamaño máximo de 10 carácteres, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;} 
 
 {IdentifierError} {
     lexeme = yytext();
-    errorMessage = "Identificador mal definido <" + lexeme + ">, linea " + yyline + ", columna " + yycolumn;
+    errorMessage = "Identificador mal definido <" + lexeme + ">, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;} 
 
 [^] {// token desconocido
     lexeme = yytext();
-    errorMessage = "Simbolo desconocido <" + lexeme + ">, linea " + yyline + ", columna " + yycolumn;
+    errorMessage = "Simbolo desconocido <" + lexeme + ">, linea " + (yyline + 1) + ", columna " + (yycolumn + 1);
     lexerError = true;
     return error;} 
 
