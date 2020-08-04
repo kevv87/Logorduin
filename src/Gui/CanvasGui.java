@@ -120,68 +120,76 @@ public class CanvasGui extends Application {
 
                     if(instructionTail.size() > 0 && cont >1 ){
                         instruction = instructionTail.getFirst();
+                        System.out.println("El comando es: "+ instruction.getFirst());
                         switch (instruction.getFirst()){
                             case "avanza":
                                 cursor.move(Integer.parseInt(instruction.get(1)), true);
-                                System.out.println("Debi haber avanzado");
+                                System.out.println("Avanzando");
                                 break;
                             case "retrocede":
                                 cursor.move(Integer.parseInt(instruction.get(1)), false);
-                                System.out.println("Debi haber retrocedido");
+                                System.out.println("Retrocediendo");
                                 break;
                             case "update":
                                 imageCursor.setRotate(cursor.getRotation());
                                 imageCursor.setLayoutX(cursor.getPosX()-15);
                                 imageCursor.setLayoutY(cursor.getPosY()-15);
-                                System.out.println("Debi haber actualizado?");
+                                System.out.println("Actualizando cursor");
                                 break;
                             case "giraderecha":
                                 cursor.updateRotation(Integer.parseInt(instruction.get(1)), true);
-                                System.out.println("Debi haber girado a la derecha");
+                                System.out.println("Girando a la derecha");
                                 break;
                             case "giraizquierda":
                                 cursor.updateRotation(Integer.parseInt(instruction.get(1)), false);
-                                System.out.println("Debi haber girado a la izquierda");
+                                System.out.println("Girando a la izquierda");
                                 break;
                             case "ponpos":
                                 cursor.realocate(Integer.parseInt(instruction.get(1)), Integer.parseInt(instruction.get(2)));
-                                System.out.println("Debi haber puesto otra posicion");
+                                System.out.println("Cambiando de posicion");
                                 break;
                             case "ponrumbo":
                                 cursor.setRotation(Integer.parseInt(instruction.get(1)));
-                                System.out.println("Debi haber ponrumbo");
+                                System.out.println("Cambiando rumbo");
                                 break;
                             case "rumbo":
-                                cursor.getRotation();
+                                cursor.getRotation();   // TODO mostrar esto en algun lado
+                                System.out.println("Mostrando rumbo");
                                 break;
                             case "hide":
                                 imageCursor.setVisible(false);
-                                System.out.println("Debi haberme ocultado");
+                                System.out.println("Ocultando cursor");
                                 break;
                             case "show":
                                 imageCursor.setVisible(true);
-                                System.out.println("Debi haber aparecido");
+                                System.out.println("Mostrando cursor");
                                 break;
                             case "ponx":
                                 cursor.setPosX(Integer.parseInt(instruction.get(1)));
+                                System.out.println("Cambiando posX");
                                 break;
                             case "pony":
                                 cursor.setPosY(Integer.parseInt(instruction.get(1)));
+                                System.out.println("Cambiando posY");
                                 break;
                             case "bajalapiz":
                                 cursor.setLapiz(true);
+                                System.out.println("Bajando lapiz");
                                 break;
                             case "subelapiz":
                                 cursor.setLapiz(false);
+                                System.out.println("Subiendo lapiz");
                                 break;
                             case "poncolor":
                                 Color color = convertColor(instruction.get(1));
                                 cursor.setCurrentColor(color);
+                                System.out.println("Cambiando color");
                                 break;
                             case "centro":
                                 int centerX = (int) (Integer.parseInt(instruction.get(1)) / 2);
                                 int centerY = (int) (Integer.parseInt(instruction.get(2)) / 2);
                                 cursor.realocate(centerX, centerY);
+                                System.out.println("Alineando en el centro");
                                 break;
                             case "espera":
                                 int tiempo = Integer.parseInt(instruction.get(1));
@@ -190,8 +198,11 @@ public class CanvasGui extends Application {
                                 } catch (InterruptedException e){
                                     e.printStackTrace();
                                 }
+                                System.out.println("Esperando");
+                                break;
                             case "borrapantalla":
                                 graphicsContext.clearRect(0, 0, width, height);
+                                System.out.println("Borrando pantalla");
                                 break;
                             default:
                                 break;
@@ -717,6 +728,7 @@ public class CanvasGui extends Application {
               hideCursor();
               break;
           case "aparecetortuga":
+              System.out.println("estoy en aparece tortuga");
               showCursor();
               break;
           case "bajalapiz":
@@ -1334,6 +1346,7 @@ public class CanvasGui extends Application {
         LinkedList<String> method = new LinkedList<>();
         method.add("show");
         instructionTail.add(method);
+        System.out.println("Estoy en showCursor()");
         //imageCursor.setVisible(true);
     }
 
