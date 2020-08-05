@@ -37,8 +37,8 @@ public
 
 %type <String> color
 
-%type <String> integer_expr float_expr boolean_expr int_instr_argument float_instr_argument number_argument user_proc
-%type <String> int_proc1 int_proc2 float_proc1 float_proc2 instr_arg int_proc_n float_proc_n int_proc_p float_proc_p int_proc_1p float_proc_1p
+%type <String> integer_expr float_expr boolean_expr int_instr_argument float_instr_argument number_argument user_proc integer_expr2 float_expr2 boolean_expr2 
+%type <String> int_proc1 int_proc2 float_proc1 float_proc2 instr_arg int_proc_n float_proc_n int_proc_p float_proc_p int_proc_1p float_proc_1p float_proc
 //Expresiones
 %type <String> expression declaration_expr redeclaration_expr proc proc1 proc2 proc_p proc_loop proc_cond user_proc_call
 
@@ -87,6 +87,15 @@ integer_expr
     | INTEGER                       { $$ = arguments.intArg($1); }
     ;
 
+integer_expr2
+    : integer_expr '+' integer_expr { $$ = numeric_expr($1, $3, "+"); }
+    | integer_expr '-' integer_expr { $$ = numeric_expr($1, $3, "-"); }
+    | integer_expr '*' integer_expr { $$ = numeric_expr($1, $3, "*"); }
+    | integer_expr '/' integer_expr { $$ = numeric_expr($1, $3, "/"); }
+    | '(' integer_expr ')'          { $$ = $2; }
+    | INTEGER                       { $$ = arguments.intArg($1); }
+    ;
+
 //Constante flotante
 float_expr
     : float_expr '+' float_expr { $$ = numeric_expr($1, $3, "+"); }
@@ -97,6 +106,16 @@ float_expr
     | IDENTIFIER                { $$ = arguments.varArg($1); }
     | FLOAT                     { $$ = arguments.floatArg($1); }
     ;
+
+float_expr2
+    : float_expr '+' float_expr { $$ = numeric_expr($1, $3, "+"); }
+    | float_expr '-' float_expr { $$ = numeric_expr($1, $3, "-"); }
+    | float_expr '*' float_expr { $$ = numeric_expr($1, $3, "*"); }
+    | float_expr '/' float_expr { $$ = numeric_expr($1, $3, "/"); }
+    | '(' float_expr ')'        { $$ = $2; }
+    | FLOAT                     { $$ = arguments.floatArg($1); }
+    ;
+
 
 number_argument
     : integer_expr { $$ = $1; }
@@ -122,6 +141,23 @@ boolean_expr
     | BOOLEAN                                               { $$ = arguments.boolArg($1); }
     ;
 
+boolean_expr2
+    : number_argument '<' number_argument                   { $$ = instr("<", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $3); }
+    | number_argument '>' number_argument                   { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $3); }
+    | '(' instr_arg ')' '<' '(' instr_arg ')'     { $$ = instr("<", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $6); }
+    | '(' instr_arg ')' '>' '(' instr_arg ')'     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $6); }
+    | instr_arg '<' instr_arg                     { $$ = instr("<", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $3); }
+    | instr_arg '>' instr_arg                     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $3); }
+    | IGUALES number_argument number_argument               { $$ = instr("iguales", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $3); }
+    | IGUALES '(' instr_arg ')' '(' instr_arg ')' { $$ = instr("iguales", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $6); }
+    | Y '(' boolean_expr ')' '(' boolean_expr ')'           { $$ = instr("y", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $6); }
+    | O '(' boolean_expr ')' '(' boolean_expr ')'           { $$ = instr("o", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $6); }
+    | MAYORQUE number_argument number_argument              { $$ = instr("mayorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $3); }
+    | MENORQUE number_argument number_argument              { $$ = instr("menorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $3); }
+    | '(' boolean_expr ')'                                  { $$ = $2; }
+    | BOOLEAN                                               { $$ = arguments.boolArg($1); }
+    ;
+
 instr_arg
     : int_instr_argument    { $$ = arguments.instrArg($1); }
     | float_instr_argument  { $$ = arguments.instrArg($1); }
@@ -136,7 +172,8 @@ int_instr_argument
     ;
 
 float_instr_argument
-    : float_proc1
+    : float_proc
+    | float_proc1
     | float_proc2
     | float_proc_n
     | float_proc_p
@@ -146,16 +183,22 @@ float_instr_argument
 
 //Expresiones
 declaration_expr
-    : VAR IDENTIFIER                     { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2));}
-    | VAR IDENTIFIER '=' number_argument { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
-    | VAR IDENTIFIER '=' instr_arg       { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
-    | VAR IDENTIFIER '=' BOOLEAN         { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), arguments.boolArg($4)); }
+    : VAR IDENTIFIER { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2));}
+    | VAR IDENTIFIER '=' integer_expr2 { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
+    | VAR IDENTIFIER '=' float_expr2 { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
+    | VAR IDENTIFIER '=' int_instr_argument { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
+    | VAR IDENTIFIER '=' float_instr_argument { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4);}
+    | VAR IDENTIFIER '=' boolean_expr2    { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
+    | VAR IDENTIFIER '=' IDENTIFIER { $$ = instr("var", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), arguments.varArg($4)); }
     ;
 
 redeclaration_expr
-    : INIC IDENTIFIER '=' number_argument { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
-    | INIC IDENTIFIER '=' instr_arg  { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
-    | INIC IDENTIFIER '=' BOOLEAN   { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), arguments.boolArg($4)); }
+    : INIC IDENTIFIER '=' integer_expr2 { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
+    | INIC IDENTIFIER '=' float_expr2 { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
+    | INIC IDENTIFIER '=' int_instr_argument { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
+    | INIC IDENTIFIER '=' float_instr_argument { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
+    | INIC IDENTIFIER '=' boolean_expr2 { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), $4); }
+    | INIC IDENTIFIER '=' IDENTIFIER { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), arguments.varArg($4)); }
     ;
 
 color
@@ -171,7 +214,8 @@ color
     ;
 
 proc
-    : OCULTATORTUGA     { $$ = instr("ocultatortuga", InstructionType.NORMAL, ReturnType.VOID); }
+    : float_proc
+    | OCULTATORTUGA     { $$ = instr("ocultatortuga", InstructionType.NORMAL, ReturnType.VOID); }
     | OT                { $$ = instr("ocultatortuga", InstructionType.NORMAL, ReturnType.VOID); }
     | APARECETORTUGA    { $$ = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
     | AT                { $$ = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
@@ -181,7 +225,10 @@ proc
     | SB                { $$ = instr("subelapiz", InstructionType.NORMAL, ReturnType.VOID); }
     | CENTRO            { $$ = instr("centro", InstructionType.NORMAL, ReturnType.VOID); }
     | BORRAPANTALLA     { $$ = instr("borrapantalla", InstructionType.NORMAL, ReturnType.VOID); }
-    | RUMBO             { $$ = instr("print", InstructionType.NORMAL, ReturnType.VOID, arguments.varArg("rumbo")); }
+    ;
+
+float_proc
+    : RUMBO { $$ = instr("print", InstructionType.NORMAL, ReturnType.FLOAT, arguments.varArg("rumbo")); }
     ;
 
 proc1
@@ -291,8 +338,8 @@ n_float_args
     ;
 
 n_instr
-    : expression n_instr { instrList.add(0, $1); }
-    | expression         { instrList.add(0, $1); }
+    : expression ';' n_instr { instrList.add(0, $1); }
+    | expression ';'         { instrList.add(0, $1); }
     ;
 
 val_proc_n
@@ -354,8 +401,8 @@ float_proc_1p
     ;
 
 exec_instr
-    : expression exec_instr { instrList.add(0, $1); }
-    | expression            { instrList.add(0, $1); }
+    : expression ';' exec_instr { instrList.add(0, $1); }
+    | expression ';'            { instrList.add(0, $1); }
     ;
 
 proc_exec

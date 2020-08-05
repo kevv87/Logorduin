@@ -130,6 +130,12 @@ public class Main extends Application {
         ImageView compileButton = CommonMethods.loadImageView("/res/compileButton.png", 20, 20);
         ImageView runButton = CommonMethods.loadImageView("/res/runButton.png", 20, 20);
         compileButton.setOnMouseClicked(mouseEvent -> {
+            MessageHandler.getInstance().clear();
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             boolean saved = saveAction(stage);
             if (!saved) return;
             System.out.println("Compilando...");
@@ -137,6 +143,12 @@ public class Main extends Application {
             CompiledFile compiledFile = getCompiled();
         });
         runButton.setOnMouseClicked(mouseEvent -> {
+            MessageHandler.getInstance().clear();
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             boolean saved = saveAction(stage);
             if (!saved) return;
             System.out.println("Compilando y ejecutando...");
@@ -290,7 +302,7 @@ public class Main extends Application {
             writer.print(code.getText());
             writer.close();
             System.out.println("Archivo guardado correctamente");
-            msgHandler.add("Archivo guardad correctamente", MessageType.INFO);
+            msgHandler.add("Archivo guardado correctamente", MessageType.INFO);
         } catch (IOException ex) {
             System.err.println("No se pudo guardar el archivo");
             msgHandler.add("No se pudo guardar el archivo", MessageType.ERROR);
