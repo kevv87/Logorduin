@@ -46,6 +46,7 @@ public class CanvasGui extends Application {
     private GraphicsContext graphicsContext;
     private Random random;
     private LinkedList<LinkedList<String>> instructionTail;
+    private int x,y,rumbo;
 
     public static CompiledFile cFile;
 
@@ -114,7 +115,7 @@ public class CanvasGui extends Application {
                 //rotateCursor(1);
                 //cursor.move(1, true);
                 try{
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                     LinkedList<String> instruction;
 
                     if(instructionTail.size() > 0 && cont >1 ){
@@ -365,7 +366,7 @@ public class CanvasGui extends Application {
             varHandler.resetScope();
             return null;
         }
-        return null; // TODO: Asegurarse de que cada switch devuelve algo
+        return null;
     }
 
     /**
@@ -633,6 +634,15 @@ public class CanvasGui extends Application {
           case "avanza":
               if(argPars.get(0).get("int") != null){
                 avanza((int)argPars.get(0).get("int"));
+
+                  int oldX = x;
+                  int oldY = y;
+                  y = (oldY - (int)((Math.cos(2*Math.PI*rumbo/360)*((int)argPars.get(0).get("int")))));
+                  x = (oldX + (int)((Math.sin(2*Math.PI*rumbo/360)*((int)argPars.get(0).get("int")))));
+                  if(x < 0|| y< 0|| x>599 || y>599){
+                      throw new CompilerException("La tortuga se sale de los limites de la pantalla", instruction);
+                  }
+
                 return null;
               }
               else if(argPars.size()!=1){
@@ -643,6 +653,13 @@ public class CanvasGui extends Application {
           case "retrocede":
               if(argPars.get(0).get("int") != null){
                 retrocede((int)argPars.get(0).get("int"));
+                  int oldX = x;
+                  int oldY = y;
+                  y = (oldY - (int)((Math.cos(2*Math.PI*rumbo/360)*(-1*(int)argPars.get(0).get("int")))));
+                  x = (oldX + (int)((Math.sin(2*Math.PI*rumbo/360)*(-1*(int)argPars.get(0).get("int")))));
+                  if(x>width || y>height){
+                      throw new CompilerException("La tortuga se sale de los limites de la pantalla", instruction);
+                  }
                 return null;
               }else if(argPars.size()!=1){
                   throw new CompilerException("Retrocede recibe solo un argumento", instruction);
@@ -653,6 +670,8 @@ public class CanvasGui extends Application {
           case "giraderecha":
               if(argPars.get(0).get("int") != null){
                 rotateCursor((int)argPars.get(0).get("int"), true);
+                rumbo += (int)argPars.get(0).get("int");
+                rumbo = rumbo%360;
                 return null;
                 //cursor.updateRotation((int)argPars.get(0).get("int"), true);
               }else if(argPars.size()!=1){
@@ -664,6 +683,8 @@ public class CanvasGui extends Application {
           case "giraizquierda":
               if(argPars.get(0).get("int") != null){
                   rotateCursor((int)argPars.get(0).get("int"), false);
+                  rumbo -= (int)argPars.get(0).get("int");
+                  rumbo = rumbo%360;
                   return null;
                 //cursor.updateRotation((int)argPars.get(0).get("int"), false);
               }else if(argPars.size()!=1){
@@ -672,10 +693,17 @@ public class CanvasGui extends Application {
               else{
                   throw new CompilerException("Giraizquierda solo acepta integers", instruction);
               }
+          case "ponxy":
           case "ponpos":
               if(argPars.get(0).get("int") != null){
                   if(argPars.get(1).get("int") != null){
+                      x = (int)argPars.get(0).get("int");
+                      y = (int)argPars.get(0).get("int");
+                      if(x<0 || y<0 || x > width|| y > height){
+                          throw new CompilerException("La tortuga se sale de la pantalla",instruction);
+                      }
                       ponpos((int)argPars.get(0).get("int"), (int)argPars.get(1).get("int"));
+
                       return null;
                   }
                   else {
@@ -690,6 +718,8 @@ public class CanvasGui extends Application {
           case "ponrumbo":
               if(argPars.get(0).get("int") != null){
                 ponRumbo((int)argPars.get(0).get("int"));
+                rumbo = (int)argPars.get(0).get("int");
+                rumbo = rumbo%360;
                 return null;
                 //cursor.setRotation((int)argPars.get(0).get("int"));
               }else if(argPars.size()!=1){
@@ -704,9 +734,13 @@ public class CanvasGui extends Application {
                   throw new CompilerException("Rumbo no tiene parametros", instruction);
               }
               rumbo();  // TODO: Retorna rumbo
-              break;
+              return rumbo;
           case "ponx":
               if(argPars.get(0).get("int") != null){
+                  x = (int)argPars.get(0).get("int");
+                  if(x > width){
+                      throw new CompilerException("La tortuga se sale de la pantalla", instruction);
+                  }
                 ponX((int)argPars.get(0).get("int"));
                 return null;
                 //cursor.setPosX((int)argPars.get(0).get("int"));
@@ -718,6 +752,9 @@ public class CanvasGui extends Application {
               }
           case "pony":
               if(argPars.get(0).get("int") != null){
+                  if(y>height){
+                      throw new CompilerException("La tortuga se sale de la pantalla", instruction);
+                  }
                 ponY((int)argPars.get(0).get("int"));
                 return null;
                 //cursor.setPosY((int)argPars.get(0).get("int"));
@@ -778,6 +815,8 @@ public class CanvasGui extends Application {
               if(argPars.size() != 0){
                   throw new CompilerException("Centro no lleva parametros", instruction);
               }
+              x = width/2 - 1;
+              y = width/2 -1;
               centro(width, height);
               //cursor.realocate(centerX, centerY);
               return null;
@@ -1314,6 +1353,8 @@ public class CanvasGui extends Application {
     private void exec(CompiledFile cFile) throws JsonProcessingException, CompilerException {
       InstructionHandler instrHandler= cFile.getInstructions();
       ProcedureHandler procHandler = cFile.getProcedures();
+       x = 600/2 -1;
+        y = 600/2 -1;
       while(instrHandler.getInstructionCount() > 0){
 
         // Obteniendo los campos de la instruccion
