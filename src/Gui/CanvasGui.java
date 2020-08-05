@@ -263,6 +263,20 @@ public class CanvasGui extends Application {
                       }
                   }catch(CompilerException err){
                       err.setInstruccion(instruction);
+                      throw err;
+                  }
+              }else if(action.equals("inc")){
+                  try {
+                      if (argumentosParseados.get(1).get("int") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), varHandler.getInt((String)argumentosParseados.get(0).get("string"))+(int) argumentosParseados.get(1).get("int"));
+                      } else if (argumentosParseados.get(1).get("float") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), varHandler.getFloat((String)argumentosParseados.get(0).get("string"))+(float) argumentosParseados.get(1).get("float"));
+                      }else {
+                          throw new CompilerException("Este tipo no se puede asignar a esta variable", instruction);
+                      }
+                  }catch(CompilerException err){
+                      err.setInstruccion(instruction);
+                      throw err;
                   }
               }else{
                   throw new CompilerException("Error inesperado en VARIABLE", instruction);
@@ -384,22 +398,29 @@ public class CanvasGui extends Application {
                 retorno.put("float",varHandler.getFloat(args.get("value").asText()));
                 break;
             case "VARIABLE":
-                Float floatValue = varHandler.getFloat(args.get("value").asText());
-                Integer intValue = varHandler.getInt(args.get("value").asText());
-                Boolean boolValue = varHandler.getBoolean(args.get("value").asText());
-                if(floatValue != null){
-                    retorno.put("float", floatValue);
-                }else if(intValue != null){
-                    retorno.put( "int", intValue);
-                }else if(boolValue !=null){
-                    retorno.put("boolean", boolValue);
-                }else{
-                    throw new CompilerException("La variable retorna un error que no esta soportado.", instruction);
+                try {
+                    Float floatValue = varHandler.getFloat(args.get("value").asText());
+                    Integer intValue = varHandler.getInt(args.get("value").asText());
+                    Boolean boolValue = varHandler.getBoolean(args.get("value").asText());
+                    if (floatValue != null) {
+                        retorno.put("float", floatValue);
+                    } else if (intValue != null) {
+                        retorno.put("int", intValue);
+                    } else if (boolValue != null) {
+                        retorno.put("boolean", boolValue);
+                    } else {
+                        throw new CompilerException("La variable retorna un error que no esta soportado.", instruction);
+                    }
+                }catch(CompilerException err){
+                    if(err.getInstruccion() == null){
+                        err.setInstruccion(instruction);
+                    }
+                    throw err;
                 }
                 break;
             case "INSTRUCTION":
-                JsonNode instruccionJ = args.get("value");
-                String returnType = args.get("value").asText();
+                JsonNode instruccionJ = mapper.readTree(args.get("value").textValue());
+                String returnType = instruccionJ.get("return").asText();
                 switch (returnType) {
                     case "INTEGER" -> retorno.put("int", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
                     case "FLOAT" -> retorno.put("float", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
@@ -425,7 +446,7 @@ public class CanvasGui extends Application {
                 break;
             case "LOGIC":
                 returnType = args.get("return").asText();
-                valor = operationInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler, instruction);
+                valor = logicInstruction(args.get("action").asText(), null, null, args.get("args"), instrHandler, procHandler, instruction);
                 switch(returnType){
                     case"BOOLEAN":
                         retorno.put("boolean", valor);

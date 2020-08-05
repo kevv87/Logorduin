@@ -40,5 +40,14 @@ public class CompilerException extends Exception{
 
     public void setInstruccion(String instruccion) {
         this.instruccion = instruccion;
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode instructionJ = null;
+        try {
+            instructionJ = mapper.readTree(instruccion);
+            this.mensaje = "Error en linea " + instructionJ.get("line") + ": " +mensaje;
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
     }
 }
