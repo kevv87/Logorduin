@@ -68,7 +68,7 @@ si (mayorque? bordeIzq bordeD)[
 ];
 
 
-si(y (iguales? 1 1) (iguales? 1 1))[
+si(iguales? bordeSup (potencia 1 10))[
     centro;
     ponrumbo 180;
     giraderecha (suma 180 180);
