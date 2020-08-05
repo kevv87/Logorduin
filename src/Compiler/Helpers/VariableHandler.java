@@ -1,5 +1,6 @@
 package Compiler.Helpers;
 
+import Compiler.Exceptions.CompilerException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,7 +56,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable
      * @param value Valor entero a asignar
      */
-    public void add(String identifier, Integer value) {
+    public void add(String identifier, Integer value) throws CompilerException {
         createVar(identifier, NumberType.TYPE_INT, value.toString(), _currentScope.peek());
     }
 
@@ -74,8 +75,17 @@ public class VariableHandler {
      * @param identifier Identificador de la variable
      * @param value Valor flotante a asignar
      */
-    public void add(String identifier, Float value) {
+    public void add(String identifier, Float value) throws CompilerException {
         createVar(identifier, NumberType.TYPE_FLOAT, value.toString(), _currentScope.peek());
+    }
+
+    /**
+     * Método para agregar una variable nueva con valor flotante
+     * @param identifier Identificador de la variable
+     * @param value Valor flotante a asignar
+     */
+    public void add(String identifier, Boolean value) throws CompilerException {
+        createVar(identifier, NumberType.TYPE_BOOL, value.toString(), _currentScope.peek());
     }
 
     /**
@@ -92,7 +102,7 @@ public class VariableHandler {
      * Método para agregar una variable nueva sin inicializarla
      * @param identifier Identificador de la variable
      */
-    public void add(String identifier) {
+    public void add(String identifier) throws CompilerException {
         createVar(identifier, NumberType.TYPE_NULL, null, _currentScope.peek());
     }
 
@@ -111,7 +121,7 @@ public class VariableHandler {
      * @param type Tipo de la variable
      * @param value Valor de la variable
      */
-    public void createVar(String id, NumberType type, String value, String scope) {
+    public void createVar(String id, NumberType type, String value, String scope) throws CompilerException {
         if (exists(id, scope)) {
             onError("Variable <" + id + "> redeclarada");
         }
@@ -130,7 +140,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable a verificar
      * @return True si existe, False caso contrario
      */
-    public Boolean exists(String identifier, String scope) {
+    public Boolean exists(String identifier, String scope) throws CompilerException {
         if (!_vars.containsKey(identifier + ":" + scope)) return false;
 
         try {
@@ -142,7 +152,7 @@ public class VariableHandler {
         }
     }
 
-    public Boolean exists(String identifier) {
+    public Boolean exists(String identifier) throws CompilerException {
         return exists(identifier, _currentScope.peek());
     }
 
@@ -152,14 +162,14 @@ public class VariableHandler {
      * @param type Tipo a verificar
      * @return True si la variable es del tipo dado, False caso contrario
      */
-    public Boolean isType(String identifier, NumberType type, String scope) {
+    public Boolean isType(String identifier, NumberType type, String scope) throws CompilerException {
         JsonNode var = getVar(identifier, scope);
         if (var == null) return false;
 
         return (NumberType.valueOf(var.get("type").asText()) == type);
     }
 
-    public Boolean isType(String identifier, NumberType type) {
+    public Boolean isType(String identifier, NumberType type) throws CompilerException {
         return isType(identifier, type, _currentScope.peek());
     }
 
@@ -168,14 +178,14 @@ public class VariableHandler {
      * @param identifier Identificador de la variable a verificar
      * @return True si la variable está inicializada, False caso contrario
      */
-    public Boolean isInitialized(String identifier, String scope) {
+    public Boolean isInitialized(String identifier, String scope) throws CompilerException {
         JsonNode var = getVar(identifier, scope);
         if (var == null) return false;
 
         return (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_NULL);
     }
 
-    public Boolean isInitialized(String identifier) {
+    public Boolean isInitialized(String identifier) throws CompilerException {
         return isInitialized(identifier, _currentScope.peek());
     }
 
@@ -184,7 +194,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable a modificar
      * @param newValue Nuevo valor entero a asignar
      */
-    public void modify(String identifier, Integer newValue) {
+    public void modify(String identifier, Integer newValue) throws CompilerException {
         modifyVar(identifier, NumberType.TYPE_INT, newValue.toString(), _currentScope.peek());
     }
 
@@ -197,7 +207,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable a modificar
      * @param newValue Nuevo valor flotante a asignar
      */
-    public void modify(String identifier, Float newValue) {
+    public void modify(String identifier, Float newValue) throws CompilerException {
         modifyVar(identifier, NumberType.TYPE_FLOAT, newValue.toString(), _currentScope.peek());
     }
 
@@ -207,7 +217,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable a modificar
      * @param newValue Nuevo valor flotante a asignar
      */
-    public void modify(String identifier, Boolean newValue) {
+    public void modify(String identifier, Boolean newValue) throws CompilerException {
         modifyVar(identifier, NumberType.TYPE_BOOL, newValue.toString(), _currentScope.peek());
     }
 
@@ -221,7 +231,7 @@ public class VariableHandler {
      * @param newType Tipo de valor a asignar
      * @param newValue Nuevo valor a asignar
      */
-    private void modifyVar(String id, NumberType newType, String newValue, String scope) {
+    private void modifyVar(String id, NumberType newType, String newValue, String scope) throws CompilerException {
         if (!exists(id, scope)) {
             onError("Identificador <" + id + "> no está declarado");
             return;
@@ -249,7 +259,7 @@ public class VariableHandler {
         }
     }
 
-    public Integer getInt(String identifier) {
+    public Integer getInt(String identifier) throws CompilerException {
         return getInt(identifier, _currentScope.peek());
     }
 
@@ -258,7 +268,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable a recuperar
      * @return Valor entero asociado al identificador
      */
-    public Integer getInt(String identifier, String scope) {
+    public Integer getInt(String identifier, String scope) throws CompilerException {
         if (!exists(identifier, scope)) {
             onError("Identificador <" + identifier + "> no está declarado");
             return null;
@@ -280,11 +290,11 @@ public class VariableHandler {
         return var.get("value").asInt();
     }
 
-    public Boolean getBoolean(String identifier){
+    public Boolean getBoolean(String identifier) throws CompilerException {
         return getBoolean(identifier, _currentScope.peek());
     }
 
-    public Boolean getBoolean(String identifier, String scope){
+    public Boolean getBoolean(String identifier, String scope) throws CompilerException {
         if (!exists(identifier, scope)) {
             onError("Identificador <" + identifier + "> no está declarado");
             return null;
@@ -306,7 +316,7 @@ public class VariableHandler {
         return var.get("value").asBoolean();
     }
 
-    public Float getFloat(String identifier) {
+    public Float getFloat(String identifier) throws CompilerException {
         return getFloat(identifier, _currentScope.peek());
     }
 
@@ -315,7 +325,7 @@ public class VariableHandler {
      * @param identifier Identificador de la variable a recuperar
      * @return Valor flotante asociado al identificador
      */
-    public Float getFloat(String identifier, String scope) {
+    public Float getFloat(String identifier, String scope) throws CompilerException {
         if (!exists(identifier, scope)) {
             onError("Identificador <" + identifier + "> no está declarado");
             return null;
@@ -342,7 +352,7 @@ public class VariableHandler {
      * @param id Identificador a obtener
      * @return Json asociado al identificador
      */
-    private JsonNode getVar(String id, String scope) {
+    private JsonNode getVar(String id, String scope) throws CompilerException {
         if (!exists(id, scope)) {
             onError("Identificador <" + id + "> no está definido");
             return null;
@@ -361,7 +371,7 @@ public class VariableHandler {
      * @param id Identificador de la variable a guardar
      * @param node Json a guardar
      */
-    private void save(String id, String scope, ObjectNode node) {
+    private void save(String id, String scope, ObjectNode node) throws CompilerException {
         try {
             String variable = _mapper.writeValueAsString(node);
             _vars.put(id + ":" + scope, variable);
@@ -375,9 +385,9 @@ public class VariableHandler {
      * Método que se ejecuta cuando ocurre algún error
      * @param msg Mensaje de error
      */
-    private void onError(String msg) {
+    private void onError(String msg) throws CompilerException {
         //TODO: mostrar error en la interfaz;
-        System.err.println(msg);
+        throw new CompilerException("No se pudo agregar ni modificar una variable", null);
     }
 
     /**
@@ -413,7 +423,7 @@ public class VariableHandler {
         this._currentScope = _currentScope;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CompilerException {
         VariableHandler handler = new VariableHandler();
         handler.add("myvar", 10);
         handler.printVars();
