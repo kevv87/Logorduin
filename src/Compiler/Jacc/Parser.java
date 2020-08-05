@@ -1,4 +1,4 @@
-// Output created by jacc on Wed Aug 05 15:27:44 CST 2020
+// Output created by jacc on Wed Aug 05 15:59:17 CST 2020
 
 package Compiler.Jacc;
 
@@ -17452,13 +17452,13 @@ class Parser implements ParserTokens {
     }
 
     private int yyr232() { // n_params : IDENTIFIER n_params
-        { paramsList.add(0, ((String)yysv[yysp-2])); }
+        { procArgs.add(0, ((String)yysv[yysp-2])); }
         yysv[yysp-=2] = yyrv;
         return yypn_params();
     }
 
     private int yyr233() { // n_params : IDENTIFIER
-        { paramsList.add(0, ((String)yysv[yysp-1])); }
+        { procArgs.add(0, ((String)yysv[yysp-1])); }
         yysv[yysp-=1] = yyrv;
         return yypn_params();
     }
@@ -18006,9 +18006,10 @@ class Parser implements ParserTokens {
     private int yyr234() { // user_proc : PARA IDENTIFIER n_params n_instr FIN
         {
         //instrList = reverse(instrList);
-        procedures.add(((String)yysv[yysp-4]), paramsList, instrList);
-        paramsList.clear();
+        procedures.add(((String)yysv[yysp-4]), procArgs, instrList);
+        //paramsList.clear();
         instrList.clear();
+        procArgs.clear();
     }
         yysv[yysp-=5] = yyrv;
         return 24;
@@ -18095,6 +18096,7 @@ class Parser implements ParserTokens {
     private ProcedureHandler procedures; //Manejador de procedimientos
     private InstructionHandler instructions;
     private ArgumentHandler arguments;
+    private ArrayList<String> procArgs;
 
     //Estructuras temporales
     private ArrayList<String> paramsList; //Para almacenar parámetros de un procedimiento
@@ -18133,7 +18135,7 @@ class Parser implements ParserTokens {
 
             } else { //Valor entero
                 Integer val1 = arguments.getIntArg(arg1);
-                Integer val2 = arguments.getIntArg(arg2);
+                Integer val2 = arguments.getIntArg(arg2); 
                 Integer result = null;
 
                 switch (operation) {
@@ -18223,6 +18225,7 @@ class Parser implements ParserTokens {
 
         paramsList = new ArrayList<>();
         instrList = new ArrayList<>();
+        procArgs = new ArrayList<>();
         msgHandler = MessageHandler.getInstance();
 
         try {
