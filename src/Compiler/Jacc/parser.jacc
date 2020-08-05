@@ -14,28 +14,32 @@ import java.util.Stack;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import Compiler.Helpers.*;
 import Logic.MessageHandler;
-import Logic.MessageType;
 
 public
 %}
+
+%token <String> COLOR
+//%token <String> BLANCO AZUL MARRON CIAN GRIS AMARILLO NEGRO ROJO VERDE
+
+%token <String> OCULTATORTUGA APARECETORTUGA RUMBO BAJALAPIZ SUBELAPIZ CENTRO BORRAPANTALLA
+//%token <String> OCULTATORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
+
+%token <String> AVANZA RETROCEDE GIRADERECHA GIRAIZQUIERDA PONRUMBO PONX PONY PONCOLORLAPIZ ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA SEN
+//%token <String> AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERDA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
+
+%token <String> INC PONPOS EJECUTA ELEGIR CUENTA ULTIMO PRIMERO
+//%token <String> INC PONPOS EJECUTA ELEGIR CUENTA ULTIMO UL PRIMERO
 
 %token '+' '-' '*' '/' '(' ')' '[' ']' '<' '>' ';' '='
 %token <Integer> INTEGER
 %token <Float> FLOAT
 %token <Boolean> BOOLEAN
 %token <String> IDENTIFIER VAR INIC PARA FIN
-%token <String> BLANCO AZUL MARRON CIAN GRIS AMARILLO NEGRO ROJO VERDE
-%token <String> OCULTATORTUGA OT APARECETORTUGA AT RUMBO BAJALAPIZ BL SUBELAPIZ SB CENTRO BORRAPANTALLA
-%token <String> AVANZA AV RETROCEDE RE GIRADERECHA GD GIRAIZQUIERDA GI PONRUMBO PONX PONY PONCOLORLAPIZ PONCL ESPERA REDONDEA COS AZAR MENOS RAIZCUADRADA RC SENO SEN
-%token <String> PONXY IGUALES Y O MAYORQUE MENORQUE POTENCIA DIVISION RESTO
-%token <String> DIFERENCIA PRODUCTO SUMA
-%token <String> INC PONPOS EJECUTA ELEGIR CUENTA ULTIMO UL PRIMERO
-%token <String> REPITE SI ELEMENTO
+%token <String> DIFERENCIA PRODUCTO SUMA REPITE SI ELEMENTO MOSTRAR VELOCIDAD PONXY IGUALES Y O MAYORQUE MENORQUE POTENCIA DIVISION RESTO
+
 
 %left '+' '-'
 %left '*' '/'
-
-%type <String> color
 
 %type <String> integer_expr float_expr boolean_expr int_instr_argument float_instr_argument number_argument user_proc integer_expr2 float_expr2 boolean_expr2 
 %type <String> int_proc1 int_proc2 float_proc1 float_proc2 instr_arg int_proc_n float_proc_n int_proc_p float_proc_p int_proc_1p float_proc_1p float_proc
@@ -104,6 +108,7 @@ float_expr
     | float_expr '/' float_expr { $$ = numeric_expr($1, $3, "/"); }
     | '(' float_expr ')'        { $$ = $2; }
     | IDENTIFIER                { $$ = arguments.varArg($1); }
+    | integer_expr              { $$ = $1; }
     | FLOAT                     { $$ = arguments.floatArg($1); }
     ;
 
@@ -146,14 +151,24 @@ boolean_expr2
     | number_argument '>' number_argument                   { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $3); }
     | '(' instr_arg ')' '<' '(' instr_arg ')'     { $$ = instr("<", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $6); }
     | '(' instr_arg ')' '>' '(' instr_arg ')'     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $6); }
+    | number_argument '>' '(' instr_arg ')'     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $4); }
+    | '(' instr_arg ')' '>' number_argument     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $5); }
+    | number_argument '<' '(' instr_arg ')'     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $4); }
+    | '(' instr_arg ')' '<' number_argument     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $5); }
     | instr_arg '<' instr_arg                     { $$ = instr("<", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $3); }
     | instr_arg '>' instr_arg                     { $$ = instr(">", InstructionType.LOGIC, ReturnType.BOOLEAN, $1, $3); }
     | IGUALES number_argument number_argument               { $$ = instr("iguales", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $3); }
     | IGUALES '(' instr_arg ')' '(' instr_arg ')' { $$ = instr("iguales", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $6); }
+    | IGUALES number_argument '(' instr_arg ')' { $$ = instr("iguales", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $4); }
+    | IGUALES '(' instr_arg ')' number_argument { $$ = instr("iguales", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $5); }
     | Y '(' boolean_expr ')' '(' boolean_expr ')'           { $$ = instr("y", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $6); }
     | O '(' boolean_expr ')' '(' boolean_expr ')'           { $$ = instr("o", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $6); }
     | MAYORQUE number_argument number_argument              { $$ = instr("mayorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $3); }
+    | MAYORQUE '(' instr_arg ')' number_argument            { $$ = instr("mayorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $5); }
+    | MAYORQUE number_argument '(' instr_arg ')'            { $$ = instr("mayorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $4); }
     | MENORQUE number_argument number_argument              { $$ = instr("menorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $3); }
+    | MENORQUE '(' instr_arg ')' number_argument            { $$ = instr("menorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $3, $5); }
+    | MENORQUE number_argument '(' instr_arg ')'            { $$ = instr("menorque", InstructionType.LOGIC, ReturnType.BOOLEAN, $2, $4); }
     | '(' boolean_expr ')'                                  { $$ = $2; }
     | BOOLEAN                                               { $$ = arguments.boolArg($1); }
     ;
@@ -201,18 +216,6 @@ redeclaration_expr
     | INIC IDENTIFIER '=' IDENTIFIER { $$ = instr("inic", InstructionType.VARIABLE, ReturnType.VOID, arguments.stringArg($2), arguments.varArg($4)); }
     ;
 
-color
-    : BLANCO    { $$ = arguments.stringArg("blanco"); }
-    | AZUL      { $$ = arguments.stringArg("azul"); }
-    | MARRON    { $$ = arguments.stringArg("marron"); }
-    | CIAN      { $$ = arguments.stringArg("cian"); }
-    | GRIS      { $$ = arguments.stringArg("gris"); }
-    | AMARILLO  { $$ = arguments.stringArg("amarillo"); }
-    | NEGRO     { $$ = arguments.stringArg("negro"); }
-    | ROJO      { $$ = arguments.stringArg("rojo"); }
-    | VERDE     { $$ = arguments.stringArg("verde"); }
-    ;
-
 proc
     : float_proc
     | OCULTATORTUGA     { $$ = instr("ocultatortuga", InstructionType.NORMAL, ReturnType.VOID); }
@@ -220,9 +223,7 @@ proc
     | APARECETORTUGA    { $$ = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
     | AT                { $$ = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
     | BAJALAPIZ         { $$ = instr("bajalapiz", InstructionType.NORMAL, ReturnType.VOID); }
-    | BL                { $$ = instr("bajalapiz", InstructionType.NORMAL, ReturnType.VOID); }
     | SUBELAPIZ         { $$ = instr("subelapiz", InstructionType.NORMAL, ReturnType.VOID); }
-    | SB                { $$ = instr("subelapiz", InstructionType.NORMAL, ReturnType.VOID); }
     | CENTRO            { $$ = instr("centro", InstructionType.NORMAL, ReturnType.VOID); }
     | BORRAPANTALLA     { $$ = instr("borrapantalla", InstructionType.NORMAL, ReturnType.VOID); }
     ;
@@ -233,31 +234,27 @@ float_proc
 
 proc1
     : AVANZA        number_argument         { $$ = instr("avanza", InstructionType.NORMAL, ReturnType.VOID, $2); }
-    | AV            number_argument         { $$ = instr("avanza", InstructionType.NORMAL, ReturnType.VOID, $2); }
     | RETROCEDE     number_argument         { $$ = instr("retrocede", InstructionType.NORMAL, ReturnType.VOID, $2); }
-    | RE            number_argument         { $$ = instr("retrocede", InstructionType.NORMAL, ReturnType.VOID, $2); }
     | GIRADERECHA   number_argument         { $$ = instr("giraderecha", InstructionType.NORMAL, ReturnType.VOID, $2); }
-    | GD            number_argument         { $$ = instr("giraderecha", InstructionType.NORMAL, ReturnType.VOID, $2); }
     | GIRAIZQUIERDA number_argument         { $$ = instr("giraizquierda", InstructionType.NORMAL, ReturnType.VOID, $2); }
-    | GI            number_argument         { $$ = instr("giraizquierda", InstructionType.NORMAL, ReturnType.VOID, $2); }
     | PONRUMBO      number_argument         { $$ = instr("ponrumbo", InstructionType.NORMAL, ReturnType.VOID, $2); }
     | PONX          number_argument         { $$ = instr("ponx", InstructionType.NORMAL, ReturnType.VOID, $2); }
     | PONY          number_argument         { $$ = instr("pony", InstructionType.NORMAL, ReturnType.VOID, $2); }
-    | PONCOLORLAPIZ color                   { $$ = instr("poncl", InstructionType.NORMAL, ReturnType.VOID, $2); }
-    | PONCL         color                   { $$ = instr("poncl", InstructionType.NORMAL, ReturnType.VOID, $2); }
+    | PONCOLORLAPIZ COLOR                   { $$ = instr("poncl", InstructionType.NORMAL, ReturnType.VOID, arguments.stringArg($2)); }
     | ESPERA        number_argument         { $$ = instr("espera", InstructionType.NORMAL, ReturnType.VOID, $2); }
     | ESPERA        '(' instr_arg ')'  { $$ = instr("espera", InstructionType.NORMAL, ReturnType.VOID, $3); }
     | AVANZA        '(' instr_arg ')'  { $$ = instr("avanza", InstructionType.NORMAL, ReturnType.VOID, $3); }
-    | AV            '(' instr_arg ')'  { $$ = instr("avanza", InstructionType.NORMAL, ReturnType.VOID, $3); }
     | RETROCEDE     '(' instr_arg ')'  { $$ = instr("retrocede", InstructionType.NORMAL, ReturnType.VOID, $3); }
-    | RE            '(' instr_arg ')'  { $$ = instr("retrocede", InstructionType.NORMAL, ReturnType.VOID, $3); }
     | GIRADERECHA   '(' instr_arg ')'  { $$ = instr("giraderecha", InstructionType.NORMAL, ReturnType.VOID, $3); }
-    | GD            '(' instr_arg ')'  { $$ = instr("giraderecha", InstructionType.NORMAL, ReturnType.VOID, $3); }
     | GIRAIZQUIERDA '(' instr_arg ')'  { $$ = instr("giraizquierda", InstructionType.NORMAL, ReturnType.VOID, $3); }
-    | GI            '(' instr_arg ')'  { $$ = instr("giraizquierda", InstructionType.NORMAL, ReturnType.VOID, $3); }
     | PONRUMBO      '(' instr_arg ')'  { $$ = instr("ponrumbo", InstructionType.NORMAL, ReturnType.VOID, $3); }
     | PONX          '(' instr_arg ')'  { $$ = instr("ponx", InstructionType.NORMAL, ReturnType.VOID, $3); }
     | PONY          '(' instr_arg ')'  { $$ = instr("pony", InstructionType.NORMAL, ReturnType.VOID, $3); }
+    | MOSTRAR       number_argument     { $$ = instr("mostrar", InstructionType.NORMAL, ReturnType.VOID, $2); }
+    | MOSTRAR       boolean_expr        { $$ = instr("mostrar", InstructionType.NORMAL, ReturnType.VOID, $2); }
+    | MOSTRAR       '(' instr_arg ')'   { $$ = instr("mostrar", InstructionType.NORMAL, ReturnType.VOID, $3); }
+    | VELOCIDAD     integer_expr        { $$ = instr("velocidad", InstructionType.NORMAL, ReturnType.VOID, $2); }
+    | VELOCIDAD     '(' int_instr_argument ')' { $$ = instr("velocidad", InstructionType.NORMAL, ReturnType.VOID, $3); }
     ;
 
 val_proc1
@@ -279,15 +276,11 @@ float_proc1
     | MENOS         float_expr              { $$ = instr("menos", InstructionType.NORMAL, ReturnType.FLOAT, $2); }
     | COS           number_argument         { $$ = instr("cos", InstructionType.NORMAL, ReturnType.FLOAT, $2); }
     | RAIZCUADRADA  number_argument         { $$ = instr("raiz", InstructionType.NORMAL, ReturnType.FLOAT, $2); }
-    | RC            number_argument         { $$ = instr("raiz", InstructionType.NORMAL, ReturnType.FLOAT, $2); }
-    | SENO          number_argument         { $$ = instr("seno", InstructionType.NORMAL, ReturnType.FLOAT, $2); }
     | SEN           number_argument         { $$ = instr("seno", InstructionType.NORMAL, ReturnType.FLOAT, $2); }
     | AZAR          '(' float_instr_argument ')' { $$ = instr("azar", InstructionType.NORMAL, ReturnType.FLOAT, $3); }
     | MENOS         '(' float_instr_argument ')' { $$ = instr("menos", InstructionType.NORMAL, ReturnType.FLOAT, $3); }
     | COS           '(' instr_arg ')'  { $$ = instr("cos", InstructionType.NORMAL, ReturnType.FLOAT, $3); }
     | RAIZCUADRADA  '(' instr_arg ')'  { $$ = instr("raiz", InstructionType.NORMAL, ReturnType.FLOAT, $3); }
-    | RC            '(' instr_arg ')'  { $$ = instr("raiz", InstructionType.NORMAL, ReturnType.FLOAT, $3); }
-    | SENO          '(' instr_arg ')'  { $$ = instr("seno", InstructionType.NORMAL, ReturnType.FLOAT, $3); }
     | SEN           '(' instr_arg ')'  { $$ = instr("seno", InstructionType.NORMAL, ReturnType.FLOAT, $3); }
     ;
 
@@ -372,13 +365,11 @@ val_proc_p
 int_proc_p
     : ELEGIR '[' n_int_args ']'         { $$ = instr("elegir", InstructionType.NORMAL, ReturnType.INTEGER, paramsList); paramsList.clear(); }
     | ULTIMO '[' n_int_args ']'         { $$ = instr("ultimo", InstructionType.NORMAL, ReturnType.INTEGER, paramsList); paramsList.clear(); }
-    | UL '[' n_int_args ']'             { $$ = instr("ultimo", InstructionType.NORMAL, ReturnType.INTEGER, paramsList); paramsList.clear(); }
     | PRIMERO '[' n_int_args ']'        { $$ = instr("primero", InstructionType.NORMAL, ReturnType.INTEGER, paramsList); paramsList.clear(); }
     ;
 float_proc_p
     : ELEGIR '[' n_float_args ']'       { $$ = instr("elegir", InstructionType.NORMAL, ReturnType.FLOAT, paramsList); paramsList.clear(); }
     | ULTIMO '[' n_float_args ']'       { $$ = instr("ultimo", InstructionType.NORMAL, ReturnType.FLOAT, paramsList); paramsList.clear(); }
-    | UL '[' n_float_args ']'             { $$ = instr("ultimo", InstructionType.NORMAL, ReturnType.FLOAT, paramsList); paramsList.clear(); }
     | PRIMERO '[' n_float_args ']'      { $$ = instr("primero", InstructionType.NORMAL, ReturnType.FLOAT, paramsList); paramsList.clear(); }
     ;
 

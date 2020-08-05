@@ -118,37 +118,37 @@ TerminalChars = "=" | "*" | "+" | "-" | "/" | "-" | ">" | "<" | ";" | "[" | "]" 
 var     { return prepare(VAR); }
 inic    { return prepare(INIC); }
 ocultatortuga { return prepare(OCULTATORTUGA); }
-ot { return prepare(OT); }
+ot { return prepare(OCULTATORTUGA); }
 aparecetortuga { return prepare(APARECETORTUGA); }
-at { return prepare(AT); }
+at { return prepare(APARECETORTUGA); }
 rumbo { return prepare(RUMBO); }
 bajalapiz { return prepare(BAJALAPIZ); }
-bl { return prepare(BL); }
+bl { return prepare(BAJALAPIZ); }
 subelapiz { return prepare(SUBELAPIZ); }
-sb { return prepare(SB); }
+sb { return prepare(SUBELAPIZ); }
 centro { return prepare(CENTRO); }
 borrapantalla { return prepare(BORRAPANTALLA); }
 avanza { return prepare(AVANZA); }
-av { return prepare(AV); }
+av { return prepare(AVANZA); }
 retrocede { return prepare(RETROCEDE); }
-re { return prepare(RE); }
+re { return prepare(RETROCEDE); }
 giraderecha { return prepare(GIRADERECHA); }
-gd { return prepare(GD); }
+gd { return prepare(GIRADERECHA); }
 giraizquierda { return prepare(GIRAIZQUIERDA); }
-gi { return prepare(GI); }
+gi { return prepare(GIRAIZQUIERDA); }
 ponrumbo { return prepare(PONRUMBO); }
 ponx { return prepare(PONX); }
 pony { return prepare(PONY); }
 poncolorlapiz {return prepare(PONCOLORLAPIZ); }
-poncl {return prepare(PONCL); }
+poncl {return prepare(PONCOLORLAPIZ); }
 espera {return prepare(ESPERA); }
 redondea {return prepare(REDONDEA); }
 cos {return prepare(COS); }
 azar {return prepare(AZAR); }
 menos {return prepare(MENOS); }
 raizcuadrada {return prepare(RAIZCUADRADA); }
-rc {return prepare(RC); }
-seno {return prepare(SENO); }
+rc {return prepare(RAIZCUADRADA); }
+seno {return prepare(SEN); }
 sen {return prepare(SEN); }
 ponxy {return prepare(PONXY); }
 "iguales?" {return prepare(IGUALES); }
@@ -168,22 +168,24 @@ ejecuta {return prepare(EJECUTA); }
 elegir {return prepare(ELEGIR); }
 cuenta {return prepare(CUENTA); }
 ultimo {return prepare(ULTIMO); }
-ul {return prepare(UL); }
+ul {return prepare(ULTIMO); }
 primero {return prepare(PRIMERO); }
 repite {return prepare(REPITE); }
 si {return prepare(SI); }
 elemento {return prepare(ELEMENTO); }
 para {return prepare(PARA); }
 fin {return prepare(FIN); }
-blanco {return prepare(BLANCO); }
-azul {return prepare(AZUL); }
-marron {return prepare(MARRON); }
-cian {return prepare(CIAN); }
-gris {return prepare(GRIS); }
-amarillo {return prepare(AMARILLO); }
-negro {return prepare(NEGRO); }
-rojo {return prepare(ROJO); }
-verde {return prepare(VERDE); }
+
+blanco {return prepare(COLOR); }
+azul {return prepare(COLOR); }
+marron {return prepare(COLOR); }
+cian {return prepare(COLOR); }
+gris {return prepare(COLOR); }
+amarillo {return prepare(COLOR); }
+negro {return prepare(COLOR); }
+rojo {return prepare(COLOR); }
+verde {return prepare(COLOR); }
+
 true {
     String boolString = yytext();
     Boolean boolVal = Boolean.parseBoolean(boolString);

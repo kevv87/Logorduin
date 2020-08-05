@@ -1,8 +1,10 @@
-para estrella [
+para estrella 
     repite 5 [
         avanza 100;
         gd 144;    
 ];
-];
+fin;
 
+ocultatortuga;
 estrella;
+at;
