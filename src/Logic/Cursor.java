@@ -46,6 +46,7 @@ public class  Cursor {
         posY = (oldY - (int)((Math.cos(2*Math.PI*rotation/360)*cantidad)));
         posX = (oldX + (int)((Math.sin(2*Math.PI*rotation/360)*cantidad)));
         if(lapiz){  // De tener el lapiz pintando, pintar
+            gc.setStroke(currentColor);
           gc.strokeLine(oldX,oldY,posX,posY);
         }
     }
