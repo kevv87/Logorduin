@@ -1,6 +1,9 @@
 package Gui;
 
+import Logic.MessageHandler;
 import Logic.MessageType;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -18,9 +21,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.util.Scanner; // Import the Scanner class to read text files
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -32,6 +35,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Compiler.Helpers.*;
 import Compiler.Jacc.Parser;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -46,6 +50,7 @@ public class Main extends Application {
 
     private BorderPane mainPane;
     private VBox messagesContainer;
+    private MessageHandler msgHandler;
 //    private TextArea code;
     private CodeArea codeArea;
     private File workingFile;
@@ -100,7 +105,7 @@ public class Main extends Application {
          */
 
         mainPane = new BorderPane();
-
+        msgHandler = MessageHandler.getInstance();
         //Sección de mensajes de compilación
         setMessagesSection();
 
@@ -221,18 +226,32 @@ public class Main extends Application {
         ImageView compileButton = CommonMethods.loadImageView("/res/compileButton.png", 20, 20);
         ImageView runButton = CommonMethods.loadImageView("/res/runButton.png", 20, 20);
         compileButton.setOnMouseClicked(mouseEvent -> {
-            // TODO compilar el programa
+            MessageHandler.getInstance().clear();
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             boolean saved = saveAction(stage);
             if (!saved) return;
-            String json = getJsonString();
             System.out.println("Compilando...");
+            msgHandler.add("Compilando archivo...", MessageType.INFO);
+            CompiledFile compiledFile = getCompiled();
         });
         runButton.setOnMouseClicked(mouseEvent -> {
-            //TODO compilar y ejecutar el programa
+            MessageHandler.getInstance().clear();
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             boolean saved = saveAction(stage);
             if (!saved) return;
             System.out.println("Compilando y ejecutando...");
-            String json = getJsonString();
+            msgHandler.add("Compilando y ejecutando...", MessageType.INFO);
+            CompiledFile compiledFile = getCompiled();
+            if (compiledFile == null) return;
+            CanvasGui.cFile = compiledFile;
             CanvasGui.show();
         });
 
@@ -276,6 +295,7 @@ public class Main extends Application {
 
             } catch (IOException ex) {
                 System.err.println("No se pudo crear un nuevo archivo");
+                msgHandler.add("No se pudo crear un nuevo archivo", MessageType.ERROR);
             }
         });
 
@@ -384,8 +404,10 @@ public class Main extends Application {
             writer.print(codeArea.getText());
             writer.close();
             System.out.println("Archivo guardado correctamente");
+            msgHandler.add("Archivo guardado correctamente", MessageType.INFO);
         } catch (IOException ex) {
             System.err.println("No se pudo guardar el archivo");
+            msgHandler.add("No se pudo guardar el archivo", MessageType.ERROR);
         }
     }
 
@@ -399,41 +421,29 @@ public class Main extends Application {
         messages.getStyleClass().add("msg-parent-container");
 
         mainPane.setBottom(messages);
-    }
 
-    /**
-     * Método para mostrar un nuevo mensaje en la sección de mensajes de compilación.
-     * @param text Texto del mensaje.
-     * @param type Tipo del mensaje, puede ser Info, Warning o Error.
-     */
-    private void addMessage(String text, MessageType type) {
-        Label lbl = new Label(text);
-        lbl.getStyleClass().add("msg-text");
-
-        switch (type) {
-            case INFO -> lbl.getStyleClass().add("info-text");
-            case WARNING -> lbl.getStyleClass().add("warning-text");
-            case ERROR -> lbl.getStyleClass().add("error-text");
-        }
-
-        messagesContainer.getChildren().add(lbl);
+        msgHandler.setMessageContainer(messagesContainer);
     }
 
     /**
      * Método para compilar el archivo y obtener la ruta
      * @return la ruta del archivo compilado
      */
-    private String getJsonString() {
+    private CompiledFile getCompiled() {
         String ruta = workingFile.getAbsolutePath();
         String rutaCompilado = Parser.compile(ruta);
+        if (rutaCompilado == null) return null;
         String jsonCompiledString = "";
+        CompiledFile cFile = null;
         try {
-            jsonCompiledString = new String(Files.readAllBytes(Paths.get(rutaCompilado)));
-            System.out.println(jsonCompiledString);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        cFile = mapper.readValue(new File(rutaCompilado), CompiledFile.class);
         } catch (IOException e) {
             System.out.println("Error en proceso de pasar de txt a string");
+            msgHandler.add("Error en proceso de parsear archivo compilado", MessageType.INFO);
         }
-        return jsonCompiledString;
+        return cFile;
     }
 
 }
