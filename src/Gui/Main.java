@@ -50,6 +50,7 @@ public class Main extends Application {
 
     private BorderPane mainPane;
     private VBox messagesContainer;
+    private MessageHandler msgHandler;
 //    private TextArea code;
     private CodeArea codeArea;
     private File workingFile;
