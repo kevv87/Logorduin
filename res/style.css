@@ -100,3 +100,35 @@
     -fx-text-fill: black;
     -fx-opacity: 0.5;
 }
+
+#codeArea .keyword {
+    -fx-fill: darkorchid;
+    -fx-font-weight: bold;
+}
+
+#codeArea .paren {
+    -fx-fill: black;
+}
+
+#codeArea .brace {
+    -fx-fill: #7ecfff;
+}
+
+#codeArea .bracket {
+    -fx-fill: darkcyan;
+}
+
+.semicolon {}
+
+#codeArea .string {
+    -fx-fill: green;
+}
+
+#codeArea .comment {
+    -fx-fill: gray;
+}
+
+.styled-text-area {
+    /* set the entire area's font size to the given size */
+    -fx-font-size: 14;
+}
