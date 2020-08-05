@@ -1017,6 +1017,7 @@ public class CanvasGui extends Application {
                       int number = (int)argPars.get(tmp).get("int");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else if(argPars.get(tmp).get("float") != null) {
                       intResult = false;
@@ -1024,6 +1025,7 @@ public class CanvasGui extends Application {
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else {
                       iterationBoolean = false;
@@ -1033,9 +1035,11 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 1){
                       if(intResult){
+                          System.out.println((int) diferencia(arguments));
                           return (int) diferencia(arguments);
                       }
                       else{
+                          System.out.println(diferencia(arguments));
                           return diferencia(arguments);
                       }
                   }
@@ -1056,6 +1060,7 @@ public class CanvasGui extends Application {
                       int number = (int)argPars.get(tmp).get("int");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else if(argPars.get(tmp).get("float") != null) {
                       intResult = false;
@@ -1063,6 +1068,7 @@ public class CanvasGui extends Application {
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else {
                       iterationBoolean = false;
@@ -1072,9 +1078,11 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 1){
                       if(intResult){
+                          System.out.println((int) producto(arguments));
                           return (int) producto(arguments);
                       }
                       else{
+                          System.out.println(producto(arguments));
                           return producto(arguments);
                       }
                   }
@@ -1095,6 +1103,7 @@ public class CanvasGui extends Application {
                       int number = (int)argPars.get(tmp).get("int");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else if(argPars.get(tmp).get("float") != null) {
                       intResult = false;
@@ -1102,6 +1111,7 @@ public class CanvasGui extends Application {
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else {
                       iterationBoolean = false;
@@ -1111,9 +1121,11 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 1){
                       if(intResult){
+                          System.out.println((int) suma(arguments));
                           return (int) suma(arguments);
                       }
                       else{
+                          System.out.println(suma(arguments));
                           return suma(arguments);
                       }
                   }
@@ -1135,6 +1147,7 @@ public class CanvasGui extends Application {
                       int number = (int)argPars.get(tmp).get("int");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else if(argPars.get(tmp).get("float") != null) {
                       intResult = false;
@@ -1142,6 +1155,7 @@ public class CanvasGui extends Application {
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
                       arguments.add(numberPair);
+                      numberPair = new LinkedList<>();
                   }
                   else {
                       iterationBoolean = false;
@@ -1151,9 +1165,11 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(intResult){
+                          System.out.println((int) elegir(arguments));
                           return (int) elegir(arguments);
                       }
                       else{
+                          System.out.println(elegir(arguments));
                           return elegir(arguments);
                       }
                   }
@@ -1185,9 +1201,11 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(argPars.getLast().get("int") != null) {
+                          System.out.println((int)argPars.getLast().get("int"));
                           return (int)argPars.getLast().get("int");
                       }
                       else {
+                          System.out.println((float) argPars.getLast().get("int"));
                           return (float)argPars.getLast().get("float");
                       }
                   }
@@ -1217,9 +1235,11 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(argPars.getFirst().get("int") != null) {
+                          System.out.println((int) argPars.getFirst().get("int"));
                           return (int) argPars.getFirst().get("int");
                       }
                       else {
+                          System.out.println((float) argPars.getFirst().get("float"));
                           return (float) argPars.getFirst().get("float");
                       }
                   }
@@ -1251,9 +1271,11 @@ public class CanvasGui extends Application {
                   if(iterationBoolean){
                       int index = (int) argPars.get(0).get("int");
                       if(argPars.getFirst().get("int") != null) {
+                          System.out.println((int) argPars.get(index).get("int"));
                           return (int) argPars.get(index).get("int");
                       }
                       else {
+                          System.out.println((float) argPars.get(index).get("int"));
                           return (float) argPars.get(index).get("float");
                       }
                   }
@@ -1560,10 +1582,10 @@ public class CanvasGui extends Application {
         String numType = arguments.getFirst().getFirst();
         String value = arguments.getFirst().getLast();
         if(numType == "int"){
-            result = (int) Integer.parseInt(value);
+            result = Integer.parseInt(value);
         }
         else{
-            result = (float) Float.parseFloat(value);
+            result = Float.parseFloat(value);
         }
         arguments.remove();
         while(arguments.size() > 0){
