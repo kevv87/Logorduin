@@ -22,7 +22,7 @@ public class Analizador {
                     return;
                 }
                 if (token == 81) {
-                    System.out.println(lexer.getErrorMessage() + " en linea " + (lexer.getCurrentLine()+1) + " en columna " + lexer.getCurrentColumn());
+                    System.out.println(lexer.getErrorMessage() + " en linea " + (lexer.getLine()+1) + " en columna " + lexer.getColumn());
 //                    System.out.println("Simbolo no definido " + lexer.getSemantic() + " en linea " + lexer.getCurrentLine() + " en columna " + lexer.getCurrentColumn());
                 }
 //                else {
