@@ -619,6 +619,9 @@ public class CanvasGui extends Application {
       // Parseando argumentos.
       LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
       boolean iterationBoolean = true;
+      // Listas para metodos que reciben N argumentos
+      LinkedList<LinkedList<String>> arguments = new LinkedList<>();
+      LinkedList<String> numberPair = new LinkedList<>();
       switch(action) {
           case "avanza":
               if(argPars.get(0).get("int") != null){
@@ -947,333 +950,229 @@ public class CanvasGui extends Application {
               if(argPars.size()==0){
                   throw new CompilerException("Diferencia debe tener parametros", instruction);
               }
-            // Si deberia ser de ints
-            if(argPars.get(0).get("int") != null){
-              LinkedList<Integer> arguments = new LinkedList<>();
-              // Valida que todos los argumentos sean ints
-              for (int tmp=0; tmp<argPars.size(); tmp++){
-                if(argPars.get(tmp).get("int") == null){
-                  iterationBoolean = false;
-                  break;
-                }
-                else{
-                  Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
-                  arguments.add(intObj);
-                }
+              for (int tmp=0; tmp<argPars.size(); tmp++) {
+                  if(argPars.get(tmp).get("int") != null) {
+                      numberPair.add("int");
+                      int number = (int)argPars.get(tmp).get("int");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
+                  }
+                  else if(argPars.get(tmp).get("float") != null) {
+                      numberPair.add("float");
+                      float number = (float)argPars.get(tmp).get("float");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
+                  }
+                  else {
+                      iterationBoolean = false;
+                      break;
+                  }
               }
               if(iterationBoolean){
-                return diferenciaInt(arguments);
+                  if(arguments.size() > 1){
+                      return diferencia(arguments);
+                  }
+                  else{
+                      throw new CompilerException("Resta debe tener minimo dos argumentos", instruction);
+                  }
               }
-              else{
+              else {
                   throw new CompilerException("Resta solo recibe integers o floats", instruction);
               }
-            }
-            // Si deberia ser de floats
-            else if(argPars.get(0).get("float") != null){
-              LinkedList<Float> arguments = new LinkedList<Float>();
-              // Valida que todos los argumentos sean ints
-              for (int tmp=0; tmp<argPars.size(); tmp++){
-                if(argPars.get(tmp).get("float") == null){
-                  iterationBoolean = false;
-                  break;
-                }
-                else{
-                  Float floatObj = new Float((float)argPars.get(tmp).get("float"));
-                  arguments.add(floatObj);
-                }
-              }
-              if(iterationBoolean){
-                return diferenciaFloat(arguments);
-              }
-              else{
-                System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
-              }
-            }
-            else{
-                throw new CompilerException("Resta solo recibe integers o floats", instruction);
-            }
-            break;
           case "producto":
-              // Si deberia ser de ints
               if(argPars.size() == 0){
                   throw new CompilerException("Producto debe tener parametros", instruction);
               }
-              if(argPars.get(0).get("int") != null){
-                  LinkedList<Integer> arguments = new LinkedList<>();
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("int") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                      else{
-                          Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
-                          arguments.add(intObj);
-                      }
+              for (int tmp=0; tmp<argPars.size(); tmp++) {
+                  if(argPars.get(tmp).get("int") != null) {
+                      numberPair.add("int");
+                      int number = (int)argPars.get(tmp).get("int");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
                   }
-                  if(iterationBoolean){
-                      return productoInt(arguments);
+                  else if(argPars.get(tmp).get("float") != null) {
+                      numberPair.add("float");
+                      float number = (float)argPars.get(tmp).get("float");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
+                  }
+                  else {
+                      iterationBoolean = false;
+                      break;
+                  }
+              }
+              if(iterationBoolean){
+                  if(arguments.size() > 1){
+                      return producto(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo"); //TODO:Nope
+                      throw new CompilerException("Producto debe tener minimo dos argumentos", instruction);
                   }
               }
-              // Si deberia ser de floats
-              else if(argPars.get(0).get("float") != null){
-                  LinkedList<Float> arguments = new LinkedList<Float>();
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("float") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                      else{
-                          Float floatObj = new Float((float)argPars.get(tmp).get("float"));
-                          arguments.add(floatObj);
-                      }
-                  }
-                  if(iterationBoolean){
-                      return productoFloat(arguments);
-                  }
-                  else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");// TODO:Nope
-                  }
+              else {
+                  throw new CompilerException("Producto solo recibe integers o floats", instruction);
               }
-              else{
-                 throw new CompilerException("Producto solo recibe integers o floats", instruction);
-              }
-              break;
           case "suma":
               if(argPars.size()==0){
                   throw new CompilerException("Suma debe tener parametros", instruction);
               }
-              // Si deberia ser de ints
-              if(argPars.get(0).get("int") != null){
-                  LinkedList<Integer> arguments = new LinkedList<>();
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("int") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                      else{
-                          Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
-                          arguments.add(intObj);
-                      }
+              for (int tmp=0; tmp<argPars.size(); tmp++) {
+                  if(argPars.get(tmp).get("int") != null) {
+                      numberPair.add("int");
+                      int number = (int)argPars.get(tmp).get("int");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
                   }
-                  if(iterationBoolean){
-                      return sumaInt(arguments);
+                  else if(argPars.get(tmp).get("float") != null) {
+                      numberPair.add("float");
+                      float number = (float)argPars.get(tmp).get("float");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
                   }
-                  else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO:Nope
+                  else {
+                      iterationBoolean = false;
+                      break;
                   }
               }
-              // Si deberia ser de floats
-              else if(argPars.get(0).get("float") != null){
-                  LinkedList<Float> arguments = new LinkedList<Float>();
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("float") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                      else{
-                          Float floatObj = new Float((float)argPars.get(tmp).get("float"));
-                          arguments.add(floatObj);
-                      }
-                  }
-                  if(iterationBoolean){
-                      return sumaFloat(arguments);
+              if(iterationBoolean){
+                  if(arguments.size() > 1){
+                      return suma(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo"); //TODO:Nope
+                      throw new CompilerException("Suma debe tener minimo dos argumentos", instruction);
                   }
               }
-              else{
+              else {
                   throw new CompilerException("Suma solo recibe integers o floats", instruction);
               }
-              break;
           case "elegir":
               // Si deberia ser de ints
               if(argPars.size() == 0){
                   throw new CompilerException("Elegir debe recibir parametros", instruction);
               }
-              if(argPars.get(0).get("int") != null){
-                  LinkedList<Integer> arguments = new LinkedList<>();
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("int") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                      else{
-                          Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
-                          arguments.add(intObj);
-                      }
+              for (int tmp=0; tmp<argPars.size(); tmp++) {
+                  if(argPars.get(tmp).get("int") != null) {
+                      numberPair.add("int");
+                      int number = (int)argPars.get(tmp).get("int");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
                   }
-                  if(iterationBoolean){
-                      return elegirInt(arguments);
+                  else if(argPars.get(tmp).get("float") != null) {
+                      numberPair.add("float");
+                      float number = (float)argPars.get(tmp).get("float");
+                      numberPair.add(String.valueOf(number));
+                      arguments.add(numberPair);
                   }
-                  else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
+                  else {
+                      iterationBoolean = false;
+                      break;
                   }
               }
-              // Si deberia ser de floats
-              else if(argPars.get(0).get("float") != null){
-                  LinkedList<Float> arguments = new LinkedList<Float>();
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("float") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                      else{
-                          Float floatObj = new Float((float)argPars.get(tmp).get("float"));
-                          arguments.add(floatObj);
-                      }
-                  }
-                  if(iterationBoolean){
-                      return elegirFloat(arguments);
+              if(iterationBoolean){
+                  if(arguments.size() > 0){
+                      return elegir(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo"); //TODO:Nope
+                      throw new CompilerException("Elegir debe tener minimo un argumento", instruction);
                   }
               }
-              else{
+              else {
                   throw new CompilerException("Elegir solo recibe integers o floats", instruction);
               }
-              break;
           case "cuenta":
               return argPars.size();
           case "ultimo":
               if(argPars.size() == 0){
                   throw new CompilerException("Ultimo debe recibir parametros", instruction);
               }
-              // Si deberia ser de ints
-              if(argPars.get(0).get("int") != null){
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("int") == null){
-                          iterationBoolean = false;
-                          break;
+              for (int tmp=0; tmp<argPars.size(); tmp++) {
+                  if(argPars.get(tmp).get("int") != null) {
+                      continue;
+                  }
+                  else if(argPars.get(tmp).get("float") != null) {
+                      continue;
+                  }
+                  else {
+                      iterationBoolean = false;
+                      break;
+                  }
+              }
+              if(iterationBoolean){
+                  if(arguments.size() > 0){
+                      if(argPars.getLast().get("int") != null) {
+                          return argPars.getLast().get("int");
+                      }
+                      else {
+                          return argPars.getLast().get("float");
                       }
                   }
-                  if(iterationBoolean){
-                      return (int) argPars.getLast().get("int");
-                  }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");  // TODO: Nope
+                      throw new CompilerException("Ultimo debe tener minimo un argumento", instruction);
                   }
               }
-              // Si deberia ser de floats
-              else if(argPars.get(0).get("float") != null){
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("float") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                  }
-                  if(iterationBoolean){
-                      return (float) argPars.getLast().get("float");
-                  }
-                  else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");// TODO: No
-                  }
+              else {
+                  throw new CompilerException("Ultimo solo recibe integers o floats", instruction);
               }
-              else{
-                  throw new CompilerException("Los argumentos de ultimo deben ser integers o floats", instruction);
-              }
-              break;
           case "primero":
               if(argPars.size() == 0){
                   throw new CompilerException("Primero debe recibir argumentos", instruction);
               }
-              // Si deberia ser de ints
-              if(argPars.get(0).get("int") != null){
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("int") == null){
-                          iterationBoolean = false;
-                          break;
+              for (int tmp=0; tmp<argPars.size(); tmp++) {
+                  if(argPars.get(tmp).get("int") != null) {
+                      continue;
+                  }
+                  else if(argPars.get(tmp).get("float") != null) {
+                      continue;
+                  }
+                  else {
+                      iterationBoolean = false;
+                      break;
+                  }
+              }
+              if(iterationBoolean){
+                  if(arguments.size() > 0){
+                      if(argPars.getFirst().get("int") != null) {
+                          return argPars.getFirst().get("int");
+                      }
+                      else {
+                          return argPars.getFirst().get("float");
                       }
                   }
-                  if(iterationBoolean){
-                      return (int) argPars.getFirst().get("int");
-                  }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
+                      throw new CompilerException("Primero debe tener minimo un argumento", instruction);
                   }
               }
-              // Si deberia ser de floats
-              else if(argPars.get(0).get("float") != null){
-                  // Valida que todos los argumentos sean ints
-                  for (int tmp=0; tmp<argPars.size(); tmp++){
-                      if(argPars.get(tmp).get("float") == null){
-                          iterationBoolean = false;
-                          break;
-                      }
-                  }
-                  if(iterationBoolean){
-                      return (float) argPars.getFirst().get("float");
-                  }
-                  else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
-                  }
+              else {
+                  throw new CompilerException("Primero solo recibe integers o floats", instruction);
               }
-              else{
-                  throw new CompilerException("Los argumentos de primero deben ser integers o floats",instruction);
-              }
-              break;
           case "elemento":
               if(argPars.size() < 2){
                   throw new CompilerException("Elemento debe tener minimo dos argumentos", instruction);
               }
               // Si el indice es un entero
               if(argPars.get(0).get("int") != null){
-                  // Si deberia ser de ints
-                  if(argPars.get(1).get("int") != null){
-                      LinkedList<Integer> arguments = new LinkedList<>();
-                      // Valida que todos los argumentos sean ints
-                      for (int tmp=1; tmp<argPars.size(); tmp++){
-                          if(argPars.get(tmp).get("int") == null){
-                              iterationBoolean = false;
-                              break;
-                          }
-                          else{
-                              Integer intObj = new Integer((int)argPars.get(tmp).get("int"));
-                              arguments.add(intObj);
-                          }
+                  for (int tmp=1; tmp<argPars.size(); tmp++) {
+                      if(argPars.get(tmp).get("int") != null) {
+                          continue;
                       }
-                      if(iterationBoolean){
-                          return arguments.get((int)argPars.get(0).get("int")).intValue();
+                      else if(argPars.get(tmp).get("float") != null) {
+                          continue;
                       }
-                      else{
-                          System.out.println("Todos los argumentos deben ser del mismo tipo");  // TODO:Nope
+                      else {
+                          iterationBoolean = false;
+                          break;
                       }
                   }
-                  // Si deberia ser de floats
-                  else if(argPars.get(0).get("float") != null){
-                      LinkedList<Float> arguments = new LinkedList<Float>();
-                      // Valida que todos los argumentos sean ints
-                      for (int tmp=1; tmp<argPars.size(); tmp++){
-                          if(argPars.get(tmp).get("float") == null){
-                              iterationBoolean = false;
-                              break;
-                          }
-                          else{
-                              Float floatObj = new Float((float)argPars.get(tmp).get("float"));
-                              arguments.add(floatObj);
-                          }
+                  if(iterationBoolean){
+                      int index = (int) argPars.get(0).get("int");
+                      if(argPars.getFirst().get("int") != null) {
+                          return argPars.get(index).get("int");
                       }
-                      if(iterationBoolean){
-                          return arguments.get((int)argPars.get(0).get("int")).floatValue();
-                      }
-                      else{
-                          System.out.println("Todos los argumentos de la lista deben ser del mismo tipo");  //TODO:Nope
+                      else {
+                          return argPars.get(index).get("float");
                       }
                   }
-                  else{
+                  else {
                       throw new CompilerException("Elemento solo recibe integers o floats", instruction);
                   }
               }
@@ -1569,71 +1468,80 @@ public class CanvasGui extends Application {
       return result;
     }
 
-    public int diferenciaInt(LinkedList<Integer> arguments){
-      int result = arguments.getFirst().intValue();
-      arguments.remove();
-      while(arguments.size()>0){
-          result -= arguments.getFirst().intValue();
-          arguments.remove();
-      }
-      return result;
-    }
-
-    public float diferenciaFloat(LinkedList<Float> arguments){
-        float result = arguments.getFirst().floatValue();
+    public float diferencia(LinkedList<LinkedList<String>> arguments) {
+        float result;
+        String numType = arguments.getFirst().getFirst();
+        String value = arguments.getFirst().getLast();
+        if(numType == "int"){
+            result = (int) Integer.parseInt(value);
+        }
+        else{
+            result = (float) Float.parseFloat(value);
+        }
         arguments.remove();
-        while(arguments.size()>0){
-            result -= arguments.getFirst().floatValue();
+        while(arguments.size() > 0){
+            numType = arguments.getFirst().getFirst();
+            value = arguments.getFirst().getLast();
+            if(numType == "int"){
+                result -= Integer.parseInt(value);
+            }
+            else{
+                result -= Float.parseFloat(value);
+            }
             arguments.remove();
         }
         return result;
     }
 
-    public int productoInt(LinkedList<Integer> arguments){
-        int result = 1;
-        while(arguments.size()>0){
-            result *= arguments.getFirst().intValue();
-            arguments.remove();
-        }
-        return result;
-    }
-
-    public float productoFloat(LinkedList<Float> arguments){
+    public float producto(LinkedList<LinkedList<String>> arguments){
         float result = 1;
-        while(arguments.size()>0){
-            result *= arguments.getFirst().floatValue();
+        String numType;
+        String value;
+        while(arguments.size() > 0){
+            numType = arguments.getFirst().getFirst();
+            value = arguments.getFirst().getLast();
+            if(numType == "int"){
+                result *= Integer.parseInt(value);
+            }
+            else{
+                result *= Float.parseFloat(value);
+            }
             arguments.remove();
         }
         return result;
     }
 
-    public int sumaInt(LinkedList<Integer> arguments){
-        int result = 0;
-        while(arguments.size()>0){
-            result += arguments.getFirst().intValue();
-            arguments.remove();
-        }
-        return result;
-    }
-
-    public float sumaFloat(LinkedList<Float> arguments){
+    public float suma(LinkedList<LinkedList<String>> arguments){
         float result = 0;
-        while(arguments.size()>0){
-            result += arguments.getFirst().floatValue();
+        String numType;
+        String value;
+        while(arguments.size() > 0){
+            numType = arguments.getFirst().getFirst();
+            value = arguments.getFirst().getLast();
+            if(numType == "int"){
+                result += Integer.parseInt(value);
+            }
+            else{
+                result += Float.parseFloat(value);
+            }
             arguments.remove();
         }
         return result;
     }
 
-    public int elegirInt(LinkedList<Integer> arguments){
+    public float elegir(LinkedList<LinkedList<String>> arguments){
+        float result;
         int index = (int) (Math.random() * (arguments.size() - 1));
-        int result = arguments.get(index).intValue();
-        return result;
-    }
-
-    public float elegirFloat(LinkedList<Float> arguments){
-        int index = (int) (Math.random() * (arguments.size() - 1));
-        float result = arguments.get(index).floatValue();
+        String numType;
+        String value;
+        numType = arguments.get(index).getFirst();
+        value = arguments.get(index).getLast();
+        if(numType == "int"){
+            result = Integer.parseInt(value);
+        }
+        else{
+            result = Float.parseFloat(value);
+        }
         return result;
     }
 
