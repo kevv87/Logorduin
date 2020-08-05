@@ -1,4 +1,4 @@
-// Output created by jacc on Wed Aug 05 14:56:18 CST 2020
+// Output created by jacc on Wed Aug 05 15:27:44 CST 2020
 
 package Compiler.Jacc;
 
@@ -17121,13 +17121,13 @@ class Parser implements ParserTokens {
     }
 
     private int yyr23() { // integer_expr : integer_expr '*' integer_expr
-        { yyrv = numeric_expr(((String)yysv[yysp-3]), ((String)yysv[yysp-1]), "*"); }
+        { yyrv = numeric_expr(((String)yysv[yysp-3]), ((String)yysv[yysp-1]), "*"); System.out.println(yyrv);}
         yysv[yysp-=3] = yyrv;
         return yypinteger_expr();
     }
 
     private int yyr24() { // integer_expr : integer_expr '/' integer_expr
-        { yyrv = numeric_expr(((String)yysv[yysp-3]), ((String)yysv[yysp-1]), "/"); }
+        { yyrv = numeric_expr(((String)yysv[yysp-3]), ((String)yysv[yysp-1]), "/"); System.out.println(yyrv);}
         yysv[yysp-=3] = yyrv;
         return yypinteger_expr();
     }
@@ -18108,6 +18108,13 @@ class Parser implements ParserTokens {
     }
 
     public String numeric_expr(String arg1, String arg2, String operation) {
+        if (isInstruction(arg1)) {
+            arg1 = arguments.instrArg(arg1);
+        }
+        if (isInstruction(arg2)) {
+            arg1 = arguments.instrArg(arg1);
+        }
+        
         ArgType type1 = arguments.getArgType(arg1);
         ArgType type2 = arguments.getArgType(arg2);
 
@@ -18144,6 +18151,15 @@ class Parser implements ParserTokens {
             } else {
                 return instr(operation, InstructionType.OPERATION, ReturnType.INTEGER, arg1, arg2);
             }
+        }
+    }
+
+    public boolean isInstruction(String arg) {
+        try {
+            InstructionType type = instructions.getType(arg);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            return false;
         }
     }
 

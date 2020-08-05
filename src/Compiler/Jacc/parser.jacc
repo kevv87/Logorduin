@@ -84,8 +84,8 @@ expression
 integer_expr
     : integer_expr '+' integer_expr { $$ = numeric_expr($1, $3, "+"); }
     | integer_expr '-' integer_expr { $$ = numeric_expr($1, $3, "-"); }
-    | integer_expr '*' integer_expr { $$ = numeric_expr($1, $3, "*"); }
-    | integer_expr '/' integer_expr { $$ = numeric_expr($1, $3, "/"); }
+    | integer_expr '*' integer_expr { $$ = numeric_expr($1, $3, "*"); System.out.println($$);}
+    | integer_expr '/' integer_expr { $$ = numeric_expr($1, $3, "/"); System.out.println($$);}
     | '(' integer_expr ')'          { $$ = $2; }
     | IDENTIFIER                    { $$ = arguments.varArg($1); }
     | INTEGER                       { $$ = arguments.intArg($1); }
@@ -480,6 +480,13 @@ user_proc_call
     }
 
     public String numeric_expr(String arg1, String arg2, String operation) {
+        if (isInstruction(arg1)) {
+            arg1 = arguments.instrArg(arg1);
+        }
+        if (isInstruction(arg2)) {
+            arg1 = arguments.instrArg(arg1);
+        }
+        
         ArgType type1 = arguments.getArgType(arg1);
         ArgType type2 = arguments.getArgType(arg2);
 
@@ -516,6 +523,15 @@ user_proc_call
             } else {
                 return instr(operation, InstructionType.OPERATION, ReturnType.INTEGER, arg1, arg2);
             }
+        }
+    }
+
+    public boolean isInstruction(String arg) {
+        try {
+            InstructionType type = instructions.getType(arg);
+            return true;
+        } catch (IllegalArgumentException ex) {
+            return false;
         }
     }
 
