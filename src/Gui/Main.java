@@ -2,6 +2,7 @@ package Gui;
 
 import Logic.MessageType;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -23,9 +25,19 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Compiler.Jacc.Parser;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.reactfx.Subscription;
+import org.fxmisc.richtext.model.StyleSpans;
 
 /**
  * Clase de interfaz principal.
@@ -34,8 +46,39 @@ public class Main extends Application {
 
     private BorderPane mainPane;
     private VBox messagesContainer;
-    private TextArea code;
+//    private TextArea code;
+    private CodeArea codeArea;
     private File workingFile;
+    private static final String[] KEYWORDS = new String[] {
+            "var", "inic", "inc", "avanza", "av", "retrocede",
+            "re", "giraderecha", "gd", "giraizquierda", "gi",
+            "ocultatortuga", "ot", "aparecetortuga", "at", "ponpos",
+            "ponxy", "ponrumbo", "rumbo", "ponx", "pony", "bajalapiz",
+            "bl", "subelapiz", "sb", "poncolorlapiz", "poncl", "centro",
+            "espera", "ejecuta", "repite", "si", "iguales?", "y", "o",
+            "mayorque?", "menorque?", "redondea", "cos", "diferencia",
+            "azar", "menos", "producto", "potencia", "division", "resto",
+            "raizcuadrada", "rc", "seno", "sen", "suma", "elegir", "cuenta",
+            "ultimo", "ul", "elemento", "primero", "borrapantalla", "para",
+            "fin"
+    };
+    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String PAREN_PATTERN = "\\(|\\)";
+    private static final String BRACE_PATTERN = "\\{|\\}";
+    private static final String BRACKET_PATTERN = "\\[|\\]";
+    private static final String SEMICOLON_PATTERN = "\\;";
+    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+    private static final Pattern PATTERN = Pattern.compile(
+            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<PAREN>" + PAREN_PATTERN + ")"
+                    + "|(?<BRACE>" + BRACE_PATTERN + ")"
+                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                    + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
+                    + "|(?<STRING>" + STRING_PATTERN + ")"
+                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+    );
 
     /**
      * Método para iniciar la aplicación.
@@ -64,7 +107,8 @@ public class Main extends Application {
         //Sección de menu y botones
         setMenuButtonSection(stage);
 
-        setCodeSection();
+        setCodeSection2();
+//        setCodeSection();
 
         Scene scene = new Scene(mainPane);
         scene.getStylesheets().add("file:///" + CommonMethods.getCwd().replaceAll("\\\\", "/") + "/res/style.css");
@@ -74,28 +118,76 @@ public class Main extends Application {
         stage.show();
     }
 
+    private void setCodeSection2() {
+        codeArea = new CodeArea();
+        codeArea.setId("codeArea");
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        Subscription cleanupWhenNoLongerNeedIt = codeArea
+                .multiPlainChanges()
+                .successionEnds(Duration.ofMillis(250))
+                .subscribe(ignore -> codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText())));
+
+        final Pattern whiteSpace = Pattern.compile("^\\s+");
+        codeArea.addEventHandler(KeyEvent.KEY_PRESSED, KE ->
+        {
+            if (KE.getCode() == KeyCode.ENTER) {
+                int caretPosition = codeArea.getCaretPosition();
+                int currentParagraph = codeArea.getCurrentParagraph();
+                Matcher m0 = whiteSpace.matcher(codeArea.getParagraph(currentParagraph-1).getSegments().get(0));
+                if ( m0.find() ) Platform.runLater( () -> codeArea.insertText( caretPosition, m0.group() ) );
+            }
+        });
+
+//        codeArea.replaceText(0,0,codeArea.getText());
+
+        mainPane.setCenter(codeArea);
+    }
+
+    private static StyleSpans<Collection<String>> computeHighlighting(String text) {
+        Matcher matcher = PATTERN.matcher(text);
+        int lastKwEnd = 0;
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+        while (matcher.find()) {
+            String styleClass =
+                    matcher.group("KEYWORD") != null ? "keyword" :
+                            matcher.group("PAREN") != null ? "paren" :
+                                    matcher.group("BRACE") != null ? "brace" :
+                                            matcher.group("BRACKET") != null ? "bracket" :
+                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                            matcher.group("STRING") != null ? "string" :
+                                                                    matcher.group("COMMENT") != null ? "comment" :
+                                                                            null; /* never happens */ assert styleClass != null;
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+            lastKwEnd = matcher.end();
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+        return spansBuilder.create();
+    }
+
     /**
      * Metodo para establecer la seccion de edicion de codigo.
      */
-    private void setCodeSection(){
-        code = new TextArea();
-        code.setEditable(true);
-
-        code.setMaxHeight(Double.MAX_VALUE);
-        code.setMaxWidth(Double.MAX_VALUE);
-        code.setFont(Font.font("dialog", 15));
-
-        GridPane.setVgrow(code, Priority.ALWAYS);
-        GridPane.setHgrow(code, Priority.ALWAYS);
-
-        mainPane.setCenter(code);
-    }
+//    private void setCodeSection(){
+//        code = new TextArea();
+//        code.setEditable(true);
+//
+//        code.setMaxHeight(Double.MAX_VALUE);
+//        code.setMaxWidth(Double.MAX_VALUE);
+//        code.setFont(Font.font("dialog", 15));
+//
+//        GridPane.setVgrow(code, Priority.ALWAYS);
+//        GridPane.setHgrow(code, Priority.ALWAYS);
+//
+//        mainPane.setCenter(code);
+//    }
 
     /**
      * Metodo que limpia el codigo
      */
     public void clearCode(){
-        code.clear();
+//        code.clear();
+        codeArea.clear();
     }
 
     /**
@@ -104,7 +196,8 @@ public class Main extends Application {
      */
     public void setCode(String newCode){
         clearCode();
-        code.setText(newCode);
+//        code.setText(newCode);
+        codeArea.replaceText(newCode);
     }
 
     /**
@@ -214,23 +307,28 @@ public class Main extends Application {
 
         KeyCombination undoCombination = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
         deshacerItem.setAccelerator(undoCombination);
-        deshacerItem.setOnAction(actionEvent -> code.undo());
+//        deshacerItem.setOnAction(actionEvent -> code.undo());
+        deshacerItem.setOnAction(actionEvent -> codeArea.undo());
 
         KeyCombination redoCombination = new KeyCodeCombination(KeyCode.Y, KeyCombination.CONTROL_DOWN);
         rehacerItem.setAccelerator(redoCombination);
-        rehacerItem.setOnAction(actionEvent -> code.redo());
+//        rehacerItem.setOnAction(actionEvent -> code.redo());
+        rehacerItem.setOnAction(actionEvent -> codeArea.redo());
 
         KeyCombination cutCombination = new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN);
         cortarItem.setAccelerator(cutCombination);
-        cortarItem.setOnAction(actionEvent -> code.cut());
+//        cortarItem.setOnAction(actionEvent -> code.cut());
+        cortarItem.setOnAction(actionEvent -> codeArea.cut());
 
         KeyCombination copyCombination = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
         copiarItem.setAccelerator(copyCombination);
-        copiarItem.setOnAction(actionEvent -> code.copy());
+//        copiarItem.setOnAction(actionEvent -> code.copy());
+        copiarItem.setOnAction(actionEvent -> codeArea.copy());
 
         KeyCombination pasteCombination = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
         pegarItem.setAccelerator(pasteCombination);
-        pegarItem.setOnAction(actionEvent -> code.paste());
+//        pegarItem.setOnAction(actionEvent -> code.paste());
+        pegarItem.setOnAction(actionEvent -> codeArea.paste());
 
         menuEditar.getItems().addAll(deshacerItem, rehacerItem, cortarItem, copiarItem, pegarItem);
 
@@ -248,11 +346,12 @@ public class Main extends Application {
      * Método para cargar el archivo en WorkingFile.
      */
     private void loadCurrentFile() {
-        code.clear(); //Evita que deje residuos de código anterior
+        codeArea.clear(); //Evita que deje residuos de código anterior
         try {
             Scanner s = new Scanner(workingFile).useDelimiter("");
             while(s.hasNext()){
-                code.appendText(s.next());
+                codeArea.appendText(s.next());
+//                code.appendText(s.next());
             }
         } catch (FileNotFoundException fileNotFoundException) {
             fileNotFoundException.printStackTrace();
@@ -282,7 +381,7 @@ public class Main extends Application {
     private void saveCurrentFile() {
         try {
             PrintWriter writer = new PrintWriter(workingFile);
-            writer.print(code.getText());
+            writer.print(codeArea.getText());
             writer.close();
             System.out.println("Archivo guardado correctamente");
         } catch (IOException ex) {
