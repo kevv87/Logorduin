@@ -65,7 +65,7 @@ public class Main extends Application {
             "azar", "menos", "producto", "potencia", "division", "resto",
             "raizcuadrada", "rc", "seno", "sen", "suma", "elegir", "cuenta",
             "ultimo", "ul", "elemento", "primero", "borrapantalla", "para",
-            "fin"
+            "fin", "mostrar", "velocidad"
     };
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String PAREN_PATTERN = "\\(|\\)";
