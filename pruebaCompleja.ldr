@@ -8,6 +8,7 @@ var contador;
 
 ponxy 1 1;
 
+poncl azul;
 si(iguales? posX posY)[
     inic contador = 1;
     repite 20[
@@ -23,10 +24,11 @@ si(iguales? posX posY)[
     ];
 ];
 
+poncl rojo;
 si (mayorque? bordeIzq bordeD)[
     centro;
-    aparecetortuga;
-    espera 1;
+    ocultatortuga;
+    espera 5;
     //avanza (menos 90);
     aparecetortuga;
     //giraizquierda(azar 200);
@@ -34,12 +36,13 @@ si (mayorque? bordeIzq bordeD)[
     avanza 30;
     bajalapiz;
     avanza 30;
+    retrocede 60;
 ];
 
 
-si(iguales? bordeSup (potencia 1 10))[
+si(y (iguales? 1 1) (iguales? 1 1))[
     centro;
-    giraizquierda 180;
+    ponrumbo 180;
     giraderecha (suma 180 180);
     avanza 200;
 ];

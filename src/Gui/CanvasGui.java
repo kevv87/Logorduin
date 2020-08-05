@@ -46,13 +46,14 @@ public class CanvasGui extends Application {
     private GraphicsContext graphicsContext;
     private Random random;
     private LinkedList<LinkedList<String>> instructionTail;
-    private int x,y,rumbo;
+    private int x,y,rumbo, velocidad;
 
     public static CompiledFile cFile;
 
     @Override
     public void start(Stage stage) {
         cont = 0;
+        velocidad = 100;  // Velocidad de dibujo inicial
         argHandler = new ArgumentHandler();
         instrHandler = new InstructionHandler();
         procHandler = new ProcedureHandler();
@@ -122,6 +123,9 @@ public class CanvasGui extends Application {
                         instruction = instructionTail.getFirst();
                         System.out.println("El comando es: "+ instruction.getFirst());
                         switch (instruction.getFirst()){
+                            case "velocidad":
+                                velocidad = Integer.parseInt(instruction.get(1));
+                                break;
                             case "avanza":
                                 cursor.move(Integer.parseInt(instruction.get(1)), true);
                                 System.out.println("Avanzando");
@@ -348,6 +352,9 @@ public class CanvasGui extends Application {
               JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action));
               JsonNode parametros = mapper.readTree(procedure.get("params").toString());
               argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
+              if(parametros.size() != argumentosParseados.size()){
+                  throw new CompilerException("El numero de parametros no coincide con la definicion de la funcion", instruction);
+              }
               int k =0;
               while(k < argumentosParseados.size()){  // Creando los parametros como variables con el scope de la funcion
                   String parametro = parametros.get(k).textValue();
@@ -646,6 +653,20 @@ public class CanvasGui extends Application {
       LinkedList<LinkedList<String>> arguments = new LinkedList<>();
       LinkedList<String> numberPair = new LinkedList<>();
       switch(action) {
+          case "muestra":
+              if(argPars.size() != 1){
+                  throw new CompilerException("Muestra solo recibe un argumento", instruction);
+              }
+              break;
+          case "velocidad" :
+              if(argPars.size() != 1){
+                  throw new CompilerException("Velocidad solo recibe un argumento", instruction);
+              }
+              LinkedList<String> method = new LinkedList<>();
+              method.add("retrocede");
+              method.add(Integer.toString((int)argPars.get(0).get("int")));
+              instructionTail.add(method);
+              break;
           case "avanza":
               if(argPars.get(0).get("int") != null){
                 avanza((int)argPars.get(0).get("int"));
