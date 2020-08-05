@@ -3,6 +3,8 @@ package Gui;
 import Compiler.Exceptions.CompilerException;
 import Compiler.Helpers.*;
 import Logic.Cursor;
+import Logic.MessageHandler;
+import Logic.MessageType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -77,12 +79,11 @@ public class CanvasGui extends Application {
         cursor = new Cursor(imageCursor, width, height, graphicsContext);
         imageCursor.setLayoutX(cursor.getPosX()-15);
         imageCursor.setLayoutY(cursor.getPosY()-15);
-
+        MessageHandler msgHandler = MessageHandler.getInstance();
 
 
 //        drawLineCanvas(graphicsContext,400, 300, 70, 0);
         try {
-
             canvasGroup.getChildren().addAll(imageCursor, canvas);
             configureUpdateLoop();
 
@@ -96,11 +97,9 @@ public class CanvasGui extends Application {
         } catch (JsonProcessingException e) {  //TODO: Aqui se estarian agarrando los errores, tirarlos a la interfaz.
             e.printStackTrace();
         } catch(CompilerException err){
-            System.out.println(err.getMensaje());
+            msgHandler.add(err.getMensaje(),MessageType.ERROR);
+            stage.close();
         }
-
-
-
 
     }
 
@@ -256,27 +255,30 @@ public class CanvasGui extends Application {
                       varHandler.add((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
                   }else if(argumentosParseados.get(1).get("float") != null){
                       varHandler.add((String)argumentosParseados.get(0).get("string"), (float)argumentosParseados.get(1).get("float"));
+                  }else if (argumentosParseados.get(1).get("boolean")!=null){
+                      varHandler.add((String)argumentosParseados.get(0).get("string"), (boolean)argumentosParseados.get(1).get("boolean"));
                   }else{
-                      System.out.println("Tipo de valor no soportado para una variable"); // TODO: Error
-                      return null;
+                      throw new CompilerException("Tipo de valor no soportado para una variable", instruction);
                   }
               }else if(action.equals("inic")){  //Modificacion
-                  // TODO: Error. Estas modificaciones si no existen lanzan la funcion onError, modificar esa para que tire una excepcion y manejarla aca
-                  if(argumentosParseados.get(1).get("int") != null){
-                      varHandler.modify((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
-                  }else if(argumentosParseados.get(1).get("float") != null){
-                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (float)argumentosParseados.get(1).get("float"));
-                  }else if(argumentosParseados.get(1).get("boolean") != null){
-                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (boolean)argumentosParseados.get(1).get("boolean"));
-                  }{
-                      System.out.println("Tipo de valor no soportado para una variable"); // TODO: Error
-                      return null;
+                  try {
+                      if (argumentosParseados.get(1).get("int") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), (int) argumentosParseados.get(1).get("int"));
+                      } else if (argumentosParseados.get(1).get("float") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), (float) argumentosParseados.get(1).get("float"));
+                      } else if (argumentosParseados.get(1).get("boolean") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), (boolean) argumentosParseados.get(1).get("boolean"));
+                      }else
+                      {
+                          throw new CompilerException("Este tipo no se puede asignar a esta variable", instruction);
+                      }
+                  }catch(CompilerException err){
+                      err.setInstruccion(instruction);
                   }
               }else{
-                  System.out.println("Error en VARIABLE");
+                  throw new CompilerException("Error inesperado en VARIABLE", instruction);
               }
-
-            break;
+              return null;
           case CYCLE:   //// Eu
           // Parseo de argumentos
             argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
@@ -284,7 +286,7 @@ public class CanvasGui extends Application {
             // Validando primer argumento
             if(argumentosParseados.get(0).get("int") == null){
                 System.out.println("El numero de repeticiones debe ser un integer");
-                return null;
+                throw new CompilerException("El numero de repeticiones debe ser un integer", instruction);
             }
 
             // Setteando el numero de repeticiones
@@ -302,16 +304,14 @@ public class CanvasGui extends Application {
                 j++;
               }
           }
-          break;
-
+          return null;
           case CONDITION:
             // Validando condicion
               argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
 
               // Validando primer argumento
               if(argumentosParseados.get(0).get("boolean") == null){
-                  System.out.println("La condicion solo puede ser boolean");
-                  return null;
+                  throw new CompilerException("La condicion solo puede ser un boolean", instruction);
               }
 
               if(!((boolean) argumentosParseados.get(0).get("boolean"))){
@@ -325,10 +325,12 @@ public class CanvasGui extends Application {
                   manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
                   j++;
                 }
-
-            break;
+                return null;
           case PROCEDURE:
-              JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action)); //TODO: Manejar error de que pasa si no se encuentra esto
+              if(procHandler.get_procs() == null || procHandler.get_procs().get(action) == null){
+                  throw new CompilerException("No hay procedimientos definidos con este nombre",instruction);
+              }
+              JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action));
               JsonNode parametros = mapper.readTree(procedure.get("params").toString());
               argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
               int k =0;
@@ -349,13 +351,16 @@ public class CanvasGui extends Application {
             // Cuerpo de la funcion
             j = 0;
             JsonNode instructions = procedure.get("instructions");
+            if(instructions == null){
+                throw new CompilerException("No hay instrucciones que ejecutar", instruction);
+            }
             while(instructions.get(j) != null){
               String instruccionAnidadaJ = instructions.get(j).textValue();
               manejoInstrucciones(instruccionAnidadaJ, instrHandler, procHandler);
               j++;
             }
             varHandler.resetScope();
-            break;
+            return null;
         }
         return null; // TODO: Asegurarse de que cada switch devuelve algo
     }
@@ -400,8 +405,7 @@ public class CanvasGui extends Application {
                 }else if(boolValue !=null){
                     retorno.put("boolean", boolValue);
                 }else{
-                    System.out.println("error"); // TODO: Error aca
-                    return null;
+                    throw new CompilerException("La variable retorna un error que no esta soportado.", instruction);
                 }
                 break;
             case "INSTRUCTION":
@@ -474,63 +478,83 @@ public class CanvasGui extends Application {
         switch(action){
             case "+":
                 if(argPars.get(0).get("int") != null){
-                    if(argPars.get(1).get("int") == null){
-                        throw new CompilerException("No se pueden sumar dos valores diferentes",instruction);
+                    if(argPars.get(1).get("float") != null){
+                        return (int)argPars.get(0).get("int") + (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int")!=null){
+                        return (int)argPars.get(0).get("int") + (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden sumar integers o floats", instruction);
                     }
-                    return (int)argPars.get(0).get("int") + (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("float") != null){
-                    if(argPars.get(1).get("float") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    if(argPars.get(1).get("float") != null){
+                        return (float)argPars.get(0).get("float") + (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int") != null){
+                        return (float)argPars.get(0).get("float") + (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden sumar integers o floats", instruction);
                     }
-                    return (float)argPars.get(0).get("float") + (float)argPars.get(1).get("float");
                 }else{
-                    System.out.println("Solo puede ser int o float"); // TODO: Error
-                    return null;
+                    throw new CompilerException("Solo se pueden sumar integers o floats", instruction);
                 }
             case "-":
                 if(argPars.get(0).get("int") != null){
-                    if(argPars.get(1).get("int") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    if(argPars.get(1).get("float") != null){
+                        return (int)argPars.get(0).get("int") - (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int")!=null){
+                        return (int)argPars.get(0).get("int") - (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden sumar integers o floats", instruction);
                     }
-                    return (int)argPars.get(1).get("int") - (int)argPars.get(0).get("int");
                 }else if(argPars.get(0).get("float") != null){
-                    if(argPars.get(1).get("float") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    if(argPars.get(1).get("float") != null){
+                        return (float)argPars.get(0).get("float") - (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int") != null){
+                        return (float)argPars.get(0).get("float") - (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden restar integers o floats", instruction);
                     }
-                    return (float)argPars.get(1).get("float") - (float)argPars.get(0).get("float");
                 }else{
-                    System.out.println("Solo puede ser int o float"); // TODO: Error
-                    return null;
+                    throw new CompilerException("Solo se pueden restar integers o floats", instruction);
                 }
             case "*":
                 if(argPars.get(0).get("int") != null){
-                    if(argPars.get(1).get("int") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    if(argPars.get(1).get("float") != null){
+                        return (int)argPars.get(0).get("int") * (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int")!=null){
+                        return (int)argPars.get(0).get("int") * (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden multiplicar integers o floats", instruction);
                     }
-                    return (int)argPars.get(1).get("int") * (int)argPars.get(0).get("int");
                 }else if(argPars.get(0).get("float") != null){
-                    if(argPars.get(1).get("float") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    if(argPars.get(1).get("float") != null){
+                        return (float)argPars.get(0).get("float") * (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int") != null){
+                        return (float)argPars.get(0).get("float") * (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden multiplicar integers o floats", instruction);
                     }
-                    return (float)argPars.get(1).get("float") * (float)argPars.get(0).get("float");
                 }else{
-                    System.out.println("Solo puede ser int o float"); // TODO: Error
-                    return null;
+                    throw new CompilerException("Solo se pueden restar integers o floats", instruction);
                 }
             case "/":
                 if(argPars.get(0).get("int") != null){
-                    if(argPars.get(1).get("int") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    if(argPars.get(1).get("float") != null){
+                        return (int)argPars.get(0).get("int") / (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int")!=null){
+                        return (int)argPars.get(0).get("int") / (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden dividir integers o floats", instruction);
                     }
-                    return (int)argPars.get(1).get("int") / (int)argPars.get(0).get("int");
                 }else if(argPars.get(0).get("float") != null){
-                    if(argPars.get(1).get("float") == null){
-                        System.out.println("No se pueden sumar dos valores diferentes"); // TODO:Error
+                    if(argPars.get(1).get("float") != null){
+                        return (float)argPars.get(0).get("float") / (float)argPars.get(1).get("float");
+                    }else if(argPars.get(1).get("int") != null){
+                        return (float)argPars.get(0).get("float") / (int)argPars.get(1).get("int");
+                    }else{
+                        throw new CompilerException("Solo se pueden dividir integers o floats", instruction);
                     }
-                    return (float)argPars.get(1).get("float") / (float)argPars.get(0).get("float");
                 }else{
-                    System.out.println("Solo puede ser int o float"); // TODO: Error
-                    return null;
+                    throw new CompilerException("Solo se pueden dividir integers o floats", instruction);
                 }
         }
         return null;
@@ -541,54 +565,53 @@ public class CanvasGui extends Application {
         LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
         switch(action){
             case "iguales":
-                if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
-                    return (boolean)argPars.get(0).get("boolean") == (boolean)argPars.get(1).get("boolean");
+                if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
+                    return (int)argPars.get(0).get("int") == (int)argPars.get(1).get("int");
+                }else if(argPars.get(0).get("float") != null && argPars.get(1).get("float") != null){
+                    return (float)argPars.get(0).get("float") == (float)argPars.get(1).get("float");
+                }else if(argPars.get(0).get("boolean")!=null && argPars.get(1).get("boolean")!=null){
+                    return (boolean)argPars.get(0).get("boolean") == (boolean)argPars.get(0).get("boolean");
                 }else{
-                    System.out.println("Solo puede ser boolean"); // TODO: Error
-                    return null;
+                   throw new CompilerException("No se pueden igualar dos tipos de valores distintos", instruction);
                 }
             case "mayorque":
                 if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
                     return (int)argPars.get(0).get("int") > (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("int") != null && argPars.get(1).get("float") != null){
-                    return (int)argPars.get(0).get("int") > (int)argPars.get(1).get("int");
+                    return (int)argPars.get(0).get("int") > (float)argPars.get(1).get("float");
                 }else if(argPars.get(0).get("float") != null && argPars.get(1).get("int") != null){
-                    return (int)argPars.get(0).get("float") > (int)argPars.get(1).get("int");
+                    return (float)argPars.get(0).get("float") > (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("float") != null && argPars.get(1).get("float") != null){
-                    return (int)argPars.get(0).get("float") > (int)argPars.get(1).get("float");
-                }{
-                    System.out.println("Solo puede ser boolean"); // TODO: Error
-                    return null;
+                    return (float)argPars.get(0).get("float") > (float)argPars.get(1).get("float");
+                }else{
+                   throw new CompilerException("Solo se pueden realizar comparaciones entre numeros", instruction);
                 }
             case "menorque":
                 if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
                     return (int)argPars.get(0).get("int") < (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("int") != null && argPars.get(1).get("float") != null){
-                    return (int)argPars.get(0).get("int") < (int)argPars.get(1).get("int");
+                    return (int)argPars.get(0).get("int") < (float)argPars.get(1).get("float");
                 }else if(argPars.get(0).get("float") != null && argPars.get(1).get("int") != null){
-                    return (int)argPars.get(0).get("float") < (int)argPars.get(1).get("int");
+                    return (float)argPars.get(0).get("float") < (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("float") != null && argPars.get(1).get("float") != null){
-                    return (int)argPars.get(0).get("float") < (int)argPars.get(1).get("float");
-                }{
-                System.out.println("Solo puede ser boolean"); // TODO: Error
-                return null;
-            }
+                    return (float)argPars.get(0).get("float") < (float)argPars.get(1).get("float");
+                }else{
+                    throw new CompilerException("Solo se pueden realizar comparaciones entre numeros", instruction);
+                }
             case "y":
                 if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
                     return (boolean)argPars.get(0).get("boolean") && (boolean)argPars.get(1).get("boolean");
                 }else{
-                    System.out.println("Solo puede ser boolean"); // TODO: Error
-                    return null;
+                   throw new CompilerException("Solo se puede aplicar el operando AND entre valores booleanos", instruction);
                 }
             case "o":
                 if(argPars.get(0).get("boolean") != null && argPars.get(1).get("boolean") != null){
                     return (boolean)argPars.get(0).get("boolean") || (boolean)argPars.get(1).get("boolean");
                 }else{
-                    System.out.println("Solo puede ser boolean"); // TODO: Error
-                    return null;
+                    throw new CompilerException("Solo se puede aplicar el operando OR entre valores booleanos", instruction);
                 }
         }
-        return null;
+        throw new CompilerException("El tipo de instruccion logica no es valida", instruction);
     }
 
 
@@ -600,183 +623,229 @@ public class CanvasGui extends Application {
           case "avanza":
               if(argPars.get(0).get("int") != null){
                 avanza((int)argPars.get(0).get("int"));
+                return null;
               }
-              else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+              else if(argPars.size()!=1){
+                  throw new CompilerException("Avanza recibe solo un argumento", instruction);
+              }else{
+                  throw new CompilerException("Avanza solo recibe integers", instruction);
               }
-              break;
           case "retrocede":
               if(argPars.get(0).get("int") != null){
                 retrocede((int)argPars.get(0).get("int"));
+                return null;
+              }else if(argPars.size()!=1){
+                  throw new CompilerException("Retrocede recibe solo un argumento", instruction);
               }
               else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+                  throw new CompilerException("Retrocede solo acepta integers", instruction);
               }
-              break;
           case "giraderecha":
               if(argPars.get(0).get("int") != null){
                 rotateCursor((int)argPars.get(0).get("int"), true);
+                return null;
                 //cursor.updateRotation((int)argPars.get(0).get("int"), true);
+              }else if(argPars.size()!=1){
+                  throw new CompilerException("Giraderecha recibe solo un argumento", instruction);
               }
               else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+                  throw new CompilerException("Giraderecha solo acepta integers", instruction);
               }
-              break;
           case "giraizquierda":
               if(argPars.get(0).get("int") != null){
                   rotateCursor((int)argPars.get(0).get("int"), false);
+                  return null;
                 //cursor.updateRotation((int)argPars.get(0).get("int"), false);
+              }else if(argPars.size()!=1){
+                  throw new CompilerException("Giraizquierda recibe solo un argumento", instruction);
               }
               else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+                  throw new CompilerException("Giraizquierda solo acepta integers", instruction);
               }
-              break;
           case "ponpos":
               if(argPars.get(0).get("int") != null){
                   if(argPars.get(1).get("int") != null){
                       ponpos((int)argPars.get(0).get("int"), (int)argPars.get(1).get("int"));
+                      return null;
                   }
                   else {
-                      System.out.println("Solo puede ser int"); // TODO: Error
+                      throw new CompilerException("Ponpos solo acepta integers", instruction);
                   }
+              }else if(argPars.size()!=2){
+                  throw new CompilerException("Ponpos recibe dos argumentos", instruction);
               }
               else {
-                  System.out.println("Solo puede ser int"); // TODO: Error
+                  throw new CompilerException("Ponpos solo acepta integers", instruction);
               }
           case "ponrumbo":
               if(argPars.get(0).get("int") != null){
                 ponRumbo((int)argPars.get(0).get("int"));
+                return null;
                 //cursor.setRotation((int)argPars.get(0).get("int"));
+              }else if(argPars.size()!=1){
+                  throw new CompilerException("Ponrumbo recibe un argumento", instruction);
               }
               else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+                  throw new CompilerException("Ponrumbo solo acepta integers", instruction);
               }
-              break;
           case "rumbo":
-              rumbo();
+              // TODO: Pseudorumbo para guardar la rotacion
+              if(argPars.size() != 0){
+                  throw new CompilerException("Rumbo no tiene parametros", instruction);
+              }
+              rumbo();  // TODO: Retorna rumbo
               break;
           case "ponx":
               if(argPars.get(0).get("int") != null){
                 ponX((int)argPars.get(0).get("int"));
+                return null;
                 //cursor.setPosX((int)argPars.get(0).get("int"));
+              }else if(argPars.size() != 1){
+                  throw new CompilerException("Ponx lleva un parametro", instruction);
               }
               else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+                  throw new CompilerException("Ponx solo acepta integers", instruction);
               }
-              break;
           case "pony":
               if(argPars.get(0).get("int") != null){
                 ponY((int)argPars.get(0).get("int"));
+                return null;
                 //cursor.setPosY((int)argPars.get(0).get("int"));
               }
-              else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+              else if(argPars.size() != 1){
+                  throw new CompilerException("Pony lleva un parametro", instruction);
               }
-              break;
+              else{
+                  throw new CompilerException("Pony solo acepta integers", instruction);
+              }
           case "poncl":
               if(argPars.get(0).get("string") != null){
                 ponColor((String) argPars.get(0).get("string"));
+                return null;
                 //Color color = convertColor((String) argPars.get(0).get("string"));
                 //cursor.setCurrentColor(color);
+              }else if(argPars.size() != 1){
+                  throw new CompilerException("Poncolorlapiz lleva un parametro", instruction);
               }
               else{
-                System.out.println("Solo puede ser String"); // TODO: Error
+                  throw new CompilerException("El color solo puede ser un string", instruction);
               }
-              break;
           case "espera":
               if(argPars.get(0).get("int") != null){
                   espera((int)argPars.get(0).get("int"));
+                  return null;
+              }else if(argPars.size() != 1){
+                  throw new CompilerException("Espera lleva un parametro", instruction);
               }
               else{
-                System.out.println("Solo puede ser int"); // TODO: Error
+                  throw new CompilerException("Espera solo acepta integers", instruction);
               }
-              break;
           case "ocultatortuga":
+              if(argPars.size() != 0){
+                  throw new CompilerException("Ocultatortuga no lleva parametros", instruction);
+              }
               hideCursor();
-              break;
+              return null;
           case "aparecetortuga":
-              System.out.println("estoy en aparece tortuga");
+              if(argPars.size() != 0){
+                  throw new CompilerException("Aparecetortuga no lleva parametros", instruction);
+              }
               showCursor();
-              break;
+              return null;
           case "bajalapiz":
+              if(argPars.size() != 0){
+                  throw new CompilerException("Bajalapiz no lleva parametros", instruction);
+              }
               bajaLapiz();
-              //cursor.setLapiz(true);
-              break;
+              return null;
           case "subelapiz":
+              if(argPars.size() != 0){
+                  throw new CompilerException("Subelapiz no lleva parametros", instruction);
+              }
               subeLapiz();
-              //cursor.setLapiz(false);
-              break;
+              return null;
           case "centro":
+              if(argPars.size() != 0){
+                  throw new CompilerException("Centro no lleva parametros", instruction);
+              }
               centro(width, height);
               //cursor.realocate(centerX, centerY);
-              break;
+              return null;
           case "borrapantalla":
+              if(argPars.size() != 0){
+                  throw new CompilerException("Borrapantalla no lleva parametros", instruction);
+              }
               borraPantalla();
-              //graphicsContext.clearRect(0, 0, width, height);
-              break;
+              return null;
           case "redondea":
               if(argPars.get(0).get("float") != null){
                 return redondea((float)argPars.get(0).get("float"));
+              }else if(argPars.size() != 1){
+                throw new CompilerException("Redondea lleva un parametro", instruction);
               }
               else{
-                System.out.println("Solo puede ser float"); // TODO: Error
+                  throw new CompilerException("Redondea solo acepta integers", instruction);
               }
-              break;
           case "azar":
             if(argPars.get(0).get("int") != null){
               return azar((int)argPars.get(0).get("int"));
             }
             else if(argPars.get(0).get("float") != null){
               return azar((float)argPars.get(0).get("float"));
+            }else if(argPars.size() != 1){
+                throw new CompilerException("Azar lleva un parametro", instruction);
             }
             else{
-                System.out.println("Solo puede ser int o float"); // TODO: Error
+                throw new CompilerException("Azar solo acepta integers o floats", instruction);
             }
-            break;
           case "menos":
             if(argPars.get(0).get("int") != null){
               return ((int)argPars.get(0).get("int") * -1);
             }
             else if(argPars.get(0).get("float") != null){
               return ((float)argPars.get(0).get("float") * -1);
+            }else if(argPars.size() != 1){
+                throw new CompilerException("Menos lleva un parametro", instruction);
             }
             else{
-                System.out.println("Solo puede ser int o float"); // TODO: Error
+                throw new CompilerException("Menos solo acepta int o float", instruction);
             }
-            break;
           case "cos":
             if(argPars.get(0).get("int") != null){
               return cos((int)argPars.get(0).get("int"));
             }
             else if(argPars.get(0).get("float") != null){
               return cos((float)argPars.get(0).get("float"));
+            }else if(argPars.size() != 1){
+                throw new CompilerException("Cos lleva un parametro", instruction);
             }
             else{
-                System.out.println("Solo puede ser int o float"); // TODO: Error
+                throw new CompilerException("Cos solo acepta integers o floats", instruction);
             }
-            break;
           case "seno":
             if(argPars.get(0).get("int") != null){
               return sen((int)argPars.get(0).get("int"));
             }
             else if(argPars.get(0).get("float") != null){
               return sen((float)argPars.get(0).get("float"));
+            }else if(argPars.size() != 1){
+                throw new CompilerException("Seno lleva un parametro", instruction);
             }
             else{
-                System.out.println("Solo puede ser int o float"); // TODO: Error
+                throw new CompilerException("Seno no acepta integers o floats", instruction);
             }
-            break;
           case "raiz":
             if(argPars.get(0).get("int") != null){
               return raiz((int)argPars.get(0).get("int"));
             }
             else if(argPars.get(0).get("float") != null){
               return raiz((float)argPars.get(0).get("float"));
+            }else if(argPars.size() != 1){
+                throw new CompilerException("Raiz lleva un parametro", instruction);
             }
             else{
-                System.out.println("Solo puede ser int o float"); // TODO: Error
+                throw new CompilerException("Raiz solo acpeta integers o floats", instruction);
             }
-            break;
           case "potencia":
             // Retorna int si base int
             if(argPars.get(0).get("int") != null){
@@ -789,7 +858,7 @@ public class CanvasGui extends Application {
                 return potencia((int) argPars.get(0).get("int"), exponent);
               }
               else{
-                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+                  throw new CompilerException("Los argumentos de potencia solo pueden ser integers o floats", instruction);
               }
             }
             // Retorna float si base float
@@ -803,62 +872,81 @@ public class CanvasGui extends Application {
                 return potencia((float) argPars.get(0).get("float"), exponent);
               }
               else{
-                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+                  throw new CompilerException("Los argumentos de potencia solo pueden ser integers o floats", instruction);
               }
+            }else if(argPars.size() != 2){
+                throw new CompilerException("Potencia lleva dos parametros", instruction);
             }
             else{
-                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+                throw new CompilerException("Los argumentos de potencia solo pueden ser integers o floats", instruction);
             }
-            break;
           case "resto":
+              if(argPars.size() != 2){
+                  throw new CompilerException("Resto lleva dos parametros", instruction);
+              }
             if(argPars.get(0).get("int") != null){
               if(argPars.get(1).get("int") != null){
                 return resto((int)argPars.get(0).get("int"), (int)argPars.get(1).get("int"));
+              }else if(argPars.get(1).get("float")!=null){
+                  return resto((int)argPars.get(0).get("int"), (float)argPars.get(1).get("float"));
               }
               else{
-                System.out.println("Los argumentos solo pueden ser int"); // TODO: Error
+                  throw new CompilerException("Resto solo recibe integers o floats", instruction);
               }
+            }else if(argPars.get(1).get("float") !=null){
+                if(argPars.get(1).get("int") != null){
+                    return resto((float)argPars.get(0).get("float"), (int)argPars.get(1).get("int"));
+                }else if(argPars.get(1).get("float")!=null){
+                    return resto((float)argPars.get(0).get("float"), (float)argPars.get(1).get("float"));
+                }
+                else{
+                    throw new CompilerException("Resto solo recibe integers o floats", instruction);
+                }
             }
             else{
-                System.out.println("Los argumentos solo pueden ser int"); // TODO: Error
-            }
-            break;
+                throw new CompilerException("Resto solo recibe integers o floats", instruction);
+           }
           case "division":
+              if(argPars.size()>2){
+                  throw new CompilerException("Division acepta dos parametros", instruction);
+              }
             if(argPars.get(0).get("int") != null){
               if(argPars.get(1).get("int") != null){
                 int dividend = (int) argPars.get(0).get("int");
-                double divisor = (double) argPars.get(1).get("int");
-                return potencia(dividend, divisor);
+                int divisor = (int) argPars.get(1).get("int");
+                return dividend/divisor;
               }
               else if(argPars.get(1).get("float") != null){
-                float dividend = (float) argPars.get(0).get("int");
-                double divisor = (double) argPars.get(1).get("int");
-                return potencia(dividend, divisor);
+                float dividend = (float) argPars.get(0).get("float");
+                int divisor = (int) argPars.get(1).get("int");
+                return dividend/divisor;
               }
               else{
-                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+                  throw new CompilerException("Division solo recibe int o float", instruction);
               }
             }
             else if(argPars.get(0).get("float") != null){
               if(argPars.get(1).get("int") != null){
-                int dividend = (int) argPars.get(0).get("int");
-                double divisor = (double) argPars.get(1).get("int");
-                return potencia(dividend, divisor);
+                float dividend = (float) argPars.get(0).get("float");
+                int divisor = (int) argPars.get(1).get("int");
+                return dividend/divisor;
               }
               else if(argPars.get(1).get("float") != null){
-                float dividend = (float) argPars.get(0).get("int");
-                double divisor = (double) argPars.get(1).get("int");
-                return potencia(dividend, divisor);
+                float dividend = (float) argPars.get(0).get("float");
+                float divisor = (float) argPars.get(1).get("float");
+                return dividend/divisor;
               }
               else{
-                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+                  throw new CompilerException("Los argumentos de division solo pueden ser integer o float", instruction);
               }
             }
             else{
-                System.out.println("Los argumentos solo pueden ser int o float"); // TODO: Error
+                throw new CompilerException("Los argumentos de division solo pueden ser integer o float", instruction);
             }
-            break;
           case "diferencia":
+              if(argPars.size()==0){
+                  throw new CompilerException("Diferencia debe tener parametros", instruction);
+              }
             // Si deberia ser de ints
             if(argPars.get(0).get("int") != null){
               LinkedList<Integer> arguments = new LinkedList<>();
@@ -877,7 +965,7 @@ public class CanvasGui extends Application {
                 return diferenciaInt(arguments);
               }
               else{
-                System.out.println("Todos los argumentos deben ser del mismo tipo");
+                  throw new CompilerException("Resta solo recibe integers o floats", instruction);
               }
             }
             // Si deberia ser de floats
@@ -898,15 +986,18 @@ public class CanvasGui extends Application {
                 return diferenciaFloat(arguments);
               }
               else{
-                System.out.println("Todos los argumentos deben ser del mismo tipo");
+                System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
               }
             }
             else{
-                System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                throw new CompilerException("Resta solo recibe integers o floats", instruction);
             }
             break;
           case "producto":
               // Si deberia ser de ints
+              if(argPars.size() == 0){
+                  throw new CompilerException("Producto debe tener parametros", instruction);
+              }
               if(argPars.get(0).get("int") != null){
                   LinkedList<Integer> arguments = new LinkedList<>();
                   // Valida que todos los argumentos sean ints
@@ -924,7 +1015,7 @@ public class CanvasGui extends Application {
                       return productoInt(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo"); //TODO:Nope
                   }
               }
               // Si deberia ser de floats
@@ -945,14 +1036,17 @@ public class CanvasGui extends Application {
                       return productoFloat(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");// TODO:Nope
                   }
               }
               else{
-                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                 throw new CompilerException("Producto solo recibe integers o floats", instruction);
               }
               break;
           case "suma":
+              if(argPars.size()==0){
+                  throw new CompilerException("Suma debe tener parametros", instruction);
+              }
               // Si deberia ser de ints
               if(argPars.get(0).get("int") != null){
                   LinkedList<Integer> arguments = new LinkedList<>();
@@ -971,7 +1065,7 @@ public class CanvasGui extends Application {
                       return sumaInt(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO:Nope
                   }
               }
               // Si deberia ser de floats
@@ -992,15 +1086,18 @@ public class CanvasGui extends Application {
                       return sumaFloat(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo"); //TODO:Nope
                   }
               }
               else{
-                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                  throw new CompilerException("Suma solo recibe integers o floats", instruction);
               }
               break;
           case "elegir":
               // Si deberia ser de ints
+              if(argPars.size() == 0){
+                  throw new CompilerException("Elegir debe recibir parametros", instruction);
+              }
               if(argPars.get(0).get("int") != null){
                   LinkedList<Integer> arguments = new LinkedList<>();
                   // Valida que todos los argumentos sean ints
@@ -1018,7 +1115,7 @@ public class CanvasGui extends Application {
                       return elegirInt(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
                   }
               }
               // Si deberia ser de floats
@@ -1039,16 +1136,19 @@ public class CanvasGui extends Application {
                       return elegirFloat(arguments);
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo"); //TODO:Nope
                   }
               }
               else{
-                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                  throw new CompilerException("Elegir solo recibe integers o floats", instruction);
               }
               break;
           case "cuenta":
               return argPars.size();
           case "ultimo":
+              if(argPars.size() == 0){
+                  throw new CompilerException("Ultimo debe recibir parametros", instruction);
+              }
               // Si deberia ser de ints
               if(argPars.get(0).get("int") != null){
                   // Valida que todos los argumentos sean ints
@@ -1062,7 +1162,7 @@ public class CanvasGui extends Application {
                       return (int) argPars.getLast().get("int");
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");  // TODO: Nope
                   }
               }
               // Si deberia ser de floats
@@ -1078,14 +1178,17 @@ public class CanvasGui extends Application {
                       return (float) argPars.getLast().get("float");
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo");// TODO: No
                   }
               }
               else{
-                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                  throw new CompilerException("Los argumentos de ultimo deben ser integers o floats", instruction);
               }
               break;
           case "primero":
+              if(argPars.size() == 0){
+                  throw new CompilerException("Primero debe recibir argumentos", instruction);
+              }
               // Si deberia ser de ints
               if(argPars.get(0).get("int") != null){
                   // Valida que todos los argumentos sean ints
@@ -1099,7 +1202,7 @@ public class CanvasGui extends Application {
                       return (int) argPars.getFirst().get("int");
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
                   }
               }
               // Si deberia ser de floats
@@ -1115,14 +1218,17 @@ public class CanvasGui extends Application {
                       return (float) argPars.getFirst().get("float");
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser del mismo tipo");
+                      System.out.println("Todos los argumentos deben ser del mismo tipo"); // TODO: Nope
                   }
               }
               else{
-                  System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                  throw new CompilerException("Los argumentos de primero deben ser integers o floats",instruction);
               }
               break;
           case "elemento":
+              if(argPars.size() < 2){
+                  throw new CompilerException("Elemento debe tener minimo dos argumentos", instruction);
+              }
               // Si el indice es un entero
               if(argPars.get(0).get("int") != null){
                   // Si deberia ser de ints
@@ -1143,7 +1249,7 @@ public class CanvasGui extends Application {
                           return arguments.get((int)argPars.get(0).get("int")).intValue();
                       }
                       else{
-                          System.out.println("Todos los argumentos deben ser del mismo tipo");
+                          System.out.println("Todos los argumentos deben ser del mismo tipo");  // TODO:Nope
                       }
                   }
                   // Si deberia ser de floats
@@ -1164,15 +1270,15 @@ public class CanvasGui extends Application {
                           return arguments.get((int)argPars.get(0).get("int")).floatValue();
                       }
                       else{
-                          System.out.println("Todos los argumentos de la lista deben ser del mismo tipo");
+                          System.out.println("Todos los argumentos de la lista deben ser del mismo tipo");  //TODO:Nope
                       }
                   }
                   else{
-                      System.out.println("Todos los argumentos deben ser int o float"); // TODO: Error
+                      throw new CompilerException("Elemento solo recibe integers o floats", instruction);
                   }
               }
               else{
-                  System.out.println("El indice debe ser un int"); // TODO: Error
+                  throw new CompilerException("El indice de elemento debe ser un integer", instruction);
               }
       }
       return null;
@@ -1232,7 +1338,6 @@ public class CanvasGui extends Application {
         }
         method.add(Integer.toString(rotation));
         instructionTail.add(method);
-        //cursor.updateRotation(rotation, true);      // TODO validate boolean
     }
 
     public void ponX(int position) {
@@ -1446,6 +1551,17 @@ public class CanvasGui extends Application {
     public int resto(int dividend, int divisor){
       int result = dividend%divisor;
       return result;
+    }
+
+    public float resto(float dividend, float divisor){
+        return dividend%divisor;
+    }
+    public float resto(float dividend, int divisor){
+        return dividend%divisor;
+    }
+
+    public float resto(int dividend, float divisor){
+        return dividend%divisor;
     }
 
     public float division(double dividend, double divisor){
