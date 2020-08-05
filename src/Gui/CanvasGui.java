@@ -441,10 +441,10 @@ public class CanvasGui extends Application {
                 JsonNode instruccionJ = mapper.readTree(args.get("value").textValue());
                 String returnType = instruccionJ.get("return").asText();
                 switch (returnType) {
-                    case "INTEGER" -> retorno.put("int", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "FLOAT" -> retorno.put("float", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "BOOLEAN" -> retorno.put("boolean", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
-                    case "VOID" -> retorno.put("void", (int) manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "INTEGER" -> retorno.put("int",  manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "FLOAT" -> retorno.put("float", manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "BOOLEAN" -> retorno.put("boolean",  manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
+                    case "VOID" -> retorno.put("void",  manejoInstrucciones(instruccionJ.toString(), instrHandler, procHandler));
                 }
                 break;
             case "OPERATION":
@@ -596,10 +596,14 @@ public class CanvasGui extends Application {
             case "iguales":
                 if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
                     return (int)argPars.get(0).get("int") == (int)argPars.get(1).get("int");
+                }if(argPars.get(0).get("int") != null && argPars.get(1).get("float") != null){
+                    return (int)argPars.get(0).get("int")  == (float)argPars.get(1).get("float");
                 }else if(argPars.get(0).get("float") != null && argPars.get(1).get("float") != null){
                     return (float)argPars.get(0).get("float") == (float)argPars.get(1).get("float");
+                }else if(argPars.get(0).get("float") != null && argPars.get(1).get("int") != null){
+                    return (float)argPars.get(0).get("float") == (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("boolean")!=null && argPars.get(1).get("boolean")!=null){
-                    return (boolean)argPars.get(0).get("boolean") == (boolean)argPars.get(0).get("boolean");
+                    return (boolean)argPars.get(0).get("boolean") == (boolean)argPars.get(1).get("boolean");
                 }else{
                    throw new CompilerException("No se pueden igualar dos tipos de valores distintos", instruction);
                 }
@@ -935,11 +939,11 @@ public class CanvasGui extends Application {
             // Retorna int si base int
             if(argPars.get(0).get("int") != null){
               if(argPars.get(1).get("int") != null){
-                double exponent = (double) argPars.get(1).get("int");
+                int exponent = (int) argPars.get(1).get("int");
                 return potencia((int) argPars.get(0).get("int"), exponent);
               }
               else if(argPars.get(1).get("float") != null){
-                double exponent = (double) argPars.get(1).get("float");
+                float exponent = (float) argPars.get(1).get("float");
                 return potencia((int) argPars.get(0).get("int"), exponent);
               }
               else{
@@ -949,11 +953,11 @@ public class CanvasGui extends Application {
             // Retorna float si base float
             else if(argPars.get(0).get("float") != null){
               if(argPars.get(1).get("int") != null){
-                double exponent = (double) argPars.get(1).get("int");
+                int exponent = (int) argPars.get(1).get("int");
                 return potencia((float) argPars.get(0).get("float"), exponent);
               }
               else if(argPars.get(1).get("float") != null){
-                double exponent = (double) argPars.get(1).get("float");
+                float exponent = (float) argPars.get(1).get("float");
                 return potencia((float) argPars.get(0).get("float"), exponent);
               }
               else{
@@ -1550,10 +1554,10 @@ public class CanvasGui extends Application {
       return result;
     }
 
-    public int potencia(int arg, double power){     // la base determina el resultado, 2 funciones
+    public float potencia(int arg, double power){     // la base determina el resultado, 2 funciones
       double base = (double)arg;
-      int result = (int)Math.pow(base, power);
-      return result;
+      double result = Math.pow(base, power);
+      return (float)result;
     }
 
     public float potencia(float arg, double power){     // la base determina el resultado, 2 funciones
