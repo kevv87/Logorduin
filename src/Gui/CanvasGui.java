@@ -607,6 +607,7 @@ public class CanvasGui extends Application {
                 }else{
                    throw new CompilerException("No se pueden igualar dos tipos de valores distintos", instruction);
                 }
+            case ">":
             case "mayorque":
                 if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
                     return (int)argPars.get(0).get("int") > (int)argPars.get(1).get("int");
@@ -616,9 +617,10 @@ public class CanvasGui extends Application {
                     return (float)argPars.get(0).get("float") > (int)argPars.get(1).get("int");
                 }else if(argPars.get(0).get("float") != null && argPars.get(1).get("float") != null){
                     return (float)argPars.get(0).get("float") > (float)argPars.get(1).get("float");
-                }else{
-                   throw new CompilerException("Solo se pueden realizar comparaciones entre numeros", instruction);
+                }else {
+                    throw new CompilerException("Solo se pueden realizar comparaciones entre numeros", instruction);
                 }
+            case "<":
             case "menorque":
                 if(argPars.get(0).get("int") != null && argPars.get(1).get("int") != null){
                     return (int)argPars.get(0).get("int") < (int)argPars.get(1).get("int");
