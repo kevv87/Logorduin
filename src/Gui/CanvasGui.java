@@ -250,22 +250,24 @@ public class CanvasGui extends Application {
                       throw new CompilerException("Tipo de valor no soportado para una variable", instruction);
                   }
               }else if(action.equals("inic")){  //Modificacion
-                  // TODO: Error. Estas modificaciones si no existen lanzan la funcion onError, modificar esa para que tire una excepcion y manejarla aca
-                  if(argumentosParseados.get(1).get("int") != null){
-                      varHandler.modify((String) argumentosParseados.get(0).get("string"), (int)argumentosParseados.get(1).get("int"));
-                  }else if(argumentosParseados.get(1).get("float") != null){
-                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (float)argumentosParseados.get(1).get("float"));
-                  }else if(argumentosParseados.get(1).get("boolean") != null){
-                      varHandler.modify((String)argumentosParseados.get(0).get("string"), (boolean)argumentosParseados.get(1).get("boolean"));
-                  }{
-                      System.out.println("Tipo de valor no soportado para una variable");
-                      return null;
+                  try {
+                      if (argumentosParseados.get(1).get("int") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), (int) argumentosParseados.get(1).get("int"));
+                      } else if (argumentosParseados.get(1).get("float") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), (float) argumentosParseados.get(1).get("float"));
+                      } else if (argumentosParseados.get(1).get("boolean") != null) {
+                          varHandler.modify((String) argumentosParseados.get(0).get("string"), (boolean) argumentosParseados.get(1).get("boolean"));
+                      }else
+                      {
+                          throw new CompilerException("Este tipo no se puede asignar a esta variable", instruction);
+                      }
+                  }catch(CompilerException err){
+                      err.setInstruccion(instruction);
                   }
               }else{
-                  System.out.println("Error en VARIABLE");
+                  throw new CompilerException("Error inesperado en VARIABLE", instruction);
               }
-
-            break;
+              return null;
           case CYCLE:   //// Eu
           // Parseo de argumentos
             argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
@@ -273,7 +275,7 @@ public class CanvasGui extends Application {
             // Validando primer argumento
             if(argumentosParseados.get(0).get("int") == null){
                 System.out.println("El numero de repeticiones debe ser un integer");
-                return null;
+                throw new CompilerException("El numero de repeticiones debe ser un integer", instruction);
             }
 
             // Setteando el numero de repeticiones
@@ -291,16 +293,14 @@ public class CanvasGui extends Application {
                 j++;
               }
           }
-          break;
-
+          return null;
           case CONDITION:
             // Validando condicion
               argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
 
               // Validando primer argumento
               if(argumentosParseados.get(0).get("boolean") == null){
-                  System.out.println("La condicion solo puede ser boolean");
-                  return null;
+                  throw new CompilerException("La condicion solo puede ser un boolean", instruction);
               }
 
               if(!((boolean) argumentosParseados.get(0).get("boolean"))){
@@ -314,10 +314,12 @@ public class CanvasGui extends Application {
                   manejoInstrucciones(instruccionAnidada, instrHandler, procHandler);
                   j++;
                 }
-
-            break;
+                return null;
           case PROCEDURE:
-              JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action)); //TODO: Manejar error de que pasa si no se encuentra esto
+              if(procHandler.get_procs() == null || procHandler.get_procs().get(action) == null){
+                  throw new CompilerException("No hay procedimientos definidos con este nombre",instruction);
+              }
+              JsonNode procedure = mapper.readTree(procHandler.get_procs().get(action));
               JsonNode parametros = mapper.readTree(procedure.get("params").toString());
               argumentosParseados = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
               int k =0;
@@ -338,13 +340,16 @@ public class CanvasGui extends Application {
             // Cuerpo de la funcion
             j = 0;
             JsonNode instructions = procedure.get("instructions");
+            if(instructions == null){
+                throw new CompilerException("No hay instrucciones que ejecutar", instruction);
+            }
             while(instructions.get(j) != null){
               String instruccionAnidadaJ = instructions.get(j).textValue();
               manejoInstrucciones(instruccionAnidadaJ, instrHandler, procHandler);
               j++;
             }
             varHandler.resetScope();
-            break;
+            return null;
         }
         return null; // TODO: Asegurarse de que cada switch devuelve algo
     }
@@ -693,6 +698,7 @@ public class CanvasGui extends Application {
           case "pony":
               if(argPars.get(0).get("int") != null){
                 ponY((int)argPars.get(0).get("int"));
+                return null;
                 //cursor.setPosY((int)argPars.get(0).get("int"));
               }
               else if(argPars.size() != 1){
@@ -708,22 +714,21 @@ public class CanvasGui extends Application {
                 //Color color = convertColor((String) argPars.get(0).get("string"));
                 //cursor.setCurrentColor(color);
               }else if(argPars.size() != 1){
-                  throw new CompilerException("Pony lleva un parametro", instruction);
+                  throw new CompilerException("Poncolorlapiz lleva un parametro", instruction);
               }
               else{
-                System.out.println("Solo puede ser String"); // TODO: Error
+                  throw new CompilerException("El color solo puede ser un string", instruction);
               }
-              break;
           case "espera":
               if(argPars.get(0).get("int") != null){
                   espera((int)argPars.get(0).get("int"));
+                  return null;
               }else if(argPars.size() != 1){
                   throw new CompilerException("Espera lleva un parametro", instruction);
               }
               else{
                   throw new CompilerException("Espera solo acepta integers", instruction);
               }
-              break;
           case "ocultatortuga":
               if(argPars.size() != 0){
                   throw new CompilerException("Ocultatortuga no lleva parametros", instruction);

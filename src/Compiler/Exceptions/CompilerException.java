@@ -12,9 +12,15 @@ public class CompilerException extends Exception{
     public CompilerException(String mensaje, String instruccion) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            JsonNode instructionJ = mapper.readTree(instruccion);
-            this.mensaje = "Error en linea " + instructionJ.get("line") + ": " +mensaje;
-            this.instruccion = instruccion;
+            if(instruccion == null){
+                this.mensaje = mensaje;
+                this.instruccion = null;
+            }else{
+                JsonNode instructionJ = mapper.readTree(instruccion);
+                this.mensaje = "Error en linea " + instructionJ.get("line") + ": " +mensaje;
+                this.instruccion = instruccion;
+            }
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -26,5 +32,13 @@ public class CompilerException extends Exception{
 
     public String getInstruccion() {
         return instruccion;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public void setInstruccion(String instruccion) {
+        this.instruccion = instruccion;
     }
 }
