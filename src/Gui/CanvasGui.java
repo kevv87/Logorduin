@@ -641,6 +641,7 @@ public class CanvasGui extends Application {
       // Parseando argumentos.
       LinkedList<HashMap<String, Object>> argPars = parsearMultiplesArgumentos(args, instrHandler, procHandler, instruction);
       boolean iterationBoolean = true;
+      boolean intResult = true;
       // Listas para metodos que reciben N argumentos
       LinkedList<LinkedList<String>> arguments = new LinkedList<>();
       LinkedList<String> numberPair = new LinkedList<>();
@@ -1018,6 +1019,7 @@ public class CanvasGui extends Application {
                       arguments.add(numberPair);
                   }
                   else if(argPars.get(tmp).get("float") != null) {
+                      intResult = false;
                       numberPair.add("float");
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
@@ -1030,7 +1032,12 @@ public class CanvasGui extends Application {
               }
               if(iterationBoolean){
                   if(arguments.size() > 1){
-                      return diferencia(arguments);
+                      if(intResult){
+                          return (int) diferencia(arguments);
+                      }
+                      else{
+                          return diferencia(arguments);
+                      }
                   }
                   else{
                       throw new CompilerException("Resta debe tener minimo dos argumentos", instruction);
@@ -1051,6 +1058,7 @@ public class CanvasGui extends Application {
                       arguments.add(numberPair);
                   }
                   else if(argPars.get(tmp).get("float") != null) {
+                      intResult = false;
                       numberPair.add("float");
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
@@ -1063,7 +1071,12 @@ public class CanvasGui extends Application {
               }
               if(iterationBoolean){
                   if(arguments.size() > 1){
-                      return producto(arguments);
+                      if(intResult){
+                          return (int) producto(arguments);
+                      }
+                      else{
+                          return producto(arguments);
+                      }
                   }
                   else{
                       throw new CompilerException("Producto debe tener minimo dos argumentos", instruction);
@@ -1084,6 +1097,7 @@ public class CanvasGui extends Application {
                       arguments.add(numberPair);
                   }
                   else if(argPars.get(tmp).get("float") != null) {
+                      intResult = false;
                       numberPair.add("float");
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
@@ -1096,7 +1110,12 @@ public class CanvasGui extends Application {
               }
               if(iterationBoolean){
                   if(arguments.size() > 1){
-                      return suma(arguments);
+                      if(intResult){
+                          return (int) suma(arguments);
+                      }
+                      else{
+                          return suma(arguments);
+                      }
                   }
                   else{
                       throw new CompilerException("Suma debe tener minimo dos argumentos", instruction);
@@ -1118,6 +1137,7 @@ public class CanvasGui extends Application {
                       arguments.add(numberPair);
                   }
                   else if(argPars.get(tmp).get("float") != null) {
+                      intResult = false;
                       numberPair.add("float");
                       float number = (float)argPars.get(tmp).get("float");
                       numberPair.add(String.valueOf(number));
@@ -1130,7 +1150,12 @@ public class CanvasGui extends Application {
               }
               if(iterationBoolean){
                   if(arguments.size() > 0){
-                      return elegir(arguments);
+                      if(intResult){
+                          return (int) elegir(arguments);
+                      }
+                      else{
+                          return elegir(arguments);
+                      }
                   }
                   else{
                       throw new CompilerException("Elegir debe tener minimo un argumento", instruction);
@@ -1160,10 +1185,10 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(argPars.getLast().get("int") != null) {
-                          return argPars.getLast().get("int");
+                          return (int)argPars.getLast().get("int");
                       }
                       else {
-                          return argPars.getLast().get("float");
+                          return (float)argPars.getLast().get("float");
                       }
                   }
                   else{
@@ -1192,10 +1217,10 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(argPars.getFirst().get("int") != null) {
-                          return argPars.getFirst().get("int");
+                          return (int) argPars.getFirst().get("int");
                       }
                       else {
-                          return argPars.getFirst().get("float");
+                          return (float) argPars.getFirst().get("float");
                       }
                   }
                   else{
@@ -1226,10 +1251,10 @@ public class CanvasGui extends Application {
                   if(iterationBoolean){
                       int index = (int) argPars.get(0).get("int");
                       if(argPars.getFirst().get("int") != null) {
-                          return argPars.get(index).get("int");
+                          return (int) argPars.get(index).get("int");
                       }
                       else {
-                          return argPars.get(index).get("float");
+                          return (float) argPars.get(index).get("float");
                       }
                   }
                   else {
