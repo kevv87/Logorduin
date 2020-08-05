@@ -79,6 +79,15 @@ public class VariableHandler {
     }
 
     /**
+     * Método para agregar una variable nueva con valor flotante
+     * @param identifier Identificador de la variable
+     * @param value Valor flotante a asignar
+     */
+    public void add(String identifier, Boolean value) {
+        createVar(identifier, NumberType.TYPE_BOOL, value.toString(), _currentScope.peek());
+    }
+
+    /**
      * Método para agregar una variable nueva con valor flotante y un alcance dado
      * @param identifier Identificador de la variable
      * @param value Valor flotante a asignar
