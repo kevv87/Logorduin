@@ -1035,11 +1035,9 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 1){
                       if(intResult){
-                          System.out.println((int) diferencia(arguments));
                           return (int) diferencia(arguments);
                       }
                       else{
-                          System.out.println(diferencia(arguments));
                           return diferencia(arguments);
                       }
                   }
@@ -1078,11 +1076,9 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 1){
                       if(intResult){
-                          System.out.println((int) producto(arguments));
                           return (int) producto(arguments);
                       }
                       else{
-                          System.out.println(producto(arguments));
                           return producto(arguments);
                       }
                   }
@@ -1121,11 +1117,9 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 1){
                       if(intResult){
-                          System.out.println((int) suma(arguments));
                           return (int) suma(arguments);
                       }
                       else{
-                          System.out.println(suma(arguments));
                           return suma(arguments);
                       }
                   }
@@ -1165,11 +1159,9 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(intResult){
-                          System.out.println((int) elegir(arguments));
                           return (int) elegir(arguments);
                       }
                       else{
-                          System.out.println(elegir(arguments));
                           return elegir(arguments);
                       }
                   }
@@ -1201,11 +1193,9 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(argPars.getLast().get("int") != null) {
-                          System.out.println((int)argPars.getLast().get("int"));
                           return (int)argPars.getLast().get("int");
                       }
                       else {
-                          System.out.println((float) argPars.getLast().get("int"));
                           return (float)argPars.getLast().get("float");
                       }
                   }
@@ -1235,11 +1225,9 @@ public class CanvasGui extends Application {
               if(iterationBoolean){
                   if(arguments.size() > 0){
                       if(argPars.getFirst().get("int") != null) {
-                          System.out.println((int) argPars.getFirst().get("int"));
                           return (int) argPars.getFirst().get("int");
                       }
                       else {
-                          System.out.println((float) argPars.getFirst().get("float"));
                           return (float) argPars.getFirst().get("float");
                       }
                   }
@@ -1271,11 +1259,9 @@ public class CanvasGui extends Application {
                   if(iterationBoolean){
                       int index = (int) argPars.get(0).get("int");
                       if(argPars.getFirst().get("int") != null) {
-                          System.out.println((int) argPars.get(index).get("int"));
                           return (int) argPars.get(index).get("int");
                       }
                       else {
-                          System.out.println((float) argPars.get(index).get("int"));
                           return (float) argPars.get(index).get("float");
                       }
                   }
@@ -1426,7 +1412,6 @@ public class CanvasGui extends Application {
         LinkedList<String> method = new LinkedList<>();
         method.add("show");
         instructionTail.add(method);
-        System.out.println("Estoy en showCursor()");
         //imageCursor.setVisible(true);
     }
 
