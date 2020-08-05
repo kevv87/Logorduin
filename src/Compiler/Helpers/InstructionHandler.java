@@ -242,7 +242,7 @@ public class InstructionHandler {
         try {
             return _mapper.readTree(nodeString);
         } catch (JsonProcessingException ex) {
-            System.err.println("No se pudo leer el nodo - " + ex.getMessage());
+            System.err.println("No se pudo leer el nodo instrucción - " + ex.getMessage());
             return null;
         }
     }

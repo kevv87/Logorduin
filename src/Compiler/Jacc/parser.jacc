@@ -429,17 +429,18 @@ proc_cond
     ;
 
 n_params
-    : IDENTIFIER n_params   { paramsList.add(0, $1); }
-    | IDENTIFIER            { paramsList.add(0, $1); }
+    : IDENTIFIER n_params   { procArgs.add(0, $1); }
+    | IDENTIFIER            { procArgs.add(0, $1); }
     ;
 
 //Procedimientos del usuario
 user_proc
     : PARA IDENTIFIER n_params n_instr FIN    {
         //instrList = reverse(instrList);
-        procedures.add($2, paramsList, instrList);
-        paramsList.clear();
+        procedures.add($2, procArgs, instrList);
+        //paramsList.clear();
         instrList.clear();
+        procArgs.clear();
     }
     | PARA IDENTIFIER n_instr FIN           {
         //instrList = reverse(instrList);
@@ -467,6 +468,7 @@ user_proc_call
     private ProcedureHandler procedures; //Manejador de procedimientos
     private InstructionHandler instructions;
     private ArgumentHandler arguments;
+    private ArrayList<String> procArgs;
 
     //Estructuras temporales
     private ArrayList<String> paramsList; //Para almacenar parámetros de un procedimiento
@@ -505,7 +507,7 @@ user_proc_call
 
             } else { //Valor entero
                 Integer val1 = arguments.getIntArg(arg1);
-                Integer val2 = arguments.getIntArg(arg2);
+                Integer val2 = arguments.getIntArg(arg2); 
                 Integer result = null;
 
                 switch (operation) {
@@ -595,6 +597,7 @@ user_proc_call
 
         paramsList = new ArrayList<>();
         instrList = new ArrayList<>();
+        procArgs = new ArrayList<>();
         msgHandler = MessageHandler.getInstance();
 
         try {

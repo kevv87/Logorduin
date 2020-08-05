@@ -292,6 +292,7 @@ public class Main extends Application {
                 if ((newFile == null) || !newFile.createNewFile()) return;
                 workingFile = newFile;
                 loadCurrentFile();
+                msgHandler.add("Archivo cargado", MessageType.INFO);
 
             } catch (IOException ex) {
                 System.err.println("No se pudo crear un nuevo archivo");
