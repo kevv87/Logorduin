@@ -283,7 +283,6 @@ public class VariableHandler {
         if (var == null) return null;
 
         if (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_INT) {
-            onError("Identificador <" + identifier + "> no es de tipo int");
             return null;
         }
 
@@ -309,7 +308,6 @@ public class VariableHandler {
         if (var == null) return null;
 
         if (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_BOOL) {
-            onError("Identificador <" + identifier + "> no es de tipo boolean");
             return null;
         }
 
@@ -340,7 +338,6 @@ public class VariableHandler {
         if (var == null) return null;
 
         if (NumberType.valueOf(var.get("type").asText()) != NumberType.TYPE_FLOAT) {
-            onError("Identificador <" + identifier + "> no es de tipo float");
             return null;
         }
 
@@ -387,7 +384,7 @@ public class VariableHandler {
      */
     private void onError(String msg) throws CompilerException {
         //TODO: mostrar error en la interfaz;
-        throw new CompilerException("No se pudo agregar ni modificar una variable", null);
+        throw new CompilerException(msg, null);
     }
 
     /**

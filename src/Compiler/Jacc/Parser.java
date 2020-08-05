@@ -1,4 +1,4 @@
-// Output created by jacc on Tue Aug 04 18:55:04 CST 2020
+// Output created by jacc on Tue Aug 04 20:35:20 CST 2020
 
 package Compiler.Jacc;
 
@@ -13,9 +13,8 @@ import Compiler.Helpers.*;
 import Logic.MessageHandler;
 import Logic.MessageType;
 
-public
 
-class Parser implements ParserTokens {
+public class Parser implements ParserTokens {
     private int yyss = 100;
     private int yytok;
     private int yysp = 0;
@@ -17149,13 +17148,13 @@ class Parser implements ParserTokens {
     }
 
     private int yyr116() { // proc : APARECETORTUGA
-        { yyrv = instr("aparecetoruga", InstructionType.NORMAL, ReturnType.VOID); }
+        { yyrv = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
         yysv[yysp-=1] = yyrv;
         return 15;
     }
 
     private int yyr117() { // proc : AT
-        { yyrv = instr("aparecetoruga", InstructionType.NORMAL, ReturnType.VOID); }
+        { yyrv = instr("aparecetortuga", InstructionType.NORMAL, ReturnType.VOID); }
         yysv[yysp-=1] = yyrv;
         return 15;
     }
@@ -17696,10 +17695,10 @@ class Parser implements ParserTokens {
     private ArgumentHandler arguments;
 
     //Estructuras temporales
-    private ArrayList<String> paramsList; //Para almacenar parámetros de un procedimiento
+    private ArrayList<String> paramsList; //Para almacenar par??metros de un procedimiento
     private ArrayList<String> instrList; // Para almacenar instrucciones de un procedimiento
     
-    private MessageHandler msgHandler; //Para mostrar mensajes de compilación
+    private MessageHandler msgHandler; //Para mostrar mensajes de compilaci??n
 
     public void d(String msg) {
         System.out.println(msg);
@@ -17737,7 +17736,7 @@ class Parser implements ParserTokens {
                 return arguments.intArg(result);
 
             }
-        } else { //Convertir a expresión
+        } else { //Convertir a expresi??n
             if (type1 == ArgType.FLOAT_CONSTANT || type2 == ArgType.FLOAT_CONSTANT) {
                 return instr(operation, InstructionType.OPERATION, ReturnType.FLOAT, arg1, arg2);
             } else {
@@ -17793,7 +17792,7 @@ class Parser implements ParserTokens {
         System.err.println(msg);
         msgHandler.add(msg, MessageType.ERROR);
 
-        String onLine = "En " + lexer.getSemantic() + ", línea " + (lexer.getLine() + 1) + ". columna " + (lexer.getColumn() + 1);
+        String onLine = "En " + lexer.getSemantic() + ", l??nea " + (lexer.getLine() + 1) + ". columna " + (lexer.getColumn() + 1);
         System.out.println(onLine);
         msgHandler.add(onLine, MessageType.ERROR);
     }
@@ -17820,7 +17819,7 @@ class Parser implements ParserTokens {
     }
 
     /**
-     * Función para mostrar un mensaje del compilador en la interfaz.
+     * Funci??n para mostrar un mensaje del compilador en la interfaz.
      */
     public void showMessage(String msg, MessageType type) {
         //TODO: mostrar mensaje del tipo correspondiente en la interfaz.
@@ -17848,8 +17847,8 @@ class Parser implements ParserTokens {
             return rutaCompilado;
 
         } catch (IOException ex) {
-            System.out.println("Occurió un error al compilar...");
-            msgHandler.add("Occurió un error al compilar...", MessageType.ERROR);
+            System.out.println("Occuri?? un error al compilar...");
+            msgHandler.add("Occuri?? un error al compilar...", MessageType.ERROR);
         }
 
         return null;
@@ -17865,10 +17864,10 @@ class Parser implements ParserTokens {
     }
 
     public void parsingDone() {
-        System.out.println("Compilación finalizada");
-        msgHandler.add("Compilación finalizada con éxito.", MessageType.INFO);
+        System.out.println("Compilaci??n finalizada");
+        msgHandler.add("Compilaci??n finalizada con ??xito.", MessageType.INFO);
 
-        //TODO: notificar que se finalizó la compilación
+        //TODO: notificar que se finaliz?? la compilaci??n
         variables.printVars();
         procedures.printProcedures();
         instructions.print();
