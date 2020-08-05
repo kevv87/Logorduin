@@ -1,45 +1,89 @@
 var posX = 1;
+
 var posY =1;
+
 var bordeSup =1;
+
 var bordeD = 1;
+
 var bordeInf = 599;
+
 var bordeIzq = 599;
+
 var contador;
+
+
 
 ponxy 1 1;
 
+
+
 si(iguales? posX posY)[
+
     inic contador = 1;
+
     repite 20[
+
         giraderecha 90;
+
         avanza (diferencia 599 contador);
+
         giraderecha 90;
+
         avanza (diferencia 599 contador);
+
         giraderecha 90;
+
         avanza (diferencia 599 contador);
+
         inc [contador 5];
+
         giraderecha 90;
+
         avanza(diferencia 599 contador);
+
     ];
+
 ];
 
+
+
 si (mayorque? bordeIzq bordeD)[
+
     centro;
+
     aparecetortuga;
+
     espera 1;
+
     //avanza (menos 90);
+
     aparecetortuga;
+
     //giraizquierda(azar 200);
+
     subelapiz;
+
     avanza 30;
+
     bajalapiz;
+
     avanza 30;
+
 ];
+
+
+
 
 
 si(iguales? bordeSup (potencia 1 10))[
+
     centro;
+
     giraizquierda 180;
+
     giraderecha (suma 180 180);
+
     avanza 200;
+
 ];
